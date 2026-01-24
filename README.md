@@ -346,6 +346,17 @@ nvidia-smi
 ubuntu-drivers devices
 sudo ubuntu-drivers autoinstall
 ```
+### Task manager like htop but this's nvidia 
+```
+sudo apt update
+sudo apt install nvtop
+```
+#### เรียกใช้ 
+```
+nvitop
+nvtop
+```
+
 ### ros2_nvidia เพื่อเรียกใช้ การ์จอ ในการ simulation เพิ่ม Alias ไว้ในไฟล์ .bashrc
 ```
 nano ~/.bashrc
@@ -353,7 +364,22 @@ nano ~/.bashrc
 ```
 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia ros2 launch amr_mtt gz.launch.py
 ```
+### Example how to run ros2_nvidia launch ....
+```
+ros2_nvidia launch amr_mtt ign.launch.py   
+camera_enabled:=True   
+stereo_camera_enabled:=False   
+two_d_lidar_enabled:=True   
+position_x:=0.0  
+position_y:=0.0   
+orientation_yaw:=0.0   
+odometry_source:=world   
+world_file:=small_warehouse.sdf
+```
 
+```
+ros2_nvidia launch amr_mtt rviz.launch.py
+```
 
 ## 🛠️ Getting Started 
 ก่อนเริ่มใช้งานทุกครั้ง ให้ทำการ Source Environment ของ Workspace:
