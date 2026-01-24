@@ -337,16 +337,16 @@ Project Simulayion ROS2&Gz-sim AMR (Autonomous Mobile Robot) develop by ROS2 Hum
 
 ## Nvdia setup nvidia-smi
 
-# ตรวจสอบสถานะการทำงาน 
+### ตรวจสอบสถานะการทำงาน 
 ```
 nvidia-smi
 ```
-# auto update 
+### auto update 
 ``` 
 ubuntu-drivers devices
 sudo ubuntu-drivers autoinstall
 ```
-# ros2_nvidia เพื่อเรียกใช้ การ์จอ ในการ simulation เพิ่ม Alias ไว้ในไฟล์ .bashrc
+### ros2_nvidia เพื่อเรียกใช้ การ์จอ ในการ simulation เพิ่ม Alias ไว้ในไฟล์ .bashrc
 ```
 nano ~/.bashrc
 ```
