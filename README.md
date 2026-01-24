@@ -318,7 +318,54 @@ ros2 launch amr_mtt nav2.launch.py
 	![](res/rviz.jpg) -->
 
 
-## Simulation with ROS2 Project AMR_MtT
+
+
+
+
+
+
+
+
+
+
+
+
+# amr_mtt: Autonomous Mobile Robot Project
+![ROS2 Humble](https://img.shields.io/badge/ROS2-Humble-blue) ![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-orange) ![Gazebo](https://img.shields.io/badge/Simulation-Ignition-green)
+
+Project Simulayion ROS2&Gz-sim AMR (Autonomous Mobile Robot) develop by ROS2 Humble and Ignition Gazebo
+
+## Nvdia setup nvidia-smi
+
+# ตรวจสอบสถานะการทำงาน 
+```
+nvidia-smi
+```
+# auto update 
+``` 
+ubuntu-drivers devices
+sudo ubuntu-drivers autoinstall
+```
+# ros2_nvidia เพื่อเรียกใช้ การ์จอ ในการ simulation เพิ่ม Alias ไว้ในไฟล์ .bashrc
+```
+nano ~/.bashrc
+```
+```
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia ros2 launch amr_mtt gz.launch.py
+```
+
+
+## 🛠️ Getting Started 
+ก่อนเริ่มใช้งานทุกครั้ง ให้ทำการ Source Environment ของ Workspace:
+
+```bash
+source /opt/ros/humble/setup.bash
+source ~/amr_mtt/install/setup.bash
+```
+
+## launch gz-sim
+### Simulation with ROS2 Project AMR_MtT
+```
 source /opt/ros/humble/setup.bash
 source ~/amr_mtt/install/setup.bash
 
@@ -331,48 +378,30 @@ ros2 launch amr_mtt ign.launch.py \
   orientation_yaw:=0.0 \
   odometry_source:=world \
   world_file:=small_warehouse.sdf
+```
 
-
-
-map
-
+## MAP
+```
 ros2 launch amr_mtt mapping.launch.py use_sim_time:=true
 
 ros2 run teleop_twist_keyboard teleop_twist_keyboard cmd_vel:=/amr_mtt/cmd_vel
-
-save_map 
-
+```
+## Save_Map
+```
 cd src/amr_mtt/config
 ros2 run nav2_map_server map_saver_cli -f amr_mtt
+```
 
-
-localization_launch
-
+## localization_launch
+```
 source /opt/ros/humble/setup.bash
 source ~/amr_mtt/install/setup.bash
 
 ros2 launch nav2_bringup localization_launch.py \
 map:=$HOME/amr_mtt/src/amr_mtt/map/amr_mtt_map1.yaml \
 use_sim_time:=true
-
-
-
+```
+## Navigation
+```
 ros2 launch amr_mtt nav2.launch.py use_sim_time:=true
-
-
-
-
-# 🤖 AMR_MtT: Autonomous Mobile Robot Project
-![ROS2 Humble](https://img.shields.io/badge/ROS2-Humble-blue) ![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-orange) ![Gazebo](https://img.shields.io/badge/Simulation-Ignition-green)
-
-Project สำหรับจำลองการทำงานของหุ่นยนต์ AMR (Autonomous Mobile Robot) พัฒนาด้วย ROS2 Humble และ Ignition Gazebo
-
----
-
-## 🛠️ Getting Started 
-ก่อนเริ่มใช้งานทุกครั้ง ให้ทำการ Source Environment ของ Workspace:
-
-```bash
-source /opt/ros/humble/setup.bash
-source ~/amr_mtt/install/setup.bash
-
+```

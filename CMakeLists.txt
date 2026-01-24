@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.5)
 project(amr_mtt)
 
 # ===============================
-# 1️⃣ Find main build system
+# Find main build system
 # ===============================
 find_package(ament_cmake REQUIRED)
 
 # ===============================
-# 2️⃣ Find runtime dependencies
+# Find runtime dependencies
 # ===============================
 find_package(robot_state_publisher REQUIRED)
 find_package(xacro REQUIRED)
