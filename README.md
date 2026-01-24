@@ -410,7 +410,6 @@ ros2 launch amr_mtt ign.launch.py \
 ```
 ros2 launch amr_mtt mapping.launch.py use_sim_time:=true
 
-ros2 run teleop_twist_keyboard teleop_twist_keyboard cmd_vel:=/amr_mtt/cmd_vel
 ```
 ## Save_Map
 ```

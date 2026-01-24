@@ -3,14 +3,20 @@
 
     <!--................................ XACRO CONSTANTS .............................. -->
 
-    <xacro:property name="chassis_mass" value="60"/>
+    <!-- หุ่นยนต์หนัก 60 kg -->
+    <xacro:property name="chassis_mass" value="135"/>
+
     <xacro:property name="chassis_length" value="0.9"/>
+    
     <xacro:property name="chassis_width" value="0.64"/>
+    
     <xacro:property name="chassis_height" value="0.2"/>
 
-    <xacro:property name="traction_wheel_mass" value="1"/>
+    <!-- traction_wheel_mass (มวลของล้อขับเคลื่อน) -->
+    <xacro:property name="traction_wheel_mass" value="4.6"/>
+
     <xacro:property name="traction_wheel_base" value="0.88"/>
-    <xacro:property name="traction_max_wheel_torque" value="150000"/>
+    <xacro:property name="traction_max_wheel_torque" value="11.4"/>
     <xacro:property name="traction_wheel_friction" value="3.0"/>
 
     <xacro:property name="trolley_wheel_mass" value="0.1"/>
@@ -20,10 +26,17 @@
     <!-- a small constant -->
     <xacro:property name="eps" value="0.002"/>
 
+    
+    <!-- การระบุพารามิเตอร์ "รัศมีล้อ" (Wheel Radius) ระบุเส้นผ่านศูนย์กลางภายนอกสุดที่ 160 mm  
+    ค่าที่ต้องใช้จริง: รัศมี = 160 mm / 2 = 80 mm = 0.08 m   -->
     <xacro:property name="traction_wheel_radius" value="0.08"/>
-    <xacro:property name="traction_wheel_width" value="0.05"/>
-    <xacro:property name="traction_track_width" value="0.436"/>
+    
+    <!--การระบุพารามิเตอร์ "ความกว้างล้อ" (Wheel Width) แบบระบุความกว้างรวมของล้อที่ 160 mm -->
+    <xacro:property name="traction_wheel_width" value="0.06"/>
 
+    <!-- พารามิเตอร์นี้คือระยะห่างระหว่าง "กึ่งกลางล้อซ้าย" ถึง "กึ่งกลางล้อขวา" -->
+    <xacro:property name="traction_track_width" value="0.436"/>
+    
     <xacro:property name="two_d_lidar_update_rate" value="30"/>
     <xacro:property name="two_d_lidar_sample_size" value="361"/>
     <xacro:property name="two_d_lidar_min_angle" value="0"/>
@@ -55,17 +68,17 @@
     <xacro:include filename="$(find amr_mtt)/urdf/materials.xacro"/>
     <xacro:include filename="$(find amr_mtt)/urdf/macros.xacro"/>
 
-    <xacro:if value="$(arg sim_gazebo)">
+    <!-- <xacro:if value="$(arg sim_gazebo)">
         <xacro:include filename="$(find amr_mtt)/urdf/gazebo.xacro"/>
-    </xacro:if>
+    </xacro:if> -->
 
     <xacro:if value="$(arg sim_ign)">
         <xacro:include filename="$(find amr_mtt)/urdf/ign.xacro"/>
     </xacro:if>
 
-    <xacro:if value="$(arg sim_gz)">
+    <!-- <xacro:if value="$(arg sim_gz)">
         <xacro:include filename="$(find amr_mtt)/urdf/gz.xacro"/>
-    </xacro:if>
+    </xacro:if> -->
 
     <!-- ................................ BASE LINK .................................. -->
     <link name="base_footprint"/>
@@ -94,14 +107,15 @@
                 <!-- <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_mesh.dae" scale="1 1 1"/> -->
 
             </geometry>
-            <material name="">
-                <color rgba="0.772549019607843 0.752941176470588 0.733333333333333 1" />
-            </material>
+            <material name="orange"/>
         </visual>
 
-        <inertial>
+       <inertial>
+            <origin xyz="0 0 0.1" rpy="0 0 0"/>
             <mass value="${chassis_mass}" />
-            <xacro:box_inertia m="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z = "${chassis_height}"/>
+            <inertia ixx="5.058" ixy="0" ixz="0"
+                     iyy="9.562" iyz="0"
+                     izz="13.720" />
         </inertial>
 
     </link>
