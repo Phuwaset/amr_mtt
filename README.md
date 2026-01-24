@@ -362,3 +362,17 @@ ros2 launch amr_mtt nav2.launch.py use_sim_time:=true
 
 
 
+# 🤖 AMR_MtT: Autonomous Mobile Robot Project
+![ROS2 Humble](https://img.shields.io/badge/ROS2-Humble-blue) ![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-orange) ![Gazebo](https://img.shields.io/badge/Simulation-Ignition-green)
+
+Project สำหรับจำลองการทำงานของหุ่นยนต์ AMR (Autonomous Mobile Robot) พัฒนาด้วย ROS2 Humble และ Ignition Gazebo
+
+---
+
+## 🛠️ Getting Started 
+ก่อนเริ่มใช้งานทุกครั้ง ให้ทำการ Source Environment ของ Workspace:
+
+```bash
+source /opt/ros/humble/setup.bash
+source ~/amr_mtt/install/setup.bash
+
