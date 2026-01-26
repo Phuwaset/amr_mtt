@@ -7,13 +7,9 @@ project(amr_mtt)
 find_package(ament_cmake REQUIRED)
 
 # ===============================
-# Find runtime dependencies
+# Find dependencies
 # ===============================
-find_package(robot_state_publisher REQUIRED)
-find_package(xacro REQUIRED)
-
-#  Optional (แนะนำให้เพิ่ม เพราะคุณจะใช้ LaserScan และ TF)
-find_package(ament_cmake REQUIRED)
+# เอามารวมกันไว้ตรงนี้ที่เดียวครับ
 find_package(robot_state_publisher REQUIRED)
 find_package(xacro REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -23,11 +19,12 @@ find_package(tf2_sensor_msgs REQUIRED)
 find_package(laser_geometry REQUIRED)
 
 # ===============================
-#  Install files (as you already did)
+# Install files
 # ===============================
+# ส่วนนี้ของคุณถูกต้องแล้วครับ
 install(
   DIRECTORY launch meshes models urdf worlds rviz map
-  DESTINATION share/${PROJECT_NAME}/
+  DESTINATION share/${PROJECT_NAME}
 )
 
 install(
@@ -35,6 +32,7 @@ install(
   DESTINATION share/${PROJECT_NAME}/config
 )
 
+# สำหรับ script python
 install(
   PROGRAMS scripts/remapper.py
   DESTINATION lib/${PROJECT_NAME}
