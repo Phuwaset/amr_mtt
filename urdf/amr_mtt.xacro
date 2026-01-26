@@ -103,9 +103,9 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-                <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/base_link.STL" scale="1 1 1"/>
-                <!-- <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_mesh.dae" scale="1 1 1"/> -->
-
+                <!-- <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/base_link.STL" scale="1 1 1"/> -->
+                <mesh filename="package://amr_mtt/meshes/amr_mtt_model/base_link.STL" scale="1 1 1"/>
+                
             </geometry>
             <material name="orange"/>
         </visual>
@@ -147,19 +147,18 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <!-- <mesh filename="package://amr_mtt/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/> -->
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/>
+                   <mesh filename="package://amr_mtt/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/>
                 </geometry>
             </collision>
 
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <!-- <mesh filename="package://amr_mtt/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/> -->
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/>
+                    
                 </geometry>
-                <material name="blue">
-                    <color rgba="0 0 1 1" />
+                <material name="black">
+                    <color rgba="0 0 0 1" />
                 </material>
 
             </visual>
@@ -190,18 +189,17 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <!-- <mesh filename="package://amr_mtt/meshes/amr_mtt_model/R_B_Lidar_Link.STL" scale="1 1 1"/> -->
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/R_B_Lidar_Link.STL" scale="1 1 1"/>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/R_B_Lidar_Link.STL" scale="1 1 1"/>
                 </geometry>
             </collision>
 
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/R_B_Lidar_Link.STL" scale="1 1 1"/>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/R_B_Lidar_Link.STL" scale="1 1 1"/>
                 </geometry>
-                <material name="blue">
-                    <color rgba="0 0 1 1" />
+                <material name="black">
+                    <color rgba="0 0 0 1" />
                 </material>
 
             </visual>
@@ -246,18 +244,17 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
                 </geometry>
             </collision>
 
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <!-- <mesh filename="file://$(find amr_mtt)/meshes/kinect/d415.dae"/> -->
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
                 </geometry>
-                <material name="red">
-                    <color rgba="1 0 0 1" />
+                <material name="blue">
+                    <color rgba="0 0 1 1" />
                 </material>
             </visual>
 
@@ -295,14 +292,14 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
                 </geometry>
             </collision>
 
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <mesh filename="file://$(find amr_mtt)/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
                 </geometry>
                 <material name="red">
                     <color rgba="1 0 0 1" />
