@@ -395,7 +395,7 @@ source ~/amr_mtt/install/setup.bash
 source /opt/ros/humble/setup.bash
 source ~/amr_mtt/install/setup.bash
 
-ros2 launch amr_mtt ign.launch.py \
+ros2_nvidia launch amr_mtt ign.launch.py \
   camera_enabled:=True \
   stereo_camera_enabled:=False \
   two_d_lidar_enabled:=True \

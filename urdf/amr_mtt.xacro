@@ -63,6 +63,21 @@
 
     <xacro:property name="odometry_source" value="$(arg odometry_source)"/>
 
+    <!-- UR5 Robot -->
+    <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+    <xacro:arg name="ur_type" default="ur5"/>
+    <xacro:arg name="joint_limit_params" default="$(find ur_description)/config/ur5/joint_limits.yaml"/>
+    <xacro:arg name="kinematics_params" default="$(find ur_description)/config/ur5/default_kinematics.yaml"/>
+    <xacro:arg name="physical_params" default="$(find ur_description)/config/ur5/physical_parameters.yaml"/>
+    <xacro:arg name="visual_params" default="$(find ur_description)/config/ur5/visual_parameters.yaml"/>
+    
+    <!-- <xacro:arg name="initial_positions_file" default="$(find ur_description)/config/ur5/initial_positions.yaml"/> -->
+    <xacro:arg name="initial_positions_file" default="$(find amr_mtt)/config/initial_positions.yaml"/>
+    <xacro:property name="initial_positions_file" value="$(arg initial_positions_file)"/>
+
+    <!--Gripper-->
+    <!-- <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" /> -->
+
     <!-- ............................... LOAD MACROS ................................. -->
 
     <xacro:include filename="$(find amr_mtt)/urdf/materials.xacro"/>
@@ -125,6 +140,33 @@
         <child link="chassis_link"/>
         <origin xyz="0.0 0 0" rpy="0 0 0.0" />
     </joint>
+
+
+    <!-- ................................ UR5 ROBOT ARM .......................... -->
+    <xacro:ur_robot
+        name="ur5_arm"
+        tf_prefix="ur5_"
+        parent="base_link"
+        
+        joint_limits_parameters_file="$(arg joint_limit_params)"
+        kinematics_parameters_file="$(arg kinematics_params)"
+        physical_parameters_file="$(arg physical_params)"
+        visual_parameters_file="$(arg visual_params)"
+
+        use_fake_hardware="false"
+        sim_ignition="true"
+        initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    >
+        <origin xyz="0.2 0 0.8" rpy="0 0 0"/> 
+    </xacro:ur_robot>
+
+    <!-- ................................ ROBOTIQ GRIPPER .......................... -->
+    <!-- <xacro:robotiq_gripper 
+        name="robotiq_gripper" 
+        prefix="" 
+        parent="ur5_tool0" 
+        include_ros2_control="false">  <origin xyz="0 0 0" rpy="0 0 0"/> 
+    </xacro:robotiq_gripper> -->
 
     <!-- ................................ WHEELS ..................................... -->
 

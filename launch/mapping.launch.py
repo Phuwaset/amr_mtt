@@ -62,7 +62,7 @@ def generate_launch_description():
             'merged_topic': '/merged',               
             'target_frame': 'base_link',
             'publish_rate': 20, # ปรับความถี่ตามเหมาะสม
-            'range_min': 0.05,
+            'range_min': 0.30,
             'range_max': 25.0,
             'angle_min': -3.141592654,
             'angle_max': 3.141592654,
@@ -105,6 +105,4 @@ def generate_launch_description():
         dual_lidar_merger,
         slam_toolbox_launch_cmd,
         rviz_launch_cmd
-        
-        # ❌ ลบ static_transform_publisher ออกแล้ว เพราะ SLAM จะทำหน้าที่นี้เอง
     ])
