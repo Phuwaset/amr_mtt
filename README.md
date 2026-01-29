@@ -375,6 +375,7 @@ position_y:=0.0
 orientation_yaw:=0.0   
 odometry_source:=world   
 world_file:=small_warehouse.sdf
+use_sim_time:=true
 ```
 
 ```
