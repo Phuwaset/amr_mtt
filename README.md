@@ -6,7 +6,7 @@
 
 This repository contains a Gazebo and Isaac Sim simulation for a differential drive robot, equipped with an IMU, a depth camera, stereo camera and a 2D LiDAR. The primary contriution of this project is to support multiple ROS and Gazebo distros. Currently, the project supports the following versions - 
 
-1. [ROS Noetic + Gazebo Classic 11 (branch ros1)](#noetic--classic-ubuntu-2004)
+<!-- 1. [ROS Noetic + Gazebo Classic 11 (branch ros1)](#noetic--classic-ubuntu-2004) -->
 2. [ROS2 Humble + Gazebo Classic 11 (branch ros2)](#humble--classic-ubuntu-2204)
 3. [ROS2 Humble + Gazebo Fortress (branch ros2)](#humble--fortress-ubuntu-2204)
 4. [ROS2 Humble + Gazebo Harmonic (branch ros2)](#humble--harmonic-ubuntu-2204)
@@ -14,7 +14,7 @@ This repository contains a Gazebo and Isaac Sim simulation for a differential dr
 
 Each of the following sections describes depedencies, build and run instructions for each of the above combinations
 
-## Noetic + Classic (Ubuntu 20.04)
+<!-- ## Noetic + Classic (Ubuntu 20.04)
 
 ### Dependencies
 
@@ -64,7 +64,7 @@ roslaunch amr_mtt gazebo.launch
 **Note:** To use stereo_image_proc with the stereo images excute following command: 
 ```bash
 ROS_NAMESPACE=amr_mtt/stereo_camera rosrun stereo_image_proc stereo_image_proc
-```
+``` -->
 
 ## Humble + Classic (Ubuntu 22.04)
 
