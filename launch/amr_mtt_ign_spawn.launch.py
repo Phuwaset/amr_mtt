@@ -85,7 +85,8 @@ def generate_launch_description():
             "stereo_camera/right/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
             "/kinect_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
             "/imu@sensor_msgs/msg/Imu[ignition.msgs.IMU",
-            "/world/default/model/amr_mtt/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model"
+            "/world/default/model/amr_mtt/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model",
+            "/model/amr_mtt/battery/linear_battery/state@sensor_msgs/msg/BatteryState[ignition.msgs.BatteryState",
         ],
         remappings=[
             ('/world/default/model/amr_mtt/joint_state', 'amr_mtt/joint_states'),
@@ -100,6 +101,7 @@ def generate_launch_description():
             ('stereo_camera/left/camera_info', 'amr_mtt/stereo_camera/left/camera_info'),
             ('stereo_camera/right/camera_info', 'amr_mtt/stereo_camera/right/camera_info'),
             ('/kinect_camera/points', 'amr_mtt/kinect_camera/points'),
+            ('/model/amr_mtt/battery/linear_battery/state', 'amr_mtt/battery_state'),
         ]
     )
 

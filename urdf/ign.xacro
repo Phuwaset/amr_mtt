@@ -14,40 +14,43 @@
         <plugin filename="ignition-gazebo-joint-state-publisher-system" name="ignition::gazebo::systems::JointStatePublisher">
         </plugin>
 
-        <!-- ........................... DIFFERENTIAL DRIVE PLUGIN ................................... -->
-
-        <plugin filename="ignition-gazebo-diff-drive-system" name="ignition::gazebo::systems::DiffDrive">
-            <left_joint>middle_left_wheel_joint</left_joint>
-            <right_joint>middle_right_wheel_joint</right_joint>
-
-            <wheel_separation>${traction_track_width}</wheel_separation>
-            <wheel_radius>${traction_wheel_radius}</wheel_radius>
-
-            <odom_publish_frequency>50</odom_publish_frequency>
-            <topic>/cmd_vel</topic>
-
-            <max_linear_acceleration>0.8</max_linear_acceleration>
-            <max_angular_acceleration>2.0</max_angular_acceleration>
-            <min_linear_acceleration>-0.8</min_linear_acceleration>
-            <min_angular_acceleration>-2.0</min_angular_acceleration>
-
-            <xacro:if value="${odometry_source == 'encoders'}">
-                <odom_topic>$(arg wheel_odom_topic)</odom_topic>
-                <tf_topic>/tf</tf_topic>
-            </xacro:if>
-            <frame_id>odom</frame_id>
-            <child_frame_id>base_footprint</child_frame_id>
-        </plugin>
     </gazebo>
 
+    <!-- ........................... ROS2 CONTROL PLUGIN ................................... -->
     <gazebo>
         <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-            <parameters>$(find amr_mtt)/config/ur5_controllers.yaml</parameters>
+            <parameters>$(find amr_mtt)/config/controllers.yaml</parameters>
         </plugin>
     </gazebo>
-    <gazebo reference="ur5_base_link">
-        <self_collide>true</self_collide>
-    </gazebo>
+    <ros2_control name="MobileBase" type="system">
+        <hardware>
+            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </hardware>
+        <joint name="middle_left_wheel_joint">
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="middle_right_wheel_joint">
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+    </ros2_control>
+
+    <!--======================================= linearbattery ================================================ -->
+    <plugin filename="ignition-gazebo-linearbattery-system" name="ignition::gazebo::systems::LinearBatteryPlugin">
+        <battery_name>linear_battery</battery_name>
+        <voltage>24.0</voltage>
+        <open_circuit_voltage_constant_coef>24.0</open_circuit_voltage_constant_coef>
+        <open_circuit_voltage_linear_coef>-3.0</open_circuit_voltage_linear_coef>
+        <initial_charge>100.0</initial_charge>
+        <capacity>100.0</capacity>
+        <resistance>0.072</resistance>
+        <smooth_current_tau>2.0</smooth_current_tau>
+        <power_load>100.0</power_load>
+        <soc_threshold>0.10</soc_threshold>
+    </plugin>
 
     <!-- ............................. ground truth .................................... -->
 
@@ -66,6 +69,8 @@
 
 
     <!-- ........................... 2D LIDAR config ................................... -->
+
+    <!-- ====================== Font LiDAR ======================== -->
 
     <xacro:if value="$(arg two_d_lidar_enabled)">
         <gazebo reference="L_F_Lidar_Link">
@@ -210,6 +215,13 @@
         </gazebo>
     </xacro:if>
 
+    <!-- ============================================= ur5 ===================================== -->
+    <gazebo reference="ur5_base_link">
+        <!-- คำสั่ง <self_collide>true</self_collide> เป็นการบอก Gazebo ว่า "ช่วยเช็คหน่อยนะ 
+            ถ้าชิ้นส่วน ur5_base_link (ฐานแขน) ไปโดนชิ้นส่วนอื่นของหุ่นยนต์ตัวเดียวกัน ให้ถือว่า ชนกัน (ห้ามทะลุผ่าน) -->
+        <self_collide>true</self_collide>
+    </gazebo>
+
     <!-- ........................... MATERIALS ................................... -->
     <gazebo reference="base_link">
         <visual>
@@ -241,4 +253,6 @@
             </material>
         </visual>
     </gazebo>
+
+
 </robot>

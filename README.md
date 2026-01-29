@@ -406,7 +406,10 @@ ros2_nvidia launch amr_mtt ign.launch.py \
   odometry_source:=world \
   world_file:=small_warehouse.sdf
 ```
-
+## teleop_twist_keyboard 
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/amr_mtt/cmd_vel
+```
 ## MAP
 ```
 ros2 launch amr_mtt mapping.launch.py use_sim_time:=true
