@@ -39,18 +39,20 @@
     </ros2_control>
 
     <!--======================================= linearbattery ================================================ -->
-    <plugin filename="ignition-gazebo-linearbattery-system" name="ignition::gazebo::systems::LinearBatteryPlugin">
-        <battery_name>linear_battery</battery_name>
-        <voltage>24.0</voltage>
-        <open_circuit_voltage_constant_coef>24.0</open_circuit_voltage_constant_coef>
-        <open_circuit_voltage_linear_coef>-3.0</open_circuit_voltage_linear_coef>
-        <initial_charge>100.0</initial_charge>
-        <capacity>100.0</capacity>
-        <resistance>0.072</resistance>
-        <smooth_current_tau>2.0</smooth_current_tau>
-        <power_load>100.0</power_load>
-        <soc_threshold>0.10</soc_threshold>
-    </plugin>
+    <gazebo>
+        <plugin filename="libignition-gazebo-linearbattery-system.so" name="ignition::gazebo::systems::LinearBatteryPlugin">
+            <battery_name>linear_battery</battery_name>
+            <voltage>24.0</voltage>
+            <open_circuit_voltage_constant_coef>24.0</open_circuit_voltage_constant_coef>
+            <open_circuit_voltage_linear_coef>-3.0</open_circuit_voltage_linear_coef>
+            <initial_charge>100.0</initial_charge>
+            <capacity>100.0</capacity>
+            <resistance>0.072</resistance>
+            <smooth_current_tau>2.0</smooth_current_tau>
+            <power_load>100.0</power_load>
+            <soc_threshold>0.10</soc_threshold>
+        </plugin>
+    </gazebo>
 
     <!-- ............................. ground truth .................................... -->
 

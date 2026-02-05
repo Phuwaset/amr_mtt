@@ -49,9 +49,9 @@ def generate_launch_description():
                     ' odometry_source:=', odometry_source,
                     ' sim_ign:=', "true"
                     ])}],
-        remappings=[
-            ('/joint_states', 'amr_mtt/joint_states'),
-        ]
+        # remappings=[
+        #     ('/joint_states', 'amr_mtt/joint_states'),
+        # ]
     )
 
     gz_spawn_entity = Node(
@@ -64,7 +64,13 @@ def generate_launch_description():
             "-z", "0.28",
             "-x", position_x,
             "-y", position_y,
-            "-Y", orientation_yaw
+            "-Y", orientation_yaw,
+            "-J", "ur5_shoulder_pan_joint", "0.0",
+            "-J", "ur5_shoulder_lift_joint", "-1.57",
+            "-J", "ur5_elbow_joint", "0.0",
+            "-J", "ur5_wrist_1_joint", "-1.57",
+            "-J", "ur5_wrist_2_joint", "0.0",
+            "-J", "ur5_wrist_3_joint", "0.0"
         ]
     )
 

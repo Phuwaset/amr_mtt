@@ -405,10 +405,12 @@ ros2_nvidia launch amr_mtt ign.launch.py \
   orientation_yaw:=0.0 \
   odometry_source:=world \
   world_file:=small_warehouse.sdf
+  use_sim_time:=true
 ```
 ## teleop_twist_keyboard 
 ```
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/amr_mtt/cmd_vel
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/diff_drive_controller/cmd_vel_unstamped
 ```
 ## MAP
 ```
