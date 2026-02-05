@@ -83,6 +83,14 @@ def generate_launch_description():
             os.path.join(robotiq_description_path, '..'), 
         ]
     )
+    diff_drive_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["diff_drive_controller", "--controller-manager", "/controller_manager"],
+        remappings=[
+            ('/diff_drive_controller/cmd_vel_unstamped', '/amr_mtt/cmd_vel')
+        ]
+    )
 
     return LaunchDescription([
         # Declare Arguments (ประกาศว่าฉันรับค่าพวกนี้นะ)
@@ -100,6 +108,7 @@ def generate_launch_description():
         set_ign_resource_path,        
         gz_sim, 
         spawn_amr_mtt_node,
+        diff_drive_spawner,
         
         # Controllers (รอให้ Spawn เสร็จก่อนถึงจะทำงานจริง แต่ ROS2 Launch จะจัดการให้)
         joint_state_broadcaster_spawner,

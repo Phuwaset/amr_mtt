@@ -19,7 +19,8 @@
     <xacro:property name="traction_max_wheel_torque" value="11.4"/>
     <xacro:property name="traction_wheel_friction" value="3.0"/>
 
-    <xacro:property name="trolley_wheel_mass" value="0.1"/>
+    <!-- trolley_wheel_mass (มวลของล้อเลื่อน) เพิ่มน้ำหนักล้อประคอง (Mass) unit Kg -->
+    <xacro:property name="trolley_wheel_mass" value="2.0"/>
     <xacro:property name="trolley_track_width" value="0.5"/>
     <xacro:property name="trolley_wheel_friction" value="0.0"/>
     <xacro:property name="trolley_wheel_radius" value="0.06"/>
@@ -140,6 +141,41 @@
         <child link="chassis_link"/>
         <origin xyz="0.0 0 0" rpy="0 0 0.0" />
     </joint>
+
+    <!-- ========================================= battery_ =========================================== -->
+    <link name="battery_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.2 0.3 0.15"/> </geometry>
+            <material name="black"/>
+        </visual>
+        
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.2 0.3 0.15"/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="20.0"/> 
+            <xacro:box_inertia m="20.0" x="0.2" y="0.3" z="0.15"/>
+        </inertial>
+    </link>
+
+    <joint name="battery_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="battery_link"/>
+        <origin xyz="-0.35 0 ${chassis_height/2 + 0.075}" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="battery_link">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <!-- ============================================================================= -->
 
 
     <!-- ................................ UR5 ROBOT ARM .......................... -->

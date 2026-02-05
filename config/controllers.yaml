@@ -1,0 +1,82 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    use_sim_time: true
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ur_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+# -------------------------------------------------------------------
+# ส่วนควบคุมล้อ (Diff Drive) - ปรับความสมูทตรงนี้
+# -------------------------------------------------------------------
+diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ["middle_left_wheel_joint"]  # เช็คแล้ว ชื่อนี้ตรงกับ macros.xacro
+    right_wheel_names: ["middle_right_wheel_joint"] # เช็คแล้ว ชื่อนี้ตรงกับ macros.xacro
+    wheel_separation: 0.436
+    wheel_radius: 0.08
+
+    use_stamped_vel: false
+
+    # จุดสำคัญ: กำหนด Acceleration Limits เพื่อไม่ให้กระตุก
+    mobile_base_config:
+      linear:
+        x:
+          has_velocity_limits: true
+          max_velocity: 1.0
+          has_acceleration_limits: true
+          max_acceleration: 0.4  # ค่านี้ยิ่งน้อย ยิ่งออกตัวนิ่มครับ
+      angular:
+        z:
+          has_velocity_limits: true
+          max_velocity: 2.0
+          has_acceleration_limits: true
+          max_acceleration: 1.0
+
+# # -------------------------------------------------------------------
+# # ส่วนควบคุมแขน (UR5)
+# # -------------------------------------------------------------------
+# ur_arm_controller:
+#   ros__parameters:
+#     joints:
+#       - shoulder_pan_joint
+#       - shoulder_lift_joint
+#       - elbow_joint
+#       - wrist_1_joint
+#       - wrist_2_joint
+#       - wrist_3_joint
+#     command_interfaces:
+#       - position
+#     state_interfaces:
+#       - position
+#       - velocity
+#     state_publish_rate: 100.0
+#     action_monitor_rate: 20.0
+#     allow_partial_joints_goal: false
+
+# -------------------------------------------------------------------
+# ส่วนควบคุมแขน (UR5)
+# -------------------------------------------------------------------
+ur_arm_controller:
+  ros__parameters:
+    joints:
+      - ur5_shoulder_pan_joint   # เติม ur5_
+      - ur5_shoulder_lift_joint  # เติม ur5_
+      - ur5_elbow_joint          # เติม ur5_
+      - ur5_wrist_1_joint        # เติม ur5_
+      - ur5_wrist_2_joint        # เติม ur5_
+      - ur5_wrist_3_joint        # เติม ur5_
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
