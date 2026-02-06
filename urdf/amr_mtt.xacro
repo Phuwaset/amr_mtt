@@ -331,7 +331,7 @@
                 <geometry>
                     <mesh filename="package://amr_mtt/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
                 </geometry>
-                <material name="blue">
+                <material name="black">
                     <color rgba="0 0 1 1" />
                 </material>
             </visual>
