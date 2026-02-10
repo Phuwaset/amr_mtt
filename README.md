@@ -410,7 +410,7 @@ ros2_nvidia launch amr_mtt ign.launch.py \
 ## teleop_twist_keyboard 
 ```
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/amr_mtt/cmd_vel
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/diff_drive_controller/cmd_vel_unstamped
+# ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/diff_drive_controller/cmd_vel_unstamped
 ```
 ## MAP
 ```

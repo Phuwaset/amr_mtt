@@ -1,0 +1,73 @@
+# Enhanced Auto Docking Configuration
+# พารามิเตอร์สำหรับ multi-stage docking
+
+/**:
+  ros__parameters:
+    # ArUco Marker Settings
+    aruco_id: 0
+    
+    # Navigation Settings
+    use_global_nav: true
+    charging_station_pose_topic: "/charging_stations/closest"
+    
+    # Docking Parameters
+    max_docking_attempts: 3
+    docking_timeout: 120.0  # seconds
+    
+    # Distance Thresholds (pixel area)
+    threshold_medium_range: 5000
+    threshold_close_range: 15000
+    threshold_very_close: 30000
+    
+    # PID Parameters - Visual Servo Stage
+    pid_visual_servo:
+      angular:
+        kp: 1.2
+        ki: 0.15
+        kd: 0.35
+        limit: 0.5
+      linear:
+        kp: 0.3
+        ki: 0.05
+        kd: 0.1
+        limit: 0.2
+    
+    # PID Parameters - Fine Alignment Stage
+    pid_fine_align:
+      angular:
+        kp: 0.8
+        ki: 0.1
+        kd: 0.25
+        limit: 0.3
+      linear:
+        kp: 0.15
+        ki: 0.02
+        kd: 0.05
+        limit: 0.1
+    
+    # Filter Settings
+    filter_alpha_angular: 0.3
+    filter_alpha_linear: 0.4
+    
+    # Speed Limits
+    search_rotation_speed: 0.3  # rad/s
+    approach_speed_medium: 0.15  # m/s
+    approach_speed_close: 0.10   # m/s
+    approach_speed_fine: 0.05    # m/s
+
+# Battery Predictor Settings
+battery_predictor_node:
+  ros__parameters:
+    battery_capacity_ah: 20.0
+    nominal_voltage: 24.0
+    prediction_window: 60.0
+    min_samples: 10
+    low_battery_threshold: 20.0
+    critical_battery_threshold: 10.0
+
+# Charging Station Detector Settings
+charging_station_detector_node:
+  ros__parameters:
+    charging_stations_file: "$(find-pkg-share amr_mtt)/config/charging_stations.yaml"
+    auto_create_stations: true
+    marker_detection_enabled: true

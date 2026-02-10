@@ -17,7 +17,7 @@
 
     <xacro:property name="traction_wheel_base" value="0.88"/>
     <xacro:property name="traction_max_wheel_torque" value="11.4"/>
-    <xacro:property name="traction_wheel_friction" value="3.0"/>
+    <xacro:property name="traction_wheel_friction" value="5.0"/>
 
     <!-- trolley_wheel_mass (มวลของล้อเลื่อน) เพิ่มน้ำหนักล้อประคอง (Mass) unit Kg -->
     <xacro:property name="trolley_wheel_mass" value="2.0"/>
@@ -104,7 +104,7 @@
     <joint name="base_joint" type="fixed">
         <parent link="base_footprint"/>
         <child link="base_link"/>
-        <origin xyz="0.0 0 ${chassis_height/2 + traction_wheel_radius}" rpy="0 0 0.0" />
+        <origin xyz="0.0 0 ${chassis_height/2 + 2*trolley_wheel_radius + eps}" rpy="0 0 0.0" />
     </joint>
 
     <link name="chassis_link">
@@ -212,8 +212,8 @@
     <xacro:trolley_wheel cardinality="back" dexterity="left" origin_x="-${chassis_length/2-0.10}" origin_y="${trolley_track_width/2}" origin_z="-${trolley_wheel_radius+chassis_height/2}"/>
     <xacro:trolley_wheel cardinality="back" dexterity="right" origin_x="-${chassis_length/2-0.10}" origin_y="-${trolley_track_width/2}" origin_z="-${trolley_wheel_radius+chassis_height/2}"/>
 
-    <xacro:traction_wheel cardinality="middle" dexterity="left" origin_x="0" origin_y="${traction_track_width/2}" origin_z="-${chassis_height/2+2*trolley_wheel_radius+eps-traction_wheel_radius}"/>
-    <xacro:traction_wheel cardinality="middle" dexterity="right" origin_x="0" origin_y="-${traction_track_width/2}" origin_z="-${chassis_height/2+2*trolley_wheel_radius+eps-traction_wheel_radius}"/>
+    <xacro:traction_wheel cardinality="middle" dexterity="left" origin_x="0" origin_y="${traction_track_width/2}" origin_z="-${chassis_height/2+2*trolley_wheel_radius+eps-traction_wheel_radius}" friction="${traction_wheel_friction}"/>
+    <xacro:traction_wheel cardinality="middle" dexterity="right" origin_x="0" origin_y="-${traction_track_width/2}" origin_z="-${chassis_height/2+2*trolley_wheel_radius+eps-traction_wheel_radius}" friction="${traction_wheel_friction}"/>
 
     <!-- ............................. 2D LIDAR ........................................ -->
 
@@ -355,6 +355,54 @@
             <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
             <parent link="kinect_camera"/>
             <child link="kinect_camera_optical"/>
+        </joint>
+
+    </xacro:if>
+
+    <!-- ............................. REAR CAMERA ........................................ -->
+
+    <xacro:if value="$(arg camera_enabled)">
+
+        <!-- REAR CAMERA -->
+
+        <link name="rear_camera">
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://amr_mtt/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
+                </geometry>
+                <material name="black">
+                    <color rgba="1 0 0 1" />
+                </material>
+            </visual>
+
+            <inertial>
+                <mass value="0.01"/>
+                <xacro:box_inertia m="0.01" x="0.07" y="0.3" z = "0.09"/>
+            </inertial>
+
+        </link>
+
+        <joint name="rear_camera_joint" type="fixed">
+            <origin rpy="0 0 ${pi}" xyz="${-chassis_length/2} 0 0.26"/>
+            <parent link="base_link"/>
+            <child link="rear_camera"/>
+        </joint>
+
+        <link name="rear_camera_optical"/>
+
+        <joint name="rear_camera_optical_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+            <parent link="rear_camera"/>
+            <child link="rear_camera_optical"/>
         </joint>
 
     </xacro:if>

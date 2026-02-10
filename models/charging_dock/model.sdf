@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="charging_dock">
+    <static>true</static>
+    <link name="link">
+        
+      <!-- Dock Body (Orange Box) -->
+      <visual name="body_visual">
+        <pose>0 0 0.25 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.6 0.5</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1 0.5 0 1</ambient>
+          <diffuse>1 0.5 0 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <collision name="body_collision">
+        <pose>0 0 0.25 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.6 0.5</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- ArUco Tag Plate (White Plate + Texture) -->
+      <visual name="tag_visual">
+        <!-- Positioned on the front face (x = 0.1 + small offset), height centered at camera level (~0.26m) -->
+        <pose>0.101 0 0.26 0 0 0</pose> <!-- rpy 0 0 0 facing +X -->
+        <geometry>
+          <box>
+            <size>0.01 0.2 0.2</size> <!-- Flat plate -->
+          </box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://charging_dock/materials/textures/aruco_marker_0.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+
+    </link>
+  </model>
+</sdf>

@@ -9,9 +9,7 @@ def generate_launch_description():
         name='teleop_twist_keyboard_node',
         output='screen',
         prefix='xterm -e', # สำคัญ: ใช้เปิดหน้าต่างใหม่เพื่อให้รับค่าจาก keyboard ได้
-        remappings=[
-            ('/cmd_vel', '/diff_drive_controller/cmd_vel_unstamped')
-        ]
+        # No remapping needed - publish directly to /cmd_vel
     )
 
     return LaunchDescription([

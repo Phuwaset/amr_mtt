@@ -9,7 +9,7 @@ class CmdVelRemapper(Node):
         super().__init__('cmd_vel_remapper')
 
         qos_profile = QoSProfile(
-            reliability=ReliabilityPolicy.RELIABLE,
+            reliability=ReliabilityPolicy.BEST_EFFORT,
             durability=QoSDurabilityPolicy.VOLATILE,
             depth=10
         )
@@ -17,14 +17,13 @@ class CmdVelRemapper(Node):
         # Create a subscriber for the cmd_vel topic
         self.subscription = self.create_subscription(
             Twist,
-            'cmd_vel',
+            '/cmd_vel',
             self.cmd_vel_callback,
             qos_profile
         )
-        self.subscription  # Prevent unused variable warning
-
+        
         # Create a publisher for the amr_mtt/cmd_vel topic
-        self.publisher = self.create_publisher(Twist, 'amr_mtt/cmd_vel', qos_profile)
+        self.publisher = self.create_publisher(Twist, '/diff_drive_controller/cmd_vel_unstamped', qos_profile)
 
     def cmd_vel_callback(self, msg):
         # Republish the received message to amr_mtt/cmd_vel
@@ -32,9 +31,7 @@ class CmdVelRemapper(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-
     cmd_vel_remapper = CmdVelRemapper()
-
     try:
         rclpy.spin(cmd_vel_remapper)
     except KeyboardInterrupt:

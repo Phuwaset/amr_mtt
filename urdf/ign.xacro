@@ -17,11 +17,15 @@
     </gazebo>
 
     <!-- ........................... ROS2 CONTROL PLUGIN ................................... -->
+    <!-- ........................... ROS2 CONTROL PLUGIN ................................... -->
+    <!-- Enable plugin loader to support UR5 Arm (even if MobileBase is disabled here) -->
     <gazebo>
         <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
             <parameters>$(find amr_mtt)/config/controllers.yaml</parameters>
         </plugin>
     </gazebo>
+    
+    <!-- Enable MobileBase Control (Use ros2_control) -->
     <ros2_control name="MobileBase" type="system">
         <hardware>
             <plugin>ign_ros2_control/IgnitionSystem</plugin>
@@ -38,9 +42,27 @@
         </joint>
     </ros2_control>
 
+    <!-- Disable Native DiffDrive Plugin (Using ros2_control instead) -->
+    <!-- <gazebo>
+        <plugin
+            filename="ignition-gazebo-diff-drive-system"
+            name="ignition::gazebo::systems::DiffDrive">
+            <left_joint>middle_left_wheel_joint</left_joint>
+            <right_joint>middle_right_wheel_joint</right_joint>
+            <wheel_separation>0.436</wheel_separation>
+            <wheel_radius>0.08</wheel_radius>
+            <odom_publish_frequency>50</odom_publish_frequency>
+            <topic>/cmd_vel</topic>
+            <odom_topic>odom</odom_topic>
+            <tf_topic>tf</tf_topic>
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_footprint</child_frame_id>
+        </plugin>
+    </gazebo> -->
+
     <!--======================================= linearbattery ================================================ -->
     <gazebo>
-        <plugin filename="libignition-gazebo-linearbattery-system.so" name="ignition::gazebo::systems::LinearBatteryPlugin">
+        <plugin filename="libignition-gazebo-linearbatteryplugin-system.so" name="ignition::gazebo::systems::LinearBatteryPlugin">
             <battery_name>linear_battery</battery_name>
             <voltage>24.0</voltage>
             <open_circuit_voltage_constant_coef>24.0</open_circuit_voltage_constant_coef>
@@ -141,11 +163,36 @@
 
     <xacro:if value="$(arg camera_enabled)">
         <gazebo reference="kinect_camera">
-            <sensor type="depth_camera" name="kinect_camera">
+            <sensor type="camera" name="kinect_camera">
                 <update_rate>30.0</update_rate>
                 <topic>kinect_camera</topic>
                 <ignition_frame_id>kinect_camera</ignition_frame_id>
                 <camera_info_topic>kinect_camera/camera_info</camera_info_topic>
+                <camera>
+                    <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
+                    <image>
+                        <width>640</width>
+                        <height>480</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.05</near>
+                        <far>8.0</far>
+                    </clip>
+                </camera>
+            </sensor>
+        </gazebo>
+    </xacro:if>
+
+    <!-- ........................... REAR CAMERA config ................................... -->
+
+    <xacro:if value="$(arg camera_enabled)">
+        <gazebo reference="rear_camera">
+            <sensor type="camera" name="rear_camera">
+                <update_rate>30.0</update_rate>
+                <topic>rear_camera</topic>
+                <ignition_frame_id>rear_camera</ignition_frame_id>
+                <camera_info_topic>rear_camera/camera_info</camera_info_topic>
                 <camera>
                     <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
                     <image>

@@ -34,7 +34,13 @@ install(
 
 # สำหรับ script python
 install(
-  PROGRAMS scripts/remapper.py
+  PROGRAMS 
+    scripts/remapper.py 
+    scripts/battery_monitor_gui.py 
+    scripts/auto_docking_node.py
+    scripts/battery_predictor_node.py
+    scripts/charging_station_detector_node.py
+    scripts/enhanced_auto_docking_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

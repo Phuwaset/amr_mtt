@@ -39,6 +39,12 @@ diff_drive_controller:
           has_acceleration_limits: true
           max_acceleration: 1.0
 
+    # TF Parameters
+    base_frame_id: base_footprint
+    odom_frame_id: odom
+    enable_odom_tf: true
+    publish_rate: 50.0
+
 # # -------------------------------------------------------------------
 # # ส่วนควบคุมแขน (UR5)
 # # -------------------------------------------------------------------
