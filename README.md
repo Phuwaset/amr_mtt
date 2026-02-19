@@ -1,13 +1,13 @@
 <div align="center">
 
-# AMR MtT
+# AMR MTT
 
 ### Autonomous Mobile Robot with Manipulation
 
-*Final Project — Mechatronics Technology (MtT) | CIT, KMUTNB*
-*Mr. Phuwaset Sibta
-Mr. Kittiphong Simak
-Mr. Phupha Phungphadung*
+*Final Project — Mechatronics Technology (MtT) | CIT, KMUTNB* <br>
+*Mr. Phuwaset Sibta MtT-13<br>
+Mr. Kittiphong Simak MtT-13<br>
+Mr. Phupha Phungphadung MtT-13<br>
 
 ![ROS 2](https://img.shields.io/badge/ROS%202-Humble-blue?logo=ros)
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
