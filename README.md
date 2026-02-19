@@ -5,6 +5,9 @@
 ### Autonomous Mobile Robot with Manipulation
 
 *Final Project — Mechatronics Technology (MtT) | CIT, KMUTNB*
+*Mr. Phuwaset Sibta
+Mr. Kittiphong Simak
+Mr. Phupha Phungphadung*
 
 ![ROS 2](https://img.shields.io/badge/ROS%202-Humble-blue?logo=ros)
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
