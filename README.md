@@ -1,6 +1,6 @@
 <div align="center">
 
-# AMR MTT
+# AMR MtT
 
 ### Autonomous Mobile Robot with Manipulation
 
@@ -10,10 +10,13 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
 ![MoveIt](https://img.shields.io/badge/MoveIt!-2-orange)
 ![License](https://img.shields.io/badge/License-Academic-lightgrey)
-![CAD_Design](https://drive.google.com/file/d/1H09Sq56JA_QvIxLgNkUriWSEsuB9ZrPk/view?usp=sharing)
+![CAD_Design]()
 </div>
 
 ---
+### CAD_Design By Kittipong MtT-13
+![Example Image](https://drive.google.com/file/d/1H09Sq56JA_QvIxLgNkUriWSEsuB9ZrPk/view?usp=sharing)
+
 
 ## Overview
 
