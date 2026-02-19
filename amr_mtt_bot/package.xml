@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<package format="2">
+	<name>amr_mtt_bot</name>
+	<version>1.0.2</version>
+	<description>AMR-MTT Base Robot (No manipulator, no auto-docking)</description>
+
+	<maintainer email="gaurav@blackcoffeerobotics.com">Gaurav Gupta</maintainer>
+	<maintainer email="devanshu@blackcoffeerobotics.com">Devanshu Sharma</maintainer>
+	<maintainer email="angelo@blackcoffeerobotics.com">Angelo Antu</maintainer>
+	<maintainer email="s6703016411302@email.kmutnb.ac.th">Phuwaset Sibta</maintainer>
+	<license>Apache License 2.0</license>
+
+	<buildtool_depend>ament_cmake</buildtool_depend>
+
+	<!-- Core ROS 2 dependencies -->
+	<exec_depend>rclpy</exec_depend>
+	<exec_depend>rclcpp</exec_depend>
+	<exec_depend>rclcpp_components</exec_depend>
+
+	<!-- Launch and configuration -->
+	<exec_depend>ament_index_python</exec_depend>
+	<exec_depend>launch</exec_depend>
+	<exec_depend>launch_ros</exec_depend>
+	<exec_depend>robot_state_publisher</exec_depend>
+	<exec_depend>xacro</exec_depend>
+
+	<!-- Message packages -->
+	<exec_depend>std_msgs</exec_depend>
+	<exec_depend>sensor_msgs</exec_depend>
+	<exec_depend>geometry_msgs</exec_depend>
+	<exec_depend>visualization_msgs</exec_depend>
+	<exec_depend>nav2_msgs</exec_depend>
+
+	<!-- TF and transforms -->
+	<exec_depend>tf2_ros</exec_depend>
+	<exec_depend>tf2_sensor_msgs</exec_depend>
+
+	<!-- Computer vision -->
+	<exec_depend>cv_bridge</exec_depend>
+	<exec_depend>image_transport</exec_depend>
+
+	<!-- Navigation stack -->
+	<exec_depend>nav2_bringup</exec_depend>
+	<exec_depend>nav2_map_server</exec_depend>
+	<exec_depend>slam_toolbox</exec_depend>
+
+	<!-- Sensor processing -->
+	<exec_depend>dual_laser_merger</exec_depend>
+	<exec_depend>laser_geometry</exec_depend>
+
+	<!-- Teleoperation -->
+	<exec_depend>teleop_twist_keyboard</exec_depend>
+
+	<export>
+		<build_type>ament_cmake</build_type>
+	</export>
+</package>

@@ -1,0 +1,124 @@
+planning_plugin: ompl_interface/OMPLPlanner
+request_adapters: >-
+  default_planner_request_adapters/AddTimeOptimalParameterization
+  default_planner_request_adapters/ResolveConstraintFrames
+  default_planner_request_adapters/FixWorkspaceBounds
+  default_planner_request_adapters/FixStartStateBounds
+  default_planner_request_adapters/FixStartStateCollision
+  default_planner_request_adapters/FixStartStatePathConstraints
+
+planner_configs:
+  RRTConnect:
+    type: geometric::RRTConnect
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+  RRTstar:
+    type: geometric::RRTstar
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    goal_bias: 0.05
+    delay_collision_checking: 1
+  TRRT:
+    type: geometric::TRRT
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    goal_bias: 0.05
+    max_states_failed: 10
+    temp_change_factor: 2.0
+    min_temperature: 10e-10
+    init_temperature: 10e-6
+    frountier_threshold: 0.0
+    frountierNodeRatio: 0.1
+    k_constant: 0.0
+  PRM:
+    type: geometric::PRM
+    max_nearest_neighbors: 10  # we prefer more connectivity
+  PRMstar:
+    type: geometric::PRMstar
+  FMT:
+    type: geometric::FMT
+    num_samples: 1000
+    radius: 0.0  # use mass-mate method
+    nearest_k: 1
+    cache_cc: 1
+    heuristic: 0
+  BFMT:
+    type: geometric::BFMT
+    num_samples: 1000
+    radius: 0.0  # use mass-mate method
+    nearest_k: 1
+    balanced: 0
+    optimality: 1
+  PDST:
+    type: geometric::PDST
+  STRIDE:
+    type: geometric::STRIDE
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    goal_bias: 0.05
+    degree: 12
+    max_degree: 18
+    max_pts_per_leaf: 6
+    estimated_dimension: 0.0
+    min_valid_path_fraction: 0.2
+    min_valid_path_fraction: 0.5
+    use_projected_distance: 0
+  BiTRRT:
+    type: geometric::BiTRRT
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    temp_change_factor: 0.1
+    init_temperature: 100
+    frountier_threshold: 0.0
+    frountierNodeRatio: 0.1
+    cost_threshold: 1e300
+  LBTRRT:
+    type: geometric::LBTRRT
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    goal_bias: 0.05
+    epsilon: 0.4
+  BiEST:
+    type: geometric::BiEST
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+  ProjEST:
+    type: geometric::ProjEST
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    goal_bias: 0.05
+  LazyPRM:
+    type: geometric::LazyPRM
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+  LazyPRMstar:
+    type: geometric::LazyPRMstar
+  SPARS:
+    type: geometric::SPARS
+    stretch_factor: 3.0
+    sparse_delta_fraction: 0.25
+    dense_delta_fraction: 0.001
+    max_failures: 1000
+  SPARStwo:
+    type: geometric::SPARStwo
+    stretch_factor: 3.0
+    sparse_delta_fraction: 0.25
+    dense_delta_fraction: 0.001
+    max_failures: 5000
+
+ur5_arm:
+  planner_configs:
+    - RRTConnectkConfigDefault
+    - RRTConnect
+    - RRTstar
+    - TRRT
+    - PRM
+    - PRMstar
+    - FMT
+    - BFMT
+    - PDST
+    - STRIDE
+    - BiTRRT
+    - LBTRRT
+    - BiEST
+    - ProjEST
+    - LazyPRM
+    - LazyPRMstar
+    - SPARS
+    - SPARStwo
+  projection_evaluator: joints(ur5_shoulder_pan_joint,ur5_shoulder_lift_joint)
+  longest_valid_segment_fraction: 0.005

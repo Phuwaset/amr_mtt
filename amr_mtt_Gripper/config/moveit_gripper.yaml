@@ -1,0 +1,10 @@
+# MoveIt Controller config for Robotiq Gripper
+controller_names:
+  - robotiq_gripper_controller
+
+robotiq_gripper_controller:
+  type: GripperCommand
+  action_ns: gripper_cmd
+  default: true
+  joints:
+    - robotiq_85_left_knuckle_joint
