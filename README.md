@@ -10,14 +10,13 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
 ![MoveIt](https://img.shields.io/badge/MoveIt!-2-orange)
 ![License](https://img.shields.io/badge/License-Academic-lightgrey)
-![CAD_Design]()
 </div>
 
 ---
 ### CAD_Design By Kittipong MtT-13
-![Example Image](https://drive.google.com/file/d/1H09Sq56JA_QvIxLgNkUriWSEsuB9ZrPk/view?usp=sharing)
+![CAD Design](docs/images/cad_model_v0.jpg)
 
-
+---
 ## Overview
 
 **AMR MTT** is an autonomous mobile robot developed as a final-year engineering project at King Mongkut's University of Technology North Bangkok (KMUTNB). The system integrates mobile navigation, robotic arm manipulation, gripper control, and automatic docking into a unified ROS 2 framework.
