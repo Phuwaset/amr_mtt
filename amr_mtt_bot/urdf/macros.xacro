@@ -20,7 +20,7 @@
     <xacro:macro name="trolley_wheel" params="cardinality dexterity origin_x origin_y origin_z">
         <link name="${cardinality}_${dexterity}_wheel">
             <visual name="${cardinality}_${dexterity}_bracket_visual">
-                <origin xyz="0 0 0" rpy="0 0 0" />
+                <origin xyz="0 0 0.05" rpy="0 0 0" />
                 <geometry>
                     <!-- Front Left -->
                     <xacro:if value="${cardinality == 'front' and dexterity == 'left'}">
@@ -39,7 +39,7 @@
                          <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/R_B_CasterBraket_Link.STL" scale="1 1 1"/>
                     </xacro:if>
                 </geometry>
-                <material name="black"/>
+                <material name="orange"/>
             </visual>
             <visual name="${cardinality}_${dexterity}_wheel_visual">
                 <origin xyz="0 0 0" rpy="0 0 0" />
@@ -61,7 +61,7 @@
                          <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/R_B_Caster_Wheel_Link.STL" scale="1 1 1"/>
                     </xacro:if>
                 </geometry>
-                <material name="black"/>
+                <material name="orange"/>
             </visual>
 
             <collision>
@@ -88,7 +88,19 @@
         </joint>
 
         <gazebo reference="${cardinality}_${dexterity}_wheel">
-            <material>Gazebo/Black</material>
+            <visual>
+                <material>
+                    <ambient>0.8 0.4 0.0 1.0</ambient>
+                    <diffuse>0.8 0.4 0.0 1.0</diffuse>
+                    <specular>0.8 0.4 0.0 1.0</specular>
+                </material>
+            </visual>
+            <mu1>0.0</mu1>
+            <mu2>0.0</mu2>
+            <kp>10000000.0</kp>
+            <kd>1.0</kd>
+            <minDepth>0.001</minDepth>
+            <fdir1>1 0 0</fdir1>
         </gazebo>
     </xacro:macro>
 
@@ -112,7 +124,7 @@
                         <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/R_Wheel_Link.STL" scale="1 1 1"/>
                     </xacro:if>
                 </geometry>
-                <material name="black"/>
+                <material name="orange"/>
             </visual>
 
             <inertial>
@@ -132,7 +144,19 @@
         </joint>
 
         <gazebo reference="${cardinality}_${dexterity}_wheel">
-            <material>Gazebo/Black</material>
+            <visual>
+                <material>
+                    <ambient>0.3 0.3 0.3 1.0</ambient>
+                    <diffuse>0.3 0.3 0.3 1.0</diffuse>
+                    <specular>0.3 0.3 0.3 1.0</specular>
+                </material>
+            </visual>
+            <mu1>${friction}</mu1>
+            <mu2>${friction}</mu2>
+            <kp>10000000.0</kp>
+            <kd>1.0</kd>
+            <minDepth>0.001</minDepth>
+            <fdir1>1 0 0</fdir1>
         </gazebo>
     </xacro:macro>
 

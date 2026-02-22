@@ -36,7 +36,7 @@
     <xacro:property name="traction_wheel_width" value="0.06"/>
 
     <!-- พารามิเตอร์นี้คือระยะห่างระหว่าง "กึ่งกลางล้อซ้าย" ถึง "กึ่งกลางล้อขวา" -->
-    <xacro:property name="traction_track_width" value="0.436"/>
+    <xacro:property name="traction_track_width" value="0.5"/>
     
     <xacro:property name="two_d_lidar_update_rate" value="30"/>
     <xacro:property name="two_d_lidar_sample_size" value="361"/>
@@ -105,7 +105,7 @@
         <parent link="base_footprint"/>
         <child link="base_link"/>
         <!-- Lift base_link by exactly 0.177m so the wheels touch the ground without sinking -->
-        <origin xyz="0.0 0 0.177" rpy="0 0 0.0" />
+        <origin xyz="0.0 0 0.25" rpy="0 0 0.0" />
     </joint>
 
     <link name="chassis_link">
@@ -118,13 +118,14 @@
         </collision>
 
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <!-- แก้ไขแกนกลับมาแนวนอน (Roll=0, Pitch=0), หมุนแกน Z (Yaw=90 องศา หรือ 1.5708) -->
+            <origin xyz="0 0 0.2" rpy="0 0 -1.5708" />
             <geometry>
                 <!-- <mesh filename="file://$(find amr_mtt_bot)/meshes/amr_mtt_model/base_link.STL" scale="1 1 1"/> -->
                 <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/base_link.STL" scale="1 1 1"/>
                 
             </geometry>
-            <material name="orange"/>
+            <material name="dark_grey"/>
         </visual>
 
        <inertial>
@@ -149,7 +150,9 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
                 <box size="0.2 0.3 0.15"/> </geometry>
-            <material name="black"/>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
         </visual>
         
         <collision>
@@ -162,14 +165,14 @@
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <mass value="20.0"/> 
-            <xacro:box_inertia m="20.0" x="0.2" y="0.3" z="0.15"/>
+            <xacro:box_inertia m="20.0" x="0.15" y="0.25" z="0.10"/>
         </inertial>
     </link>
 
     <joint name="battery_joint" type="fixed">
         <parent link="base_link"/>
         <child link="battery_link"/>
-        <origin xyz="-0.35 0 ${chassis_height/2 + 0.075}" rpy="0 0 0"/>
+        <origin xyz="-0.2 0 0.02" rpy="0 0 0"/>
     </joint>
 
     <gazebo reference="battery_link">
@@ -194,7 +197,7 @@
         sim_ignition="true"
         initial_positions="${xacro.load_yaml(initial_positions_file)}"
     >
-        <origin xyz="0.2 0 0.8755" rpy="0 0 0"/> 
+        <origin xyz="0.2 0 0.72" rpy="0 0 0"/> 
     </xacro:ur_robot>
 
     <!-- ................................ ROBOTIQ GRIPPER .......................... -->
@@ -207,20 +210,21 @@
 
     <!-- ................................ WHEELS ..................................... -->
 
-    <xacro:trolley_wheel cardinality="front" dexterity="left" origin_x="0.31" origin_y="0.156" origin_z="-0.137"/>
-    <xacro:trolley_wheel cardinality="front" dexterity="right" origin_x="0.31" origin_y="-0.156" origin_z="-0.137"/>
+    <xacro:trolley_wheel cardinality="front" dexterity="left" origin_x="0.35" origin_y="0.25" origin_z="-0.21"/>
+    <xacro:trolley_wheel cardinality="front" dexterity="right" origin_x="0.35" origin_y="-0.25" origin_z="-0.21"/>
 
-    <xacro:trolley_wheel cardinality="back" dexterity="left" origin_x="-0.31" origin_y="0.156" origin_z="-0.137"/>
-    <xacro:trolley_wheel cardinality="back" dexterity="right" origin_x="-0.31" origin_y="-0.156" origin_z="-0.137"/>
+    <xacro:trolley_wheel cardinality="back" dexterity="left" origin_x="-0.35" origin_y="0.25" origin_z="-0.21"/>
+    <xacro:trolley_wheel cardinality="back" dexterity="right" origin_x="-0.35" origin_y="-0.25" origin_z="-0.21"/>
 
-    <xacro:traction_wheel cardinality="middle" dexterity="left" origin_x="0" origin_y="0.218" origin_z="-0.097" friction="${traction_wheel_friction}"/>
-    <xacro:traction_wheel cardinality="middle" dexterity="right" origin_x="0" origin_y="-0.218" origin_z="-0.097" friction="${traction_wheel_friction}"/>
+    <xacro:traction_wheel cardinality="middle" dexterity="left" origin_x="0" origin_y="0.28" origin_z="-0.17" friction="${traction_wheel_friction}"/>
+    <xacro:traction_wheel cardinality="middle" dexterity="right" origin_x="0" origin_y="-0.28" origin_z="-0.17" friction="${traction_wheel_friction}"/>
 
     <!-- ............................. 2D LIDAR ........................................ -->
 
     <!-- ========================================================= -->
     <!-- .......................... FRONT LIDAR .................... -->
     <!-- ========================================================= -->
+    
     <xacro:if value="$(arg two_d_lidar_enabled)">
         <link name="L_F_Lidar_Link">
             <collision>
@@ -236,8 +240,8 @@
                     <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/>
                     
                 </geometry>
-                <material name="black">
-                    <color rgba="0 0 0 1" />
+                <material name="lidar_grey">
+                    <color rgba="0.706 0.706 0.706 1" />
                 </material>
 
             </visual>
@@ -252,11 +256,21 @@
         <joint name="L_F_Lidar_joint" type="fixed">
             <parent link="base_link"/>
             <child link="L_F_Lidar_Link"/>
-            <origin xyz="0.33905 0.18905 0.18259" rpy="3.1416 0 0.7854"/>
+            <origin xyz="0.4 0.25 0.07" rpy="3.1416 0 0.7854"/>
         </joint>
 
+        <gazebo reference="L_F_Lidar_joint">
+            <preserveFixedJoint>true</preserveFixedJoint>
+        </gazebo>
+
         <gazebo reference="L_F_Lidar_Link">
-            <material>Gazebo/White</material>
+            <visual>
+                <material>
+                    <ambient>0.706 0.706 0.706 1.0</ambient>
+                    <diffuse>0.706 0.706 0.706 1.0</diffuse>
+                    <specular>0.706 0.706 0.706 1.0</specular>
+                </material>
+            </visual>
         </gazebo>
     </xacro:if>
 
@@ -277,8 +291,8 @@
                 <geometry>
                     <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/R_B_Lidar_Link.STL" scale="1 1 1"/>
                 </geometry>
-                <material name="black">
-                    <color rgba="0 0 0 1" />
+                <material name="lidar_grey">
+                    <color rgba="0.706 0.706 0.706 1" />
                 </material>
 
             </visual>
@@ -294,17 +308,43 @@
             <parent link="base_link"/>
             <child link="R_B_Lidar_Link"/>
             <!-- จุดติดตั้งด้านหลัง -->
-            <origin xyz="-0.33905 -0.18905 0.18259" rpy="-3.1416 0 -0.7854"/>
+            <origin xyz="-0.4 -0.25 0.07" rpy="-3.1416 0 -0.7854"/>
         </joint>
 
+        <gazebo reference="R_B_Lidar_joint">
+            <preserveFixedJoint>true</preserveFixedJoint>
+        </gazebo>
+
         <gazebo reference="R_B_Lidar_Link">
-            <material>Gazebo/White</material>
+            <visual>
+                <material>
+                    <ambient>0.706 0.706 0.706 1.0</ambient>
+                    <diffuse>0.706 0.706 0.706 1.0</diffuse>
+                    <specular>0.706 0.706 0.706 1.0</specular>
+                </material>
+            </visual>
         </gazebo>
     </xacro:if>
 
     <!-- ............................. IMU ........................................ -->
 
-    <link name="imu_frame"/>
+    <link name="imu_frame">
+        <collision>
+            <origin xyz="0 0 0.08" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/IMU_Link.STL" scale="1 1 1"/>
+            </geometry>
+         </collision>
+         <visual>
+            <origin xyz="0 0 0.08" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/IMU_Link.STL" scale="1 1 1"/>
+            </geometry>
+            <material name="blue">
+                <color rgba="0 0 0 1" />
+            </material>
+         </visual>
+    </link>
 
     <joint name="imu_joint" type="fixed">
         <parent link="base_link"/>
@@ -345,7 +385,7 @@
         </link>
 
         <joint name="kinect_camera_joint" type="fixed">
-            <origin rpy="0 0 0" xyz="${chassis_length/2} 0 0.26"/>
+            <origin rpy="0 0 0" xyz="${(chassis_length/2) + 0.03} 0 0.14"/>
             <parent link="base_link"/>
             <child link="kinect_camera"/>
         </joint>
@@ -393,7 +433,7 @@
         </link>
 
         <joint name="rear_camera_joint" type="fixed">
-            <origin rpy="0 0 ${pi}" xyz="${-chassis_length/2} 0 0.26"/>
+            <origin rpy="0 0 ${pi}" xyz="${-(chassis_length/2) - 0.03} 0 0.14"/>
             <parent link="base_link"/>
             <child link="rear_camera"/>
         </joint>
@@ -442,7 +482,7 @@
         </link>
 
         <joint name="stereo_camera_joint" type="fixed">
-            <origin rpy="0 0 0" xyz="${chassis_length/2} 0 0.26"/>
+            <origin rpy="0 0 0" xyz="${(chassis_length/2) + 0.03} 0 0.14"/>
             <parent link="base_link"/>
             <child link="stereo_camera"/>
         </joint>
@@ -457,3 +497,10 @@
 
     </xacro:if>
 </robot>
+
+
+
+
+
+
+

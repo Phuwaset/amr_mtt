@@ -83,7 +83,7 @@ def generate_launch_description():
             "/cmd_vel@geometry_msgs/msg/Twist@ignition.msgs.Twist",
             "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
             "/odom@nav_msgs/msg/Odometry[ignition.msgs.Odometry",
-            # "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",  # Commented out to prevent conflict
+            "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",
             "/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
             "/kinect_camera@sensor_msgs/msg/Image[ignition.msgs.Image",
             "/stereo_camera/left/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image",

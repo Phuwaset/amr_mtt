@@ -436,3 +436,55 @@ use_sim_time:=true
 ```
 ros2 launch amr_mtt nav2.launch.py use_sim_time:=true
 ```
+
+## 📐 Robot Physics Configuration & Analysis
+
+### 1. Mass Distribution and Center of Gravity (CG)
+* **Total Mass:** ~115.7 kg 
+  * Chassis: 60 kg
+  * Battery: 20 kg
+  * UR5 Arm: ~18.5 kg
+  * Wheels (Traction + Trolley): ~17.2 kg
+* **Balance Calculation (X-Axis):** The heavy UR5 arm is placed forward (`X = 0.2`) while the heavy battery acts as a counterweight placed backward (`X = -0.2`). This design shifts the Center of Gravity (CG) directly to the center (`X = 0.0`), right above the traction wheels.
+* **Why this matters:** Placing the CG squarely over the traction wheels maximizes grip (downward force) and prevents the robot from tipping over (doing a wheelie or nose-dive) during sudden acceleration or emergency braking.
+* **Low CG:** Most of the mass (chassis + battery) is located extremely close to the ground (`Z = 0.02` to `0.1`), ensuring the robot remains highly stable during fast turns despite bearing a tall robotic arm.
+
+### 2. Wheel Friction & Contact Physics (`macros.xacro`)
+* **Traction Wheels:** `mu1/mu2 = 5.0`
+  * *Reason:* Extremely high friction ensures the wheels grip the floor securely, preventing slippage during acceleration and allowing precise wheel odometry mapping.
+* **Trolley (Caster) Wheels:** `mu1/mu2 = 0.0`
+  * *Reason:* Zero friction allows these omnidirectional supporting wheels to slide completely freely during rotation. This prevents resistance when the robot pivots (turns in place) and avoids Gazebo simulation jitter.
+* **Stiffness & Damping (`kp`, `kd`, `minDepth`):** 
+  * `kp = 10000000.0` (Stiffness) | `kd = 1.0` (Damping) | `minDepth = 0.001`
+  * *Reason:* These parameters dictate the tire hardness and suspension. They prevent Gazebo from overcompensating for micro-collisions between the wheels and the floor, effectively eliminating "shaking and stuttering" visual bugs in RViz.
+
+### 3. Motor Dynamics and Limits (`controllers.yaml`)
+* **Limits Calculation:**
+  * Linear velocity: `1.0 m/s`, Acceleration: `0.2 m/s²`
+  * Angular velocity: `2.0 rad/s`, Acceleration: `0.5 rad/s²`
+  * Jerk (Acceleration derivative): Linear `0.5`, Angular `0.5`
+* **Why this matters:** Soft acceleration (`0.2`) and low jerk (`0.5`) limits create an "S-curve" motion profile. This simulates an industrial motor driver ramping up its speed gently to protect the UR5 arm's mechanical joints from sudden shocks during start/stop phases.
+
+
+
+การกระจายน้ำหนักและจุดสมดุล (Center of Gravity - CG)
+น้ำหนักรวม: ประมาณ 115.7 kg (ตัวถัง 60kg, แบตเตอรี่ 20kg, แขนหุ่นยนต์ 18.5kg, ชุดล้อรวม 17.2kg)
+การคำนวณจุดสมดุล (แกน X): แขนหุ่นยนต์ (UR5) ที่หนักมากถูกวางไว้ด้านหน้า (X = 0.2) ส่วนแบตเตอรี่ที่เป็นก้อนน้ำหนักถ่วงถูกวางห่างไปด้านหลัง (X = -0.2) ทำให้น้ำหนักทั้งสองฝั่งหักล้างกัน จุดศูนย์ถ่วง (CG) จึงตกลงมาที่ตรงกลางเป๊ะ (X = 0.0) ซึ่งเป็นตำแหน่งเดียวกับล้อขับเคลื่อน (Traction Wheels) พอดี
+ทำไมถึงตั้งค่าแบบนี้? การเทน้ำหนักทั้งหมดให้กดลงที่ล้อขับเคลื่อน จะทำให้ล้อมีแรงยึดเกาะพื้นสูงสุด ไม่เกิดอาการล้อฟรีหรือลอย และการมี CG ต่ำมาก (จากโครงสร้างตัวถังและแบตเตอรี่ที่ติดพื้น) ทำให้หุ่นยนต์ไม่ล้มคว่ำหน้า-หลังเวลาเบรกกะทันหัน แม้จะมีแขนหุ่นยนต์ตั้งขึ้นไปถึงครึ่งเมตรก็ตาม
+2. ฟิสิกส์การสัมผัสพื้นของล้อ (Wheel Friction & Contact)
+ล้อเลี้ยว / ล้อประคอง (Trolley Wheels):
+ตั้งค่าแรงเสียดทาน (mu1/mu2) เป็น 0.0
+เหตุผล: เพื่อให้ล้อทั้ง 4 มุมสามารถแฉลบหรือหันเลี้ยวได้อย่างอิสระเหมือนลูกปืนลื่นๆ ป้องกันการงัดกับพื้นเวลาหุ่นยนต์หมุนตัว 제자리 (Pivot) ซึ่งช่วยตัดปัญหาหน้าจอค้างหรือกระตุกใน Gazebo
+ล้อขับเคลื่อน (Traction Wheels):
+ตั้งค่าแรงเสียดทาน (mu1/mu2) เป็น 5.0 (สูงมาก)
+เหตุผล: เป็นล้อสองข้างที่ใช้ขับเคลื่อนจริง จึงต้องเกาะติดพื้นแบบไม่ไถลเลย (No Slip) เพื่อให้การอ่านค่าระยะทางและตำแหน่งจากล้อ (Wheel Odometry) แม่นยำที่สุด
+ความแข็งของยางและโช้ค (kp, kd, minDepth):
+ความแข็ง kp = 10,000,000.0 / ความหนืด kd = 1.0 / การหยุมลงพื้น minDepth = 0.001
+เหตุผล: ช่วยจำลองให้ยางมีลักษณะค่อนข้างแข็ง ไม่เด้งเป็นสปริง และช่วยปิดช่องโหว่ของเอนจิ้นฟิสิกส์ Gazebo ที่ส่งผลให้ล้อสั่นเมื่อชนกับระนาบพื้น
+3. ขีดจำกัดความเร็วมอเตอร์ขับเคลื่อน (จากไฟล์ controllers.yaml)
+ความเร็วเชิงเส้น (วิ่งตรง): ลิมิตสูงสุด 1.0 เมตร/วินาที, อัตราเร่ง 0.2 เมตร/วินาที²
+ความเร็วเชิงมุม (หมุนตัว): ลิมิตสูงสุด 2.0 rad/วินาที, อัตราเร่ง 0.5 rad/วินาที²
+การกระชาก (Jerk Limit): กำหนดไว้ต่ำมากที่ 0.5
+ทำไมถึงตั้งค่าแบบนี้? การกดค่าลิมิต อัตราเร่ง (Acceleration) และการกระชาก (Jerk) ให้น้อย ทำให้เวลาหุ่นยนต์ออกตัว หรือเบรกหยุด จะมีพฤติกรรมโค้งแบบ "S-curve" (ค่อยๆ ออกตัว แล้วค่อยๆ จอด) ช่วยดูดซับแรงสั่นสะเทือนไม่ให้ย้อนขึ้นไปกระแทกและทำลายข้อต่อ (Joints) ของแขน UR5 ที่ด้านบน
+
+
