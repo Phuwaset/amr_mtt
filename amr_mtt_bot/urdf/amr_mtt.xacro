@@ -4,7 +4,7 @@
     <!--................................ XACRO CONSTANTS .............................. -->
 
     <!-- หุ่นยนต์หนัก 60 kg -->
-    <xacro:property name="chassis_mass" value="135"/>
+    <xacro:property name="chassis_mass" value="60"/>
 
     <xacro:property name="chassis_length" value="0.9"/>
     
@@ -23,7 +23,7 @@
     <xacro:property name="trolley_wheel_mass" value="2.0"/>
     <xacro:property name="trolley_track_width" value="0.5"/>
     <xacro:property name="trolley_wheel_friction" value="0.0"/>
-    <xacro:property name="trolley_wheel_radius" value="0.06"/>
+    <xacro:property name="trolley_wheel_radius" value="0.04"/>
     <!-- a small constant -->
     <xacro:property name="eps" value="0.001"/>
 
@@ -104,7 +104,8 @@
     <joint name="base_joint" type="fixed">
         <parent link="base_footprint"/>
         <child link="base_link"/>
-        <origin xyz="0.0 0 ${chassis_height/2 + 2*trolley_wheel_radius + eps}" rpy="0 0 0.0" />
+        <!-- Lift base_link by exactly 0.177m so the wheels touch the ground without sinking -->
+        <origin xyz="0.0 0 0.177" rpy="0 0 0.0" />
     </joint>
 
     <link name="chassis_link">
@@ -139,7 +140,7 @@
     <joint name="chassis_joint" type="fixed">
         <parent link="base_link"/>
         <child link="chassis_link"/>
-        <origin xyz="0.0 0 0" rpy="0 0 0.0" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
     <!-- ========================================= battery_ =========================================== -->
@@ -193,7 +194,7 @@
         sim_ignition="true"
         initial_positions="${xacro.load_yaml(initial_positions_file)}"
     >
-        <origin xyz="0.2 0 0.8" rpy="0 0 0"/> 
+        <origin xyz="0.2 0 0.8755" rpy="0 0 0"/> 
     </xacro:ur_robot>
 
     <!-- ................................ ROBOTIQ GRIPPER .......................... -->
@@ -206,14 +207,14 @@
 
     <!-- ................................ WHEELS ..................................... -->
 
-    <xacro:trolley_wheel cardinality="front" dexterity="left" origin_x="${chassis_length/2-0.10}" origin_y="${trolley_track_width/2}" origin_z="-${trolley_wheel_radius+chassis_height/2}"/>
-    <xacro:trolley_wheel cardinality="front" dexterity="right" origin_x="${chassis_length/2-0.10}" origin_y="-${trolley_track_width/2}" origin_z="-${trolley_wheel_radius+chassis_height/2}"/>
+    <xacro:trolley_wheel cardinality="front" dexterity="left" origin_x="0.31" origin_y="0.156" origin_z="-0.137"/>
+    <xacro:trolley_wheel cardinality="front" dexterity="right" origin_x="0.31" origin_y="-0.156" origin_z="-0.137"/>
 
-    <xacro:trolley_wheel cardinality="back" dexterity="left" origin_x="-${chassis_length/2-0.10}" origin_y="${trolley_track_width/2}" origin_z="-${trolley_wheel_radius+chassis_height/2}"/>
-    <xacro:trolley_wheel cardinality="back" dexterity="right" origin_x="-${chassis_length/2-0.10}" origin_y="-${trolley_track_width/2}" origin_z="-${trolley_wheel_radius+chassis_height/2}"/>
+    <xacro:trolley_wheel cardinality="back" dexterity="left" origin_x="-0.31" origin_y="0.156" origin_z="-0.137"/>
+    <xacro:trolley_wheel cardinality="back" dexterity="right" origin_x="-0.31" origin_y="-0.156" origin_z="-0.137"/>
 
-    <xacro:traction_wheel cardinality="middle" dexterity="left" origin_x="0" origin_y="${traction_track_width/2}" origin_z="-${chassis_height/2+2*trolley_wheel_radius+eps-traction_wheel_radius}" friction="${traction_wheel_friction}"/>
-    <xacro:traction_wheel cardinality="middle" dexterity="right" origin_x="0" origin_y="-${traction_track_width/2}" origin_z="-${chassis_height/2+2*trolley_wheel_radius+eps-traction_wheel_radius}" friction="${traction_wheel_friction}"/>
+    <xacro:traction_wheel cardinality="middle" dexterity="left" origin_x="0" origin_y="0.218" origin_z="-0.097" friction="${traction_wheel_friction}"/>
+    <xacro:traction_wheel cardinality="middle" dexterity="right" origin_x="0" origin_y="-0.218" origin_z="-0.097" friction="${traction_wheel_friction}"/>
 
     <!-- ............................. 2D LIDAR ........................................ -->
 

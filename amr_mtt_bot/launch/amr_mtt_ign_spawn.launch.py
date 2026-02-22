@@ -8,6 +8,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, Command
 
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 from ament_index_python.packages import get_package_share_directory
 
@@ -41,7 +42,7 @@ def generate_launch_description():
         executable="robot_state_publisher",
         name="robot_state_publisher",
         parameters=[
-                    {'robot_description': Command( \
+                    {'robot_description': ParameterValue(Command( \
                     ['xacro ', join(amr_mtt_path, 'urdf/amr_mtt.xacro'),
                     ' camera_enabled:=', camera_enabled,
                     ' stereo_camera_enabled:=', stereo_camera_enabled,
@@ -49,7 +50,7 @@ def generate_launch_description():
                     ' odometry_source:=', odometry_source,
                     ' ur5_enabled:=', "true",
                     ' sim_ign:=', "true"
-                    ])}],
+                    ]), value_type=str)}],
         # remappings=[
         #     ('/joint_states', 'amr_mtt/joint_states'),
         # ]
