@@ -240,8 +240,8 @@
                     <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/L_F_Lidar_Link.STL" scale="1 1 1"/>
                     
                 </geometry>
-                <material name="lidar_grey">
-                    <color rgba="0.706 0.706 0.706 1" />
+                <material name="lidar_black">
+                    <color rgba="0.1 0.1 0.1 1" />
                 </material>
 
             </visual>
@@ -264,13 +264,7 @@
         </gazebo>
 
         <gazebo reference="L_F_Lidar_Link">
-            <visual>
-                <material>
-                    <ambient>0.706 0.706 0.706 1.0</ambient>
-                    <diffuse>0.706 0.706 0.706 1.0</diffuse>
-                    <specular>0.706 0.706 0.706 1.0</specular>
-                </material>
-            </visual>
+            <material>Gazebo/Black</material>
         </gazebo>
     </xacro:if>
 
@@ -291,8 +285,8 @@
                 <geometry>
                     <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/R_B_Lidar_Link.STL" scale="1 1 1"/>
                 </geometry>
-                <material name="lidar_grey">
-                    <color rgba="0.706 0.706 0.706 1" />
+                <material name="lidar_black">
+                    <color rgba="0.1 0.1 0.1 1" />
                 </material>
 
             </visual>
@@ -316,13 +310,7 @@
         </gazebo>
 
         <gazebo reference="R_B_Lidar_Link">
-            <visual>
-                <material>
-                    <ambient>0.706 0.706 0.706 1.0</ambient>
-                    <diffuse>0.706 0.706 0.706 1.0</diffuse>
-                    <specular>0.706 0.706 0.706 1.0</specular>
-                </material>
-            </visual>
+            <material>Gazebo/Black</material>
         </gazebo>
     </xacro:if>
 

@@ -90,7 +90,7 @@ source install/setup.bash
 
 ### Visualize Robot Model (URDF)
 ```bash
-ros2 launch amr_mtt_bot display.launch.py
+ros2_nvidia launch amr_mtt_bot launch_sim_amr.launch.py
 ```
 
 ### Launch Full Navigation Stack

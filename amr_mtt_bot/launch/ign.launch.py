@@ -101,6 +101,19 @@ def generate_launch_description():
         arguments=["robotiq_gripper_controller", "--controller-manager", "/controller_manager"],
     )
 
+    gz_spawn_desk = Node(
+        package="ros_gz_sim",
+        executable="create",
+        arguments=[
+            "-file", os.path.join(amr_mtt_path, "models", "aws_robomaker_warehouse_DeskC_01", "model.sdf"),
+            "-name", "desk",
+            "-x", "1.0",
+            "-y", "0.0",
+            "-z", "0.0",
+            "-Y", "1.570796" # Rotate 90 degrees so the long side faces the robot
+        ]
+    )
+
     gz_spawn_box = Node(
         package="ros_gz_sim",
         executable="create",
@@ -109,7 +122,7 @@ def generate_launch_description():
             "-name", "training_box",
             "-x", "1.0",
             "-y", "0.0",
-            "-z", "0.1"
+            "-z", "0.85" # Place the box on top of the desk (assuming desk is ~0.8m high)
         ]
     )
 
@@ -135,6 +148,7 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         ur_arm_controller_spawner,
         gripper_spawner,
+        gz_spawn_desk,
         gz_spawn_box
 
     ])
