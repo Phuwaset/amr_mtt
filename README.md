@@ -1,6 +1,8 @@
 # AMR-MTT MoveIt Configuration Package
 ## Mechatronics Engineering Analysis & Operational Guide
 
+> **📦 Dependencies:** See [DEPENDENCIES.md](DEPENDENCIES.md) for complete installation guide
+
 ### 1. System Overview (บทนำและหลักการทำงาน)
 Package **`amr_mtt_moveit_config`** นี้ทำหน้าที่เป็น **High-Level Motion Planning Framework** สำหรับหุ่นยนต์ Autonomous Mobile Robot (AMR) ที่ติดตั้งแขนกล 6-DOF (UR5) โดยใช้ **MoveIt 2** บน ROS 2 Humble
 

@@ -1,0 +1,15 @@
+# Python dependencies for AMR-MTT Enhanced Auto-Docking System
+# Install with: pip3 install -r requirements.txt
+
+# Computer Vision
+opencv-python>=4.5.0
+opencv-contrib-python>=4.5.0
+
+# Numerical Computing
+numpy>=1.19.0
+
+# ROS 2 Python (usually installed via apt, listed for reference)
+# rclpy  # Install via: sudo apt install ros-humble-rclpy
+
+# Additional utilities
+pyyaml>=5.4.0
