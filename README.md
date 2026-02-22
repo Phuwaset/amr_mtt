@@ -16,12 +16,19 @@ Mr. Phupha Phungphadung MtT-13<br>
 </div>
 
 ---
-### CAD_Design By Kittipong MtT-13
-![CAD Design](docs/images/cad_model_v0.jpg)
-
----
 ## Overview
 
+## Contributors
+* [@Phuwaset](https://github.com/Phuwaset) - Creator & Lead Developer & Leader Group.
+
+* @Kittiphong - CAD amr_robot design
+
+![CAD Design](docs/images/cad_model_v0.jpg)
+
+* @Phupha - Electrical Design Schematic & System Diagram of amr_robot
+
+![Electrical Diagram](docs/images/systemdiagram.png)
+---
 **AMR MTT** is an autonomous mobile robot developed as a final-year engineering project at King Mongkut's University of Technology North Bangkok (KMUTNB). The system integrates mobile navigation, robotic arm manipulation, gripper control, and automatic docking into a unified ROS 2 framework.
 
 ### Key Capabilities
