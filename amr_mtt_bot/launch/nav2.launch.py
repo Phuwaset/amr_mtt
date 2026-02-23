@@ -20,7 +20,7 @@ def generate_launch_description():
         launch_arguments={
             'use_sim_time': use_sim_time,
             'autostart': autostart,
-            'map': os.path.join(pkg_bcr, 'map', 'amr_mtt_map1.yaml'), # Updated to correct map
+            'map': os.path.join(pkg_bcr, 'map', 'amr_mtt_map_v2.yaml'), # Updated to correct map
 
             'params_file': os.path.join(pkg_bcr, 'config', 'nav2_params.yaml'),
             'package_path': pkg_bcr, 

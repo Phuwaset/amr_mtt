@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>amr_mtt_Gripper</name>
+  <name>amr_mtt_gripper</name>
   <version>0.0.1</version>
   <description>Robotiq 2F-85 Gripper configuration for AMR MTT robot</description>
   <maintainer email="sphuwaset@example.com">sphuwaset_ros</maintainer>

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(amr_mtt_Gripper)
+project(amr_mtt_gripper)
 
 find_package(ament_cmake REQUIRED)
 
@@ -12,5 +12,7 @@ install(DIRECTORY config/
 install(DIRECTORY launch/
   DESTINATION share/${PROJECT_NAME}/launch
 )
+
+# install_programs(file()) link_libraries()
 
 ament_package()

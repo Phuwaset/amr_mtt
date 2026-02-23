@@ -5,7 +5,7 @@ from launch.actions import ExecuteProcess
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
-    gripper_pkg = get_package_share_directory('amr_mtt_Gripper')
+    gripper_pkg = get_package_share_directory('amr_mtt_gripper')
 
     # Spawn the gripper controller via controller_manager
     gripper_controller_spawner = Node(

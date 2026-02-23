@@ -84,7 +84,8 @@ def generate_launch_description():
             "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
             "/odom@nav_msgs/msg/Odometry[ignition.msgs.Odometry",
             "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",
-            "/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
+            "/lidar_front/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
+            "/lidar_rear/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
             "/kinect_camera@sensor_msgs/msg/Image[ignition.msgs.Image",
             "/stereo_camera/left/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image",
             "stereo_camera/right/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image",
@@ -99,7 +100,6 @@ def generate_launch_description():
         remappings=[
             ('/world/default/model/amr_mtt/joint_state', 'amr_mtt/joint_states'),
             ('/odom', 'amr_mtt/odom'),
-            ('/scan', 'amr_mtt/scan'),
             ('/kinect_camera', 'amr_mtt/kinect_camera'),
             ('/stereo_camera/left/image_raw', 'amr_mtt/stereo_camera/left/image_raw'),
             ('/stereo_camera/right/image_raw', 'amr_mtt/stereo_camera/right/image_raw'),
@@ -126,6 +126,28 @@ def generate_launch_description():
                     "--child-frame-id", "amr_mtt/base_footprint/kinect_camera"]
     )
 
+    dual_lidar_merger = Node(
+        package='dual_laser_merger',
+        executable='dual_laser_merger_node',
+        name='dual_laser_merger',
+        output='screen',
+        remappings=[
+            ('/merged', '/amr_mtt/scan'),  # Send merged output directly to what Nav2 expects
+        ],
+        parameters=[{
+            'laser_1_topic': '/lidar_front/scan',
+            'laser_2_topic': '/lidar_rear/scan',
+            'merged_topic': '/merged',
+            'target_frame': 'base_footprint',
+            'publish_rate': 20,
+            'range_min': 0.1,
+            'range_max': 25.0,
+            'angle_min': -3.141592654,
+            'angle_max': 3.141592654,
+            'use_inf': False
+        }]
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument("camera_enabled", default_value = camera_enabled),
         DeclareLaunchArgument("stereo_camera_enabled", default_value = stereo_camera_enabled),
@@ -135,5 +157,5 @@ def generate_launch_description():
         DeclareLaunchArgument("orientation_yaw", default_value="0.0"),
         DeclareLaunchArgument("odometry_source", default_value="world"),
         robot_state_publisher,
-        gz_spawn_entity, transform_publisher, gz_ros2_bridge
+        gz_spawn_entity, transform_publisher, gz_ros2_bridge, dual_lidar_merger
     ])

@@ -34,9 +34,9 @@ diff_drive_controller:
           has_velocity_limits: true
           max_velocity: 1.0
           has_acceleration_limits: true
-          max_acceleration: 0.2  # ค่านี้ยิ่งน้อย ยิ่งออกตัวนิ่มครับ
+          max_acceleration: 0.35  # ค่านี้ยิ่งน้อย ยิ่งออกตัวนิ่มครับ
           has_deceleration_limits: true
-          max_deceleration: -0.15  # ชะลอนุ่ม (ค่ายิ่งน้อย ยิ่งเบรกนิ่ม)
+          max_deceleration: -0.30  # ชะลอนุ่ม (ค่ายิ่งน้อย ยิ่งเบรกนิ่ม)
           has_jerk_limits: true
           max_jerk: 0.5  # จำกัดความกระชาก
       angular:
@@ -105,8 +105,8 @@ robotiq_gripper_controller:
   ros__parameters:
     joint: robotiq_85_left_knuckle_joint
     action_monitor_rate: 20.0
-    goal_tolerance: 0.01
+    goal_tolerance: 0.05
     max_effort: 100.0
-    allow_stalling: false
+    allow_stalling: true
     stall_velocity_threshold: 0.001
     stall_timeout: 1.0
