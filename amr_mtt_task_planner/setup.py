@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'coordinator_node = amr_mtt_task_planner.coordinator_node:main'
+            'coordinator_node = amr_mtt_task_planner.coordinator_node:main',
+            'coordinator_demo_tf = amr_mtt_task_planner.coordinator_demo_tf:main'
         ],
     },
 )

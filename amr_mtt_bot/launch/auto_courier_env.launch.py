@@ -14,8 +14,8 @@ def generate_launch_description():
         launch_arguments={
             'use_sim_time': 'true',
             'camera_enabled': 'true',
-            'position_x': '-1.5',
-            'position_y': '-0.9'
+            'position_x': '-1.7',
+            'position_y': '-1.3'
         }.items()
     )
 

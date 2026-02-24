@@ -121,7 +121,7 @@ def generate_launch_description():
             "-file", os.path.join(amr_mtt_path, "models", "training_box", "model.sdf"),
             "-name", "training_box",
             "-x", "-1.5",
-            "-y", "-0.3",
+            "-y", "-0.7", # ขยับกล่องมาใกล้ขอบโต๊ะฝั่งหุ่นยนต์ (เดิม -0.3)
             "-z", "0.85" # Place the box on top of the desk
         ]
     )

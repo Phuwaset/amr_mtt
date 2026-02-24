@@ -141,55 +141,47 @@ class CoordinatorNode(Node):
         # 1. Arm Positions (Radians)
         HOME_POS = [0.0, -1.95, -1.88, 0.0, -4.73, 0.0]
         
-        # We need to reach to the left side (+Y direction).
-        # Pan joint at 1.57 rad (90 deg) points the arm to the left.
-        PRE_PICK_POS_SIDE = [1.57, -1.6, -1.8, -1.57, -1.57, 0.0] 
-        PICK_POS_SIDE = [1.57, -1.4, -2.1, -1.57, -1.57, 0.0] 
+        # We need to reach to the right side (-Y direction).
+        # Pan joint at -1.57 rad (-90 deg) points the arm to the right.
+        PRE_PICK_POS_SIDE = [-1.57, -1.6, -1.8, -1.57, -1.57, 0.0] 
+        PICK_POS_SIDE = [-1.57, -1.4, -2.1, -1.57, -1.57, 0.0] 
         
         # After picking, we swing to a resting posture over the chassis
         PLACE_ON_CHASSIS_POS = [0.0, -1.3, -2.0, -1.57, -1.57, 0.0]
-        
-        # After picking, we swing to a resting posture
-        PLACE_ON_CHASSIS_POS = [1.57, -1.3, -2.0, -1.57, -1.57, 0.0]
         
         self.get_logger().info("\n\n=== MISSION START: Autonomous Courier ===\n")
         
         # STEP 0: Reset Arm and Gripper
         self.get_logger().info("[MISSION 0/5] Resetting Posture...")
         self.send_gripper_goal(open_gripper=True)
-        self.send_arm_goal(HOME_POS, 5)
+        self.send_arm_goal(HOME_POS, 2)
         
         # STEP 1: (SKIPPED in Phase 1) Navigate to the Table
         self.get_logger().info("\n[MISSION 1/5] (SKIPPED) Robot is already stationary beside the table...")
         # self.send_nav_goal(x=-0.6, y=0.0, yaw_w=0.0, yaw_z=1.0)
-        time.sleep(1)
         
         # STEP 2: Pre-Grasp (Reach for the box)
         self.get_logger().info("\n[MISSION 2/5] Reaching for the Box (Left side)...")
-        self.send_arm_goal(PRE_PICK_POS_SIDE, 6)
-        time.sleep(1)
-        self.send_arm_goal(PICK_POS_SIDE, 3)
-        time.sleep(1)
+        self.send_arm_goal(PRE_PICK_POS_SIDE, 3)
+        self.send_arm_goal(PICK_POS_SIDE, 1)
         
         # STEP 3: Grasp
         self.get_logger().info("\n[MISSION 3/5] Grasping the Box...")
         self.send_gripper_goal(open_gripper=False)
-        time.sleep(1)
+        time.sleep(0.5)
         
         # STEP 4: Lift
         self.get_logger().info("\n[MISSION 4/5] Lifting the Box...")
-        self.send_arm_goal(PRE_PICK_POS_SIDE, 3)
-        time.sleep(1)
+        self.send_arm_goal(PRE_PICK_POS_SIDE, 1)
         
         # STEP 5: Place on Chassis
         self.get_logger().info("\n[MISSION 5/5] Placing Box on AMR Chassis...")
-        self.send_arm_goal(PLACE_ON_CHASSIS_POS, 6)
-        time.sleep(1)
+        self.send_arm_goal(PLACE_ON_CHASSIS_POS, 3)
         self.send_gripper_goal(open_gripper=True)
-        time.sleep(1)
+        time.sleep(0.5)
         
         self.get_logger().info("\n[MISSION 6/6] Returning to Home...")
-        self.send_arm_goal(HOME_POS, 4)
+        self.send_arm_goal(HOME_POS, 2)
         
         self.get_logger().info("\n\n=== MISSION COMPLETE! ===\n")
 
