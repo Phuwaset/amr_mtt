@@ -317,6 +317,28 @@
             <state_interface name="position"/>
             <state_interface name="velocity"/>
         </joint>
+
+        <!-- Mimic joints state interfaces for RViz -->
+        <joint name="robotiq_85_right_knuckle_joint">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="robotiq_85_left_inner_knuckle_joint">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="robotiq_85_right_inner_knuckle_joint">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="robotiq_85_left_finger_tip_joint">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="robotiq_85_right_finger_tip_joint">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
     </ros2_control>
 
 </robot>

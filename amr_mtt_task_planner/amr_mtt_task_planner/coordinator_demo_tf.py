@@ -159,7 +159,7 @@ class CoordinatorNodeTF(Node):
     # Intelligent Master State Machine
     # -------------------------------------------------------------
     def start_pipeline(self):
-        HOME_POS = [0.0, -1.95, -1.88, 0.0, -4.73, 0.0]
+        HOME_POS = [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0]
         PLACE_ON_CHASSIS_POS = [0.0, -1.3, -2.0, -1.57, -1.57, 0.0]
         
         self.get_logger().info("\n=== MISSION START: SMART COURIER ===\n")

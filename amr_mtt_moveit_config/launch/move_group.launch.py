@@ -5,6 +5,7 @@ from launch.actions import ExecuteProcess
 from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import Command, LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
+from launch_ros.parameter_descriptions import ParameterValue
 import yaml
 
 def load_yaml(package_name, file_path):
@@ -21,15 +22,18 @@ def generate_launch_description():
     robot_description_package = 'amr_mtt_bot'
     
     # Command to convert Xacro to URDF
-    robot_description_content = Command(
-        [
-            'xacro ',
-            os.path.join(get_package_share_directory(robot_description_package), 'urdf', 'amr_mtt.xacro'),
-            ' sim_ign:=true', # Ensure we use the same flags as the simulation
-            ' stereo_camera_enabled:=false',
-            ' two_d_lidar_enabled:=true',
-            ' camera_enabled:=true'
-        ]
+    robot_description_content = ParameterValue(
+        Command(
+            [
+                'xacro ',
+                os.path.join(get_package_share_directory(robot_description_package), 'urdf', 'amr_mtt.xacro'),
+                ' sim_ign:=true', # Ensure we use the same flags as the simulation
+                ' stereo_camera_enabled:=false',
+                ' two_d_lidar_enabled:=true',
+                ' camera_enabled:=true'
+            ]
+        ),
+        value_type=str
     )
     
     robot_description = {'robot_description': robot_description_content}

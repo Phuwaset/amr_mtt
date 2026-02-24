@@ -25,7 +25,10 @@ setup(
     entry_points={
         'console_scripts': [
             'coordinator_node = amr_mtt_task_planner.coordinator_node:main',
-            'coordinator_demo_tf = amr_mtt_task_planner.coordinator_demo_tf:main'
+            'coordinator_demo_tf = amr_mtt_task_planner.coordinator_demo_tf:main',
+            'spawn_box_marker = amr_mtt_task_planner.spawn_box_marker:main',
+            'planning_scene_setup = amr_mtt_task_planner.planning_scene_setup:main',
+            'pick_sequence = amr_mtt_task_planner.pick_sequence:main'
         ],
     },
 )

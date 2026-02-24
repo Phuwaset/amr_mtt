@@ -101,30 +101,9 @@ def generate_launch_description():
         arguments=["robotiq_gripper_controller", "--controller-manager", "/controller_manager"],
     )
 
-    gz_spawn_desk = Node(
-        package="ros_gz_sim",
-        executable="create",
-        arguments=[
-            "-file", os.path.join(amr_mtt_path, "models", "aws_robomaker_warehouse_DeskC_01", "model.sdf"),
-            "-name", "desk",
-            "-x", "-1.5",
-            "-y", "0.0",
-            "-z", "0.0",
-            "-Y", "1.570796" # Rotate 90 degrees so the long side faces the robot
-        ]
-    )
-
-    gz_spawn_box = Node(
-        package="ros_gz_sim",
-        executable="create",
-        arguments=[
-            "-file", os.path.join(amr_mtt_path, "models", "training_box", "model.sdf"),
-            "-name", "training_box",
-            "-x", "-1.5",
-            "-y", "-0.7", # ขยับกล่องมาใกล้ขอบโต๊ะฝั่งหุ่นยนต์ (เดิม -0.3)
-            "-z", "0.85" # Place the box on top of the desk
-        ]
-    )
+    # หมายเหตุ: โต๊ะและกล่องถูกกำหนดใน small_warehouse.sdf แล้ว
+    # ไม่ต้อง spawn แยก (ป้องกัน duplicate) แต่เก็บไว้ในกรณีต้องการรัน World อื่น
+    # gz_spawn_desk และ gz_spawn_box ถูก comment ออก
 
     return LaunchDescription([
         # Declare Arguments (ประกาศว่าฉันรับค่าพวกนี้นะ)
@@ -148,7 +127,6 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         ur_arm_controller_spawner,
         gripper_spawner,
-        gz_spawn_desk,
-        gz_spawn_box
+        # gz_spawn_desk และ gz_spawn_box ถูก inline ใน small_warehouse.sdf แล้ว
 
     ])

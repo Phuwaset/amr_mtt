@@ -102,6 +102,10 @@ ros2 launch amr_mtt_bot navigation.launch.py
 ```bash
 ros2 launch amr_mtt_moveit_config moveit.launch.py
 ```
+### run node pick_sequence.py
+```bash
+ros2 run amr_mtt_task_planner pick_sequence
+```
 
 ### Launch Docking System
 ```bash

@@ -60,7 +60,17 @@ Visualization Manager:
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
+        L_F_Lidar_Link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         Link Tree Style: Links in Alphabetic Order
+        R_B_Lidar_Link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         back_left_wheel:
           Alpha: 1
           Show Axes: false
@@ -104,6 +114,15 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        kinect_camera:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kinect_camera_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         middle_left_wheel:
           Alpha: 1
           Show Axes: false
@@ -114,6 +133,15 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        rear_camera:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_camera_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         robotiq_85_base_link:
           Alpha: 1
           Show Axes: false
@@ -257,171 +285,19 @@ Visualization Manager:
       Use rainbow: true
       Value: false
     - Class: rviz_default_plugins/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        L_F_Lidar_Link:
-          Value: true
-        L_F_Lidar_Link_calibrated:
-          Value: true
-        R_B_Lidar_Link:
-          Value: true
-        R_B_Lidar_Link_calibrated:
-          Value: true
-        amr_mtt/base_footprint/kinect_camera:
-          Value: true
-        back_left_wheel:
-          Value: true
-        back_right_wheel:
-          Value: true
-        base_footprint:
-          Value: true
-        base_link:
-          Value: true
-        battery_link:
-          Value: true
-        chassis_link:
-          Value: true
-        front_left_wheel:
-          Value: true
-        front_right_wheel:
-          Value: true
-        imu_frame:
-          Value: true
-        kinect_camera:
-          Value: true
-        kinect_camera_optical:
-          Value: true
-        middle_left_wheel:
-          Value: true
-        middle_right_wheel:
-          Value: true
-        odom:
-          Value: true
-        rear_camera:
-          Value: true
-        rear_camera_optical:
-          Value: true
-        robotiq_85_base_link:
-          Value: true
-        robotiq_85_left_finger_link:
-          Value: true
-        robotiq_85_left_finger_tip_link:
-          Value: true
-        robotiq_85_left_inner_knuckle_link:
-          Value: true
-        robotiq_85_left_knuckle_link:
-          Value: true
-        robotiq_85_right_finger_link:
-          Value: true
-        robotiq_85_right_finger_tip_link:
-          Value: true
-        robotiq_85_right_inner_knuckle_link:
-          Value: true
-        robotiq_85_right_knuckle_link:
-          Value: true
-        stereo_camera:
-          Value: true
-        stereo_camera_optical:
-          Value: true
-        ur5_base:
-          Value: true
-        ur5_base_link:
-          Value: true
-        ur5_base_link_inertia:
-          Value: true
-        ur5_flange:
-          Value: true
-        ur5_forearm_link:
-          Value: true
-        ur5_ft_frame:
-          Value: true
-        ur5_shoulder_link:
-          Value: true
-        ur5_tool0:
-          Value: true
-        ur5_upper_arm_link:
-          Value: true
-        ur5_wrist_1_link:
-          Value: true
-        ur5_wrist_2_link:
-          Value: true
-        ur5_wrist_3_link:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              L_F_Lidar_Link:
-                L_F_Lidar_Link_calibrated:
-                  {}
-              R_B_Lidar_Link:
-                R_B_Lidar_Link_calibrated:
-                  {}
-              back_left_wheel:
-                {}
-              back_right_wheel:
-                {}
-              battery_link:
-                {}
-              chassis_link:
-                {}
-              front_left_wheel:
-                {}
-              front_right_wheel:
-                {}
-              imu_frame:
-                {}
-              kinect_camera:
-                amr_mtt/base_footprint/kinect_camera:
-                  {}
-                kinect_camera_optical:
-                  {}
-              middle_left_wheel:
-                {}
-              middle_right_wheel:
-                {}
-              rear_camera:
-                rear_camera_optical:
-                  {}
-              stereo_camera:
-                stereo_camera_optical:
-                  {}
-              ur5_base_link:
-                ur5_base:
-                  {}
-                ur5_base_link_inertia:
-                  ur5_shoulder_link:
-                    ur5_upper_arm_link:
-                      ur5_forearm_link:
-                        ur5_wrist_1_link:
-                          ur5_wrist_2_link:
-                            ur5_wrist_3_link:
-                              ur5_flange:
-                                ur5_tool0:
-                                  robotiq_85_base_link:
-                                    robotiq_85_left_inner_knuckle_link:
-                                      {}
-                                    robotiq_85_left_knuckle_link:
-                                      robotiq_85_left_finger_link:
-                                        robotiq_85_left_finger_tip_link:
-                                          {}
-                                    robotiq_85_right_inner_knuckle_link:
-                                      {}
-                                    robotiq_85_right_knuckle_link:
-                                      robotiq_85_right_finger_link:
-                                        robotiq_85_right_finger_tip_link:
-                                          {}
-                              ur5_ft_frame:
-                                {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -598,25 +474,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 9.59772777557373
+      Distance: 7.962648391723633
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.5331840515136719
-        Y: 0.420564204454422
-        Z: 0.6770167946815491
+        X: 0.4330689013004303
+        Y: 0.426899254322052
+        Z: 0.7732993364334106
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.535205066204071
+      Pitch: 0.4552049934864044
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.9885249137878418
+      Yaw: 1.0185246467590332
     Saved: ~
 Window Geometry:
   Displays:
