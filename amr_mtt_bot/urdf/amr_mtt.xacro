@@ -10,7 +10,7 @@
     
     <xacro:property name="chassis_width" value="0.64"/>
     
-    <xacro:property name="chassis_height" value="0.45"/>
+    <xacro:property name="chassis_height" value="0.40"/>
 
     <!-- traction_wheel_mass (มวลของล้อขับเคลื่อน) -->
     <xacro:property name="traction_wheel_mass" value="4.6"/>
@@ -111,7 +111,7 @@
     <link name="chassis_link">
 
         <collision>
-            <origin xyz="0 0 0.025" rpy="0 0 0" />
+            <origin xyz="0 0 0.0" rpy="0 0 0" />
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
             </geometry>
