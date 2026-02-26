@@ -40,7 +40,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
+      Plane Cell Count: 20
       Reference Frame: <Fixed Frame>
       Value: true
     - Alpha: 1
@@ -328,7 +328,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /merged
+        Value: /amr_mtt/scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -474,25 +474,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 7.962648391723633
+      Distance: 20.58225440979004
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.4330689013004303
-        Y: 0.426899254322052
-        Z: 0.7732993364334106
+        X: 0.13937200605869293
+        Y: 0.36941641569137573
+        Z: -0.5561479330062866
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4552049934864044
+      Pitch: 0.735204815864563
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.0185246467590332
+      Yaw: 0.90352463722229
     Saved: ~
 Window Geometry:
   Displays:

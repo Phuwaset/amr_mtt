@@ -144,7 +144,7 @@ controller_server:
       primary_controller: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
       angular_dist_threshold: 0.785
       forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 1.8
+      rotate_to_heading_angular_vel: 2.0
       max_angular_accel: 3.2
       simulate_ahead_time: 1.0
       rotate_to_goal_heading: false
@@ -312,8 +312,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.50, 0.0, 1.0]
-    min_velocity: [-0.50, 0.0, -1.0]
+    max_velocity: [0.80, 0.0, 1.5]
+    min_velocity: [-0.80, 0.0, -1.5]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"

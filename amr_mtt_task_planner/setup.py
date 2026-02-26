@@ -28,7 +28,12 @@ setup(
             'coordinator_demo_tf = amr_mtt_task_planner.coordinator_demo_tf:main',
             'spawn_box_marker = amr_mtt_task_planner.spawn_box_marker:main',
             'planning_scene_setup = amr_mtt_task_planner.planning_scene_setup:main',
-            'pick_sequence = amr_mtt_task_planner.pick_sequence:main'
+            'pick_sequence = amr_mtt_task_planner.pick_sequence:main',
+            'nav_sequence = amr_mtt_task_planner.nav_sequence:main',
+            'save_waypoint = amr_mtt_task_planner.save_waypoint:main',
+            'task_sequence = amr_mtt_task_planner.task_sequence:main',
+            'set_initial_pose = amr_mtt_task_planner.set_initial_pose:main',
+            'pick_drop_sequence = amr_mtt_task_planner.pick_drop_sequence:main',
         ],
     },
 )
