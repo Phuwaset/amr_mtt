@@ -91,6 +91,9 @@ git clone https://github.com/Phuwaset/amr_mtt.git
 cd ~/amr_mtt
 rosdep install --from-paths src --ignore-src -r -y
 
+cd ~/amr_mtt
+. /install_dependencies.sh
+
 # 4. Build the workspace
 colcon build --symlink-install
 
@@ -108,37 +111,23 @@ ros2_nvidia launch amr_mtt_moveit_config moveit.launch.py
 ```
 > **Note:** Uses NVIDIA GPU offload. For standard GPU use `ros2 launch ...`
 
-### Run Pick-and-Place Sequence
+### Run Navigation
 ```bash
 # In a separate terminal (after launching simulation)
-ros2 run amr_mtt_task_planner pick_sequence
+ros2_nvidia launch amr_mtt_bot nav2.launch.py
 ```
+# then use 2D Pose AMCL
 
-**Pick Sequence Steps:**
-| Step | Waypoint | Gripper |
-|---|---|---|
-| 1 | HOME | 🖐️ OPEN |
-| 2 | PRE_APPROACH | — |
-| 3 | PRE_REACH | — |
-| 4 | REACH | 🖐️ OPEN → ✊ CLOSE (after) |
-| 5 | LIFT_UP | — |
-| 6 | PLACE | 🖐️ OPEN (after) |
-| 7 | HOME_RETURN | — |
-
-### Launch Full Navigation Stack
+### Run Localization AMCL
 ```bash
-ros2 launch amr_mtt_bot navigation.launch.py
+ros2 run amr_mtt_task_planner set_initial_pose 
 ```
 
-### Launch Docking System
+### Launch Auto (Pick - nav - drop)
 ```bash
-ros2 launch amr_mtt_docking docking.launch.py
+ros2 run amr_mtt_task_planner task_sequence
 ```
 
-### Launch Gripper Control Only
-```bash
-ros2 launch amr_mtt_gripper gripper_bringup.launch.py
-```
 
 ---
 
