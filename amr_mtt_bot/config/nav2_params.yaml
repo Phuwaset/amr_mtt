@@ -142,12 +142,13 @@ controller_server:
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      angular_dist_threshold: 0.785
+      angular_dist_threshold: 1.57   # เพิ่มจาก 0.785 (45°) → 1.57 (90°) หมุน in-place เฉพาะเมื่อ >90°
       forward_sampling_distance: 0.5
       rotate_to_heading_angular_vel: 2.0
       max_angular_accel: 3.2
       simulate_ahead_time: 1.0
       rotate_to_goal_heading: false
+
 
       # Primary controller params can be placed here below
       # ...

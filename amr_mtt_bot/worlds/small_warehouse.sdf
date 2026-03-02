@@ -10,6 +10,69 @@
         <pose frame="">0.0 0.0 0 0 0 0</pose>
 	</model>
 
+    <!-- ===================================================== -->
+    <!-- 📍 ชั้นวางของปลายทาง (Drop-off Shelf) แทน ShelfE_01_001 -->
+    <!-- ออกแบบให้พอดีกับความสูงแขนกล (มี 3 ชั้น: 0.4m, 0.7m, 1.0m) -->
+    <!-- ความยาว 4.5 เมตร ให้คล้ายกับ Shelf โกดังตัวเดิม -->
+    <!-- ===================================================== -->
+    <model name="drop_shelf">
+      <static>true</static>
+      <!-- วางตำแหน่งเดียวกับ ShelfE_01_001 เดิมเป๊ะๆ -->
+      <pose>4.73156 0.57943 0 0 0 0</pose>
+
+      <!-- ชั้นที่ 1 (เตี้ยสุด) -->
+      <link name="tier_1">
+        <pose>0 0 0.4 0 0 0</pose>
+        <visual name="visual">
+          <geometry><box><size>4.5 1.0 0.02</size></box></geometry>
+          <material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material>
+        </visual>
+        <collision name="collision"><geometry><box><size>4.5 1.0 0.02</size></box></geometry></collision>
+      </link>
+
+      <!-- ชั้นที่ 2 (ระดับกลาง - พอดีแขนกล) -->
+      <link name="tier_2">
+        <pose>0 0 0.7 0 0 0</pose>
+        <visual name="visual">
+          <geometry><box><size>4.5 1.0 0.02</size></box></geometry>
+          <material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material>
+        </visual>
+        <collision name="collision"><geometry><box><size>4.5 1.0 0.02</size></box></geometry></collision>
+      </link>
+
+      <!-- ชั้นที่ 3 (ระดับสูง) -->
+      <link name="tier_3">
+        <pose>0 0 1.0 0 0 0</pose>
+        <visual name="visual">
+          <geometry><box><size>4.5 1.0 0.02</size></box></geometry>
+          <material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material>
+        </visual>
+        <collision name="collision"><geometry><box><size>4.5 1.0 0.02</size></box></geometry></collision>
+      </link>
+
+      <!-- เสา 4 มุม สีเทาเข้ม -->
+      <link name="leg_1">
+        <pose>2.15 0.45 0.5 0 0 0</pose>
+        <visual name="visual"><geometry><box><size>0.1 0.1 1.0</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient></material></visual>
+        <collision name="collision"><geometry><box><size>0.1 0.1 1.0</size></box></geometry></collision>
+      </link>
+      <link name="leg_2">
+        <pose>-2.15 0.45 0.5 0 0 0</pose>
+        <visual name="visual"><geometry><box><size>0.1 0.1 1.0</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient></material></visual>
+        <collision name="collision"><geometry><box><size>0.1 0.1 1.0</size></box></geometry></collision>
+      </link>
+      <link name="leg_3">
+        <pose>2.15 -0.45 0.5 0 0 0</pose>
+        <visual name="visual"><geometry><box><size>0.1 0.1 1.0</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient></material></visual>
+        <collision name="collision"><geometry><box><size>0.1 0.1 1.0</size></box></geometry></collision>
+      </link>
+      <link name="leg_4">
+        <pose>-2.15 -0.45 0.5 0 0 0</pose>
+        <visual name="visual"><geometry><box><size>0.1 0.1 1.0</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient></material></visual>
+        <collision name="collision"><geometry><box><size>0.1 0.1 1.0</size></box></geometry></collision>
+      </link>
+    </model>
+
     <model name="aws_robomaker_warehouse_ShelfF_01_001">
         <include>
             <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
@@ -24,12 +87,6 @@
         <pose frame="">0.0 0.0 0 0 0 0</pose>
 	</model>
 
-        <model name="aws_robomaker_warehouse_ShelfE_01_001">
-        <include>
-            <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
-        </include>
-        <pose frame="">4.73156 0.57943 0 0 0 0</pose>
-	</model>
 
         <model name="aws_robomaker_warehouse_ShelfE_01_002">
         <include>
@@ -116,12 +173,15 @@
 	</model>
 
 
+     <!-- เลิกใช้ ClutteringC_01_027 ที่บังทิศหน้า DEST_2 -->
+     <!--
      <model name="aws_robomaker_warehouse_ClutteringC_01_027">
         <include>
             <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
         </include>
         <pose frame="">3.324959 3.822449 -0.012064 0 0 1.563871</pose>
 	</model>
+     -->
 
      <model name="aws_robomaker_warehouse_ClutteringC_01_028">
         <include>
