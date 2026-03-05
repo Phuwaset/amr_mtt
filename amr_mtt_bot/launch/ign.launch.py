@@ -1,6 +1,6 @@
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, AppendEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, AppendEnvironmentVariable, TimerAction
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
@@ -56,7 +56,7 @@ def generate_launch_description():
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(ros_gz_sim_path, "launch", "gz_sim.launch.py")),
         launch_arguments={
-            "gz_args" : PythonExpression(["'-r ", world_file, "'"])
+            "gz_args" : PythonExpression(["'-r --render-engine ogre2 ", world_file, "'"])
         }.items()
     )
 
@@ -105,6 +105,12 @@ def generate_launch_description():
     # ไม่ต้อง spawn แยก (ป้องกัน duplicate) แต่เก็บไว้ในกรณีต้องการรัน World อื่น
     # gz_spawn_desk และ gz_spawn_box ถูก comment ออก
 
+    # หน่วงเวลา 5 วินาที ให้ Gazebo โหลด world เสร็จก่อน spawn robot
+    delayed_spawn = TimerAction(
+        period=5.0,
+        actions=[spawn_amr_mtt_node]
+    )
+
     return LaunchDescription([
         # Declare Arguments (ประกาศว่าฉันรับค่าพวกนี้นะ)
         DeclareLaunchArgument("use_sim_time", default_value='true'),
@@ -119,8 +125,8 @@ def generate_launch_description():
 
         # Start Processes
         set_ign_resource_path,        
-        gz_sim, 
-        spawn_amr_mtt_node,
+        gz_sim,
+        delayed_spawn,  # รอ Gazebo โหลดเสร็จก่อน
         diff_drive_spawner,
         
         # Controllers (รอให้ Spawn เสร็จก่อนถึงจะทำงานจริง แต่ ROS2 Launch จะจัดการให้)
