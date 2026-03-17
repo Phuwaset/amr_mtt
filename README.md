@@ -54,13 +54,15 @@ amr_mtt/
 │   ├── urdf/                # amr_mtt.xacro — UR5 arm + Robotiq gripper + mobile base
 │   ├── worlds/              # small_warehouse.sdf — Ignition Gazebo world
 │   ├── models/              # training_box (parcel: 6×6×8 cm, 0.1 kg)
-│   └── launch/              # ign.launch.py
+│   └── launch/              # ign.launch.py, nav2.launch.py
 ├── amr_mtt_moveit_config/   # MoveIt! 2 — SRDF, kinematics, move_group, RViz
 ├── amr_mtt_task_planner/    # Task execution nodes
-│   └── pick_sequence.py     # Waypoint-based pick-and-place sequence
+│   └── task_sequence.py     # Full Pick → Navigate → Drop pipeline
 ├── amr_mtt_gripper/         # Gripper driver and control nodes
-├── amr_mtt_docking/         # Docking detection and alignment logic
-└── amr_mtt_nav/             # Navigation configuration (Nav2)
+├── amr_mtt_docking/         # AprilTag-based auto-docking (multi-stage PID)
+└── node_red_flows/          # Node-RED dashboard flows (rosbridge integration)
+    ├── amr_map_flow.json    # AMR live position map (AMCL → Worldmap)
+    └── arm_control_flow.json # UR5 arm joint control dashboard
 ```
 
 ---
@@ -105,28 +107,41 @@ source install/setup.bash
 
 ## Usage
 
-### Launch Full Simulation (Gazebo + MoveIt! + RViz)
+### 1. Launch Main Simulation (Gazebo + Controllers)
 ```bash
-ros2_nvidia launch amr_mtt_moveit_config moveit.launch.py
+ros2_nvidia launch amr_mtt_bot launch_sim_amr.launch.py
 ```
-> **Note:** Uses NVIDIA GPU offload. For standard GPU use `ros2 launch ...`
+> **หลัก** — เปิด Ignition Gazebo + ros2_control + ส่งแขนกลไป HOME pose อัตโนมัติหลัง 12 วินาที
+> จะถามตอน launch: กล้อง / Stereo Camera / LiDAR เปิดหรือปิด
+> NVIDIA GPU offload. ใช้ GPU ปกติให้ใช้ `ros2 launch ...`
 
-### Run Navigation
+### 2. Run Navigation (ต่างหน้าต่าง)
 ```bash
-# In a separate terminal (after launching simulation)
 ros2_nvidia launch amr_mtt_bot nav2.launch.py
 ```
-# then use 2D Pose AMCL
 
-### Run Localization AMCL
+### 3. Run Localization AMCL
 ```bash
-ros2 run amr_mtt_task_planner set_initial_pose 
+ros2 run amr_mtt_task_planner set_initial_pose
 ```
 
-### Launch Auto (Pick - nav - drop)
+### 4. Launch Full Auto Task (Pick → Nav → Drop)
 ```bash
 ros2 run amr_mtt_task_planner task_sequence
 ```
+
+### 5. Node-RED Arm Control Dashboard
+```bash
+# Terminal 1: เปิด rosbridge
+ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+
+# Terminal 2: เปิด Node-RED
+node-red
+
+# Import flow แล้วเปิด Dashboard
+# http://localhost:1880/ui
+```
+> Import: `node_red_flows/arm_control_flow.json` — ควบคุม joint ทีละตัวพร้อม preset poses + gripper
 
 
 ---
