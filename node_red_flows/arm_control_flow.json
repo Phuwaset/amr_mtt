@@ -1,0 +1,851 @@
+[
+    {
+        "id": "arm-control-tab",
+        "type": "tab",
+        "label": "\ud83e\uddbe UR5 Arm Control",
+        "disabled": false,
+        "info": "Dashboard \u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e04\u0e27\u0e1a\u0e04\u0e38\u0e21 UR5 arm \u0e1c\u0e48\u0e32\u0e19 ROS 2 rosbridge\nJoint Control + Preset Poses + Gripper + Live Feedback"
+    },
+    {
+        "id": "ws-arm-client",
+        "type": "websocket-client",
+        "path": "ws://localhost:9090",
+        "tls": "",
+        "wholemessage": "false",
+        "hb": "0",
+        "subprotocol": ""
+    },
+    {
+        "id": "arm-ui-group-joints",
+        "type": "ui_group",
+        "name": "Joint Control (rad)",
+        "tab": "arm-ui-tab",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "arm-ui-group-presets",
+        "type": "ui_group",
+        "name": "Preset Poses",
+        "tab": "arm-ui-tab",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "arm-ui-group-gripper",
+        "type": "ui_group",
+        "name": "Gripper Control",
+        "tab": "arm-ui-tab",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "arm-ui-group-feedback",
+        "type": "ui_group",
+        "name": "Live Joint State",
+        "tab": "arm-ui-tab",
+        "order": 4,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "arm-ui-tab",
+        "type": "ui_tab",
+        "name": "UR5 Arm Control",
+        "icon": "dashboard",
+        "order": 2
+    },
+    {
+        "id": "comment-arm-header",
+        "type": "comment",
+        "z": "arm-control-tab",
+        "name": "\ud83e\uddbe UR5 Arm Control Dashboard \u2014 AMR MTT",
+        "info": "Flow \u0e04\u0e27\u0e1a\u0e04\u0e38\u0e21 UR5 6-DOF arm \u0e1c\u0e48\u0e32\u0e19 rosbridge_suite\n\nJoint Names:\n  - ur5_shoulder_pan_joint   (J1) \u00b1\u03c0\n  - ur5_shoulder_lift_joint  (J2) \u00b1\u03c0\n  - ur5_elbow_joint          (J3) \u00b1\u03c0\n  - ur5_wrist_1_joint        (J4) \u00b1\u03c0\n  - ur5_wrist_2_joint        (J5) \u00b1\u03c0\n  - ur5_wrist_3_joint        (J6) \u00b1\u03c0\n\nTopics:\n  Publish: /ur_arm_controller/follow_joint_trajectory (action)\n  Publish: /joint_trajectory_cmd (FollowJointTrajectory)\n  Subscribe: /joint_states",
+        "x": 240,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "inject-arm-subscribe",
+        "type": "inject",
+        "z": "arm-control-tab",
+        "name": "Subscribe on Start",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 1.5,
+        "topic": "",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "func-subscribe-joint-states"
+            ]
+        ]
+    },
+    {
+        "id": "func-subscribe-joint-states",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Subscribe /joint_states",
+        "func": "msg.payload = JSON.stringify({\n    \"op\": \"subscribe\",\n    \"topic\": \"/joint_states\",\n    \"type\": \"sensor_msgs/JointState\"\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "ws-arm-out",
+        "type": "websocket out",
+        "z": "arm-control-tab",
+        "name": "Send to Rosbridge",
+        "server": "",
+        "client": "ws-arm-client",
+        "x": 660,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "inject-init-sliders",
+        "type": "inject",
+        "z": "arm-control-tab",
+        "name": "Init Sliders (Sync)",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 2.0,
+        "topic": "init_sync",
+        "x": 140,
+        "y": 150,
+        "wires": [
+            [
+                "func-init-sliders"
+            ]
+        ]
+    },
+    {
+        "id": "func-init-sliders",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Enable Auto Sync",
+        "func": "flow.set('sync_sliders_now', true);\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 150,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "slider-j1",
+        "type": "ui_slider",
+        "z": "arm-control-tab",
+        "name": "J1 shoulder_pan",
+        "label": "J1 Shoulder Pan",
+        "tooltip": "ur5_shoulder_pan_joint",
+        "group": "arm-ui-group-joints",
+        "order": 1,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j1",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "func-collect-joints"
+            ]
+        ]
+    },
+    {
+        "id": "slider-j2",
+        "type": "ui_slider",
+        "z": "arm-control-tab",
+        "name": "J2 shoulder_lift",
+        "label": "J2 Shoulder Lift",
+        "tooltip": "ur5_shoulder_lift_joint",
+        "group": "arm-ui-group-joints",
+        "order": 2,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j2",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 240,
+        "wires": [
+            [
+                "func-collect-joints"
+            ]
+        ]
+    },
+    {
+        "id": "slider-j3",
+        "type": "ui_slider",
+        "z": "arm-control-tab",
+        "name": "J3 elbow",
+        "label": "J3 Elbow",
+        "tooltip": "ur5_elbow_joint",
+        "group": "arm-ui-group-joints",
+        "order": 3,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j3",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "func-collect-joints"
+            ]
+        ]
+    },
+    {
+        "id": "slider-j4",
+        "type": "ui_slider",
+        "z": "arm-control-tab",
+        "name": "J4 wrist_1",
+        "label": "J4 Wrist 1",
+        "tooltip": "ur5_wrist_1_joint",
+        "group": "arm-ui-group-joints",
+        "order": 4,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j4",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "func-collect-joints"
+            ]
+        ]
+    },
+    {
+        "id": "slider-j5",
+        "type": "ui_slider",
+        "z": "arm-control-tab",
+        "name": "J5 wrist_2",
+        "label": "J5 Wrist 2",
+        "tooltip": "ur5_wrist_2_joint",
+        "group": "arm-ui-group-joints",
+        "order": 5,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j5",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 360,
+        "wires": [
+            [
+                "func-collect-joints"
+            ]
+        ]
+    },
+    {
+        "id": "slider-j6",
+        "type": "ui_slider",
+        "z": "arm-control-tab",
+        "name": "J6 wrist_3",
+        "label": "J6 Wrist 3",
+        "tooltip": "ur5_wrist_3_joint",
+        "group": "arm-ui-group-joints",
+        "order": 6,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j6",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "func-collect-joints"
+            ]
+        ]
+    },
+    {
+        "id": "func-collect-joints",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Collect Joint Values",
+        "func": "// Store each joint value in flow context\nflow.set(msg.topic, parseFloat(msg.payload));\n\n// Read all joint values (default = home position)\nvar j1 = (flow.get('j1') !== undefined) ? flow.get('j1') : 0.0;\nvar j2 = (flow.get('j2') !== undefined) ? flow.get('j2') : -1.5708;\nvar j3 = (flow.get('j3') !== undefined) ? flow.get('j3') : -1.5708;\nvar j4 = (flow.get('j4') !== undefined) ? flow.get('j4') : -3.159;\nvar j5 = (flow.get('j5') !== undefined) ? flow.get('j5') : 0.0;\nvar j6 = (flow.get('j6') !== undefined) ? flow.get('j6') : 0.0;\n\nflow.set('joint_values', [j1, j2, j3, j4, j5, j6]);\n\n// Update display labels\nvar display = '';\ndisplay += 'J1: ' + j1.toFixed(4) + ' rad\\n';\ndisplay += 'J2: ' + j2.toFixed(4) + ' rad\\n';\ndisplay += 'J3: ' + j3.toFixed(4) + ' rad\\n';\ndisplay += 'J4: ' + j4.toFixed(4) + ' rad\\n';\ndisplay += 'J5: ' + j5.toFixed(4) + ' rad\\n';\ndisplay += 'J6: ' + j6.toFixed(4) + ' rad';\n\nmsg.payload = display;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 300,
+        "wires": [
+            [
+                "debug-joint-values",
+                "ui-text-target-joints"
+            ]
+        ]
+    },
+    {
+        "id": "ui-text-target-joints",
+        "type": "ui_text",
+        "z": "arm-control-tab",
+        "group": "arm-ui-group-joints",
+        "order": 10,
+        "width": "12",
+        "height": "4",
+        "name": "Target Joint Positions",
+        "label": "Target Joint Positions (rad) - Realtime",
+        "format": "<pre>{{msg.payload}}</pre>",
+        "layout": "col-center",
+        "x": 650,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "debug-joint-values",
+        "type": "debug",
+        "z": "arm-control-tab",
+        "name": "Current Joint Values",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "x": 620,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "btn-send-arm",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "SEND to Arm",
+        "group": "arm-ui-group-joints",
+        "order": 7,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "\u25b6 SEND TO ARM",
+        "tooltip": "Send current slider values as JointTrajectory",
+        "color": "white",
+        "bgcolor": "#2ea44f",
+        "icon": "",
+        "x": 140,
+        "y": 440,
+        "wires": [
+            [
+                "func-build-trajectory"
+            ]
+        ]
+    },
+    {
+        "id": "btn-stop-arm",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "STOP",
+        "group": "arm-ui-group-joints",
+        "order": 8,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "\u26d4 STOP",
+        "tooltip": "Send current position (freeze arm)",
+        "color": "white",
+        "bgcolor": "#d73a49",
+        "icon": "",
+        "x": 140,
+        "y": 480,
+        "wires": [
+            [
+                "func-stop-arm"
+            ]
+        ]
+    },
+    {
+        "id": "func-stop-arm",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Build STOP Command",
+        "func": "// Send zeros as stop (or current position if available)\nvar currentPositions = flow.get('feedback_positions') || [0,0,0,0,0,0];\n\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\",\n            \"ur5_shoulder_lift_joint\",\n            \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\",\n            \"ur5_wrist_2_joint\",\n            \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [\n            {\n                \"positions\": currentPositions,\n                \"velocities\": [0,0,0,0,0,0],\n                \"accelerations\": [],\n                \"effort\": [],\n                \"time_from_start\": { \"sec\": 0, \"nanosec\": 100000000 }\n            }\n        ]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 480,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "func-build-trajectory",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Build JointTrajectory",
+        "func": "// Read joint values from flow context\nvar joints = flow.get('joint_values') || [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nvar duration = parseFloat(flow.get('traj_duration') || 2.0);\n\n// Wrap as ROS JointTrajectory message via rosbridge publish\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\",\n            \"ur5_shoulder_lift_joint\",\n            \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\",\n            \"ur5_wrist_2_joint\",\n            \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [\n            {\n                \"positions\": joints,\n                \"velocities\": [],\n                \"accelerations\": [],\n                \"effort\": [],\n                \"time_from_start\": {\n                    \"sec\": Math.floor(duration),\n                    \"nanosec\": Math.round((duration % 1) * 1e9)\n                }\n            }\n        ]\n    }\n};\n\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 440,
+        "wires": [
+            [
+                "ws-arm-out",
+                "debug-send"
+            ]
+        ]
+    },
+    {
+        "id": "debug-send",
+        "type": "debug",
+        "z": "arm-control-tab",
+        "name": "Debug Sent Command",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 630,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "slider-duration",
+        "type": "ui_slider",
+        "z": "arm-control-tab",
+        "name": "Duration (s)",
+        "label": "Duration (sec)",
+        "tooltip": "Time to reach target position",
+        "group": "arm-ui-group-joints",
+        "order": 9,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "duration",
+        "topicType": "str",
+        "min": "0.5",
+        "max": "5",
+        "step": "0.5",
+        "x": 140,
+        "y": 520,
+        "wires": [
+            [
+                "func-set-duration"
+            ]
+        ]
+    },
+    {
+        "id": "func-set-duration",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Set Duration",
+        "func": "flow.set('traj_duration', parseFloat(msg.payload));\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "btn-preset-home",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "HOME",
+        "group": "arm-ui-group-presets",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "\ud83c\udfe0 HOME",
+        "tooltip": "[0, -1.5708, -1.5708, -3.159, 0, 0]",
+        "color": "white",
+        "bgcolor": "#0366d6",
+        "icon": "",
+        "x": 140,
+        "y": 620,
+        "wires": [
+            [
+                "func-preset-home"
+            ]
+        ]
+    },
+    {
+        "id": "func-preset-home",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Preset: HOME",
+        "func": "var joints = [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\", \"ur5_shoulder_lift_joint\", \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\", \"ur5_wrist_2_joint\", \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": joints,\n            \"velocities\": [], \"accelerations\": [], \"effort\": [],\n            \"time_from_start\": { \"sec\": 2, \"nanosec\": 0 }\n        }]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 620,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "btn-preset-pre-approach",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "PRE_APPROACH",
+        "group": "arm-ui-group-presets",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "\ud83d\udce6 PRE_APPROACH",
+        "tooltip": "[-1.3963, -2.2689, -1.1519, -1.2217, 1.5708, 0]",
+        "color": "white",
+        "bgcolor": "#6f42c1",
+        "icon": "",
+        "x": 140,
+        "y": 660,
+        "wires": [
+            [
+                "func-preset-pre-approach"
+            ]
+        ]
+    },
+    {
+        "id": "func-preset-pre-approach",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Preset: PRE_APPROACH",
+        "func": "var joints = [-1.3963, -2.2689, -1.1519, -1.2217, 1.5708, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\", \"ur5_shoulder_lift_joint\", \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\", \"ur5_wrist_2_joint\", \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": joints,\n            \"velocities\": [], \"accelerations\": [], \"effort\": [],\n            \"time_from_start\": { \"sec\": 2, \"nanosec\": 0 }\n        }]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 660,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "btn-preset-lift-up",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "LIFT_UP",
+        "group": "arm-ui-group-presets",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "\u2b06 LIFT_UP",
+        "tooltip": "[0, -2.7576, -1.5708, -3.3336, -1.5708, 0]",
+        "color": "white",
+        "bgcolor": "#e36209",
+        "icon": "",
+        "x": 140,
+        "y": 700,
+        "wires": [
+            [
+                "func-preset-lift-up"
+            ]
+        ]
+    },
+    {
+        "id": "func-preset-lift-up",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Preset: LIFT_UP",
+        "func": "var joints = [0.0, -2.7576, -1.5708, -3.3336, -1.5708, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\", \"ur5_shoulder_lift_joint\", \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\", \"ur5_wrist_2_joint\", \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": joints,\n            \"velocities\": [], \"accelerations\": [], \"effort\": [],\n            \"time_from_start\": { \"sec\": 2, \"nanosec\": 0 }\n        }]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 700,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "btn-preset-drop",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "DROP_ROTATE",
+        "group": "arm-ui-group-presets",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "\ud83d\udd04 DROP_ROTATE",
+        "tooltip": "[1.5708, -1.5708, -1.5708, -3.159, 0, 0]",
+        "color": "white",
+        "bgcolor": "#cb2431",
+        "icon": "",
+        "x": 140,
+        "y": 740,
+        "wires": [
+            [
+                "func-preset-drop"
+            ]
+        ]
+    },
+    {
+        "id": "func-preset-drop",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Preset: DROP_ROTATE",
+        "func": "var joints = [1.5708, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\", \"ur5_shoulder_lift_joint\", \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\", \"ur5_wrist_2_joint\", \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": joints,\n            \"velocities\": [], \"accelerations\": [], \"effort\": [],\n            \"time_from_start\": { \"sec\": 2, \"nanosec\": 0 }\n        }]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 740,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "btn-gripper-open",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "Gripper OPEN",
+        "group": "arm-ui-group-gripper",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "\u270b OPEN",
+        "tooltip": "Open gripper (position=0.0)",
+        "color": "white",
+        "bgcolor": "#2ea44f",
+        "icon": "",
+        "x": 140,
+        "y": 820,
+        "wires": [
+            [
+                "func-gripper-open"
+            ]
+        ]
+    },
+    {
+        "id": "func-gripper-open",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Gripper OPEN",
+        "func": "var cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/robotiq_gripper_controller/gripper_cmd\",\n    \"type\": \"control_msgs/GripperCommand\",\n    \"msg\": {\n        \"command\": {\n            \"position\": 0.0,\n            \"max_effort\": 100.0\n        }\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 820,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "btn-gripper-close",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "Gripper CLOSE",
+        "group": "arm-ui-group-gripper",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "\ud83d\udc4a CLOSE",
+        "tooltip": "Close gripper (position=0.8)",
+        "color": "white",
+        "bgcolor": "#d73a49",
+        "icon": "",
+        "x": 140,
+        "y": 860,
+        "wires": [
+            [
+                "func-gripper-close"
+            ]
+        ]
+    },
+    {
+        "id": "func-gripper-close",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Gripper CLOSE",
+        "func": "var cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/robotiq_gripper_controller/gripper_cmd\",\n    \"type\": \"control_msgs/GripperCommand\",\n    \"msg\": {\n        \"command\": {\n            \"position\": 0.8,\n            \"max_effort\": 100.0\n        }\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 860,
+        "wires": [
+            [
+                "ws-arm-out"
+            ]
+        ]
+    },
+    {
+        "id": "ws-arm-in",
+        "type": "websocket in",
+        "z": "arm-control-tab",
+        "name": "Receive from Rosbridge",
+        "server": "",
+        "client": "ws-arm-client",
+        "x": 140,
+        "y": 960,
+        "wires": [
+            [
+                "func-parse-joint-states"
+            ]
+        ]
+    },
+    {
+        "id": "func-parse-joint-states",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Parse /joint_states",
+        "func": "try {\n    var data = JSON.parse(msg.payload);\n    if (!data.msg || !data.msg.name || !data.msg.position) return null;\n\n    var names = data.msg.name;\n    var positions = data.msg.position;\n\n    // Extract UR5 joints only\n    var ur5Joints = [\n        'ur5_shoulder_pan_joint',\n        'ur5_shoulder_lift_joint',\n        'ur5_elbow_joint',\n        'ur5_wrist_1_joint',\n        'ur5_wrist_2_joint',\n        'ur5_wrist_3_joint'\n    ];\n\n    var result = {};\n    for (var i = 0; i < names.length; i++) {\n        if (ur5Joints.includes(names[i])) {\n            result[names[i]] = parseFloat(positions[i]);\n        }\n    }\n\n    // Store for STOP function\n    if (positions.length >= 6) {\n        flow.set('feedback_positions', positions.slice(0, 6));\n    }\n\n    var display = '';\n    var sliders = [null, null, null, null, null, null];\n    var shouldSync = flow.get('sync_sliders_now');\n\n    ur5Joints.forEach(function(jn, idx) {\n        var shortName = ['J1','J2','J3','J4','J5','J6'][idx];\n        var val = result[jn] || 0.0;\n        display += shortName + ': ' + val.toFixed(4) + ' rad\\n';\n        if (shouldSync) {\n            sliders[idx] = {payload: val};\n            flow.set('j'+(idx+1), val);\n        }\n    });\n\n    if (shouldSync) {\n        flow.set('joint_values', [result[ur5Joints[0]]||0, result[ur5Joints[1]]||0, result[ur5Joints[2]]||0, result[ur5Joints[3]]||0, result[ur5Joints[4]]||0, result[ur5Joints[5]]||0]);\n        flow.set('sync_sliders_now', false);\n    }\n\n    msg.payload = display.trim();\n    return [msg, sliders[0], sliders[1], sliders[2], sliders[3], sliders[4], sliders[5]];\n\n} catch(e) {\n    return null;\n}",
+        "outputs": 7,
+        "noerr": 0,
+        "x": 390,
+        "y": 960,
+        "wires": [
+            [
+                "ui-text-feedback",
+                "debug-feedback"
+            ],
+            [
+                "slider-j1"
+            ],
+            [
+                "slider-j2"
+            ],
+            [
+                "slider-j3"
+            ],
+            [
+                "slider-j4"
+            ],
+            [
+                "slider-j5"
+            ],
+            [
+                "slider-j6"
+            ]
+        ]
+    },
+    {
+        "id": "ui-text-feedback",
+        "type": "ui_text",
+        "z": "arm-control-tab",
+        "group": "arm-ui-group-feedback",
+        "order": 1,
+        "width": "12",
+        "height": "4",
+        "name": "Live Joint Positions",
+        "label": "Current Joint Positions (rad)",
+        "format": "<pre>{{msg.payload}}</pre>",
+        "layout": "col-center",
+        "x": 650,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "debug-feedback",
+        "type": "debug",
+        "z": "arm-control-tab",
+        "name": "Joint State Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "comment-setup",
+        "type": "comment",
+        "z": "arm-control-tab",
+        "name": "\u2699\ufe0f Setup: run rosbridge before using this flow",
+        "info": "\u0e01\u0e48\u0e2d\u0e19\u0e43\u0e0a\u0e49\u0e07\u0e32\u0e19 flow \u0e19\u0e35\u0e49:\n\n1. \u0e40\u0e1b\u0e34\u0e14 simulation:\n   ros2_nvidia launch amr_mtt_moveit_config moveit.launch.py\n\n2. \u0e40\u0e1b\u0e34\u0e14 rosbridge server:\n   ros2 launch rosbridge_server rosbridge_websocket_launch.xml\n\n3. Import flow \u0e19\u0e35\u0e49\u0e43\u0e19 Node-RED \u0e41\u0e25\u0e49\u0e27 Deploy\n\n4. \u0e40\u0e1b\u0e34\u0e14 Dashboard: http://localhost:1880/ui\n\nTopics \u0e17\u0e35\u0e48\u0e43\u0e0a\u0e49:\n  PUBLISH \u2192 /ur_arm_controller/joint_trajectory\n  PUBLISH \u2192 /robotiq_gripper_controller/gripper_cmd\n  SUBSCRIBE \u2190 /joint_states\n\n\u0e2b\u0e21\u0e32\u0e22\u0e40\u0e2b\u0e15\u0e38: \u0e16\u0e49\u0e32\u0e43\u0e0a\u0e49 FollowJointTrajectory action \u0e41\u0e17\u0e19\n\u0e43\u0e2b\u0e49\u0e40\u0e1b\u0e25\u0e35\u0e48\u0e22\u0e19 topic \u0e40\u0e1b\u0e47\u0e19 action goal \u0e1c\u0e48\u0e32\u0e19 rosbridge action client",
+        "x": 240,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "btn-sync-current",
+        "type": "ui_button",
+        "z": "arm-control-tab",
+        "name": "Sync",
+        "group": "arm-ui-group-presets",
+        "order": 5,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "\u267b SYNC SLIDERS",
+        "tooltip": "Sync sliders with real-time robot position",
+        "color": "white",
+        "bgcolor": "#6c757d",
+        "icon": "",
+        "x": 140,
+        "y": 780,
+        "wires": [
+            [
+                "func-trigger-sync"
+            ]
+        ]
+    },
+    {
+        "id": "func-trigger-sync",
+        "type": "function",
+        "z": "arm-control-tab",
+        "name": "Trigger Sync",
+        "func": "flow.set('sync_sliders_now', true);\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    }
+]
