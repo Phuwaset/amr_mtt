@@ -1,24 +1,37 @@
 [
     {
-        "id": "arm-control-tab",
+        "id": "amr-map-tab",
+        "type": "tab",
+        "label": "AMR Map View",
+        "disabled": true,
+        "info": ""
+    },
+    {
+        "id": "7f25b3b6ca73783f",
         "type": "tab",
         "label": "🦾 UR5 Arm Control",
         "disabled": false,
         "info": "Dashboard สำหรับควบคุม UR5 arm ผ่าน ROS 2 rosbridge\nJoint Control + Preset Poses + Gripper + Live Feedback"
     },
     {
+        "id": "4792cf662a67706e",
+        "type": "tab",
+        "label": "AMR Map View",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "ws-arm-client",
         "type": "websocket-client",
         "path": "ws://localhost:9090",
         "tls": "",
-        "wholemessage": "false",
         "hb": "0",
         "subprotocol": ""
     },
     {
         "id": "arm-ui-tab",
         "type": "ui_tab",
-        "name": "UR5 Arm Control",
+        "name": "🤖 AMR Control",
         "icon": "dashboard",
         "order": 1
     },
@@ -73,925 +86,21 @@
         "collapse": false
     },
     {
-        "id": "comment-arm-header",
-        "type": "comment",
-        "z": "arm-control-tab",
-        "name": "🦾 UR5 Arm Control Dashboard — AMR MTT",
-        "info": "ต้องกด ENABLE ARM ก่อนถึงจะส่งคำสั่งได้\nปุ่ม STOP ทำงานได้เสมอโดยไม่ต้อง enable",
-        "x": 240,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "inject-arm-init",
-        "type": "inject",
-        "z": "arm-control-tab",
-        "name": "Init: arm disabled",
-        "props": [],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.3,
-        "topic": "",
-        "x": 140,
-        "y": 60,
-        "wires": [
-            [
-                "func-arm-init"
-            ]
-        ]
-    },
-    {
-        "id": "func-arm-init",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Set arm_enabled = false",
-        "func": "flow.set('arm_enabled', false);\nreturn null;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 60,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "switch-arm-enable",
-        "type": "ui_switch",
-        "z": "arm-control-tab",
-        "name": "ENABLE ARM",
-        "label": "🔒 ENABLE ARM CONTROL",
-        "tooltip": "ต้องเปิดก่อนถึงจะส่งคำสั่งแขนได้",
-        "group": "arm-ui-group-safety",
-        "order": 1,
-        "width": "6",
-        "height": "1",
-        "passthru": false,
-        "decouple": "false",
-        "topic": "arm_enable",
-        "topicType": "str",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "#2ea44f",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "#d73a49",
-        "x": 140,
-        "y": 120,
-        "wires": [
-            [
-                "func-arm-enable"
-            ]
-        ]
-    },
-    {
-        "id": "func-arm-enable",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Set arm_enabled",
-        "func": "flow.set('arm_enabled', msg.payload === true || msg.payload === 'true');\nreturn null;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 120,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ui-text-arm-status",
-        "type": "ui_text",
-        "z": "arm-control-tab",
-        "group": "arm-ui-group-safety",
-        "order": 2,
-        "width": "6",
-        "height": "1",
-        "name": "Arm Status",
-        "label": "Status",
-        "format": "{{msg.payload}}",
-        "layout": "col-center",
-        "x": 610,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "func-arm-guard",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "ARM GUARD",
-        "func": "if (flow.get('arm_enabled') === true) {\n    return msg;\n} else {\n    node.warn('ARM DISABLED — กด ENABLE ARM ก่อน');\n    return null;\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 560,
-        "y": 440,
-        "wires": [
-            [
-                "ws-arm-out"
-            ]
-        ]
-    },
-    {
-        "id": "inject-arm-subscribe",
-        "type": "inject",
-        "z": "arm-control-tab",
-        "name": "Subscribe on Start",
-        "props": [],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 1.5,
-        "topic": "",
-        "x": 140,
-        "y": 180,
-        "wires": [
-            [
-                "func-subscribe-joint-states"
-            ]
-        ]
-    },
-    {
-        "id": "func-subscribe-joint-states",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Subscribe /joint_states",
-        "func": "msg.payload = JSON.stringify({\n    \"op\": \"subscribe\",\n    \"topic\": \"/joint_states\",\n    \"type\": \"sensor_msgs/JointState\"\n});\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 180,
-        "wires": [
-            [
-                "ws-arm-out"
-            ]
-        ]
-    },
-    {
-        "id": "ws-arm-out",
-        "type": "websocket out",
-        "z": "arm-control-tab",
-        "name": "Send to Rosbridge",
-        "server": "",
-        "client": "ws-arm-client",
-        "x": 760,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "inject-init-sliders",
-        "type": "inject",
-        "z": "arm-control-tab",
-        "name": "Init Sliders (Sync)",
-        "props": [],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 2.0,
-        "topic": "init_sync",
-        "x": 140,
-        "y": 220,
-        "wires": [
-            [
-                "func-init-sliders"
-            ]
-        ]
-    },
-    {
-        "id": "func-init-sliders",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Enable Auto Sync",
-        "func": "flow.set('sync_sliders_now', true);\nreturn null;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 220,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "slider-j1",
-        "type": "ui_slider",
-        "z": "arm-control-tab",
-        "name": "J1 shoulder_pan",
-        "label": "J1 Shoulder Pan",
-        "tooltip": "ur5_shoulder_pan_joint",
-        "group": "arm-ui-group-joints",
-        "order": 1,
-        "width": "12",
-        "height": "1",
-        "passthru": true,
-        "outs": "all",
-        "topic": "j1",
-        "topicType": "str",
-        "min": "-3.14159",
-        "max": "3.14159",
-        "step": "0.01",
-        "x": 140,
-        "y": 280,
-        "wires": [
-            [
-                "func-collect-joints"
-            ]
-        ]
-    },
-    {
-        "id": "slider-j2",
-        "type": "ui_slider",
-        "z": "arm-control-tab",
-        "name": "J2 shoulder_lift",
-        "label": "J2 Shoulder Lift",
-        "tooltip": "ur5_shoulder_lift_joint",
-        "group": "arm-ui-group-joints",
-        "order": 2,
-        "width": "12",
-        "height": "1",
-        "passthru": true,
-        "outs": "all",
-        "topic": "j2",
-        "topicType": "str",
-        "min": "-3.14159",
-        "max": "3.14159",
-        "step": "0.01",
-        "x": 140,
-        "y": 320,
-        "wires": [
-            [
-                "func-collect-joints"
-            ]
-        ]
-    },
-    {
-        "id": "slider-j3",
-        "type": "ui_slider",
-        "z": "arm-control-tab",
-        "name": "J3 elbow",
-        "label": "J3 Elbow",
-        "tooltip": "ur5_elbow_joint",
-        "group": "arm-ui-group-joints",
-        "order": 3,
-        "width": "12",
-        "height": "1",
-        "passthru": true,
-        "outs": "all",
-        "topic": "j3",
-        "topicType": "str",
-        "min": "-3.14159",
-        "max": "3.14159",
-        "step": "0.01",
-        "x": 140,
-        "y": 360,
-        "wires": [
-            [
-                "func-collect-joints"
-            ]
-        ]
-    },
-    {
-        "id": "slider-j4",
-        "type": "ui_slider",
-        "z": "arm-control-tab",
-        "name": "J4 wrist_1",
-        "label": "J4 Wrist 1",
-        "tooltip": "ur5_wrist_1_joint",
-        "group": "arm-ui-group-joints",
-        "order": 4,
-        "width": "12",
-        "height": "1",
-        "passthru": true,
-        "outs": "all",
-        "topic": "j4",
-        "topicType": "str",
-        "min": "-3.14159",
-        "max": "3.14159",
-        "step": "0.01",
-        "x": 140,
-        "y": 400,
-        "wires": [
-            [
-                "func-collect-joints"
-            ]
-        ]
-    },
-    {
-        "id": "slider-j5",
-        "type": "ui_slider",
-        "z": "arm-control-tab",
-        "name": "J5 wrist_2",
-        "label": "J5 Wrist 2",
-        "tooltip": "ur5_wrist_2_joint",
-        "group": "arm-ui-group-joints",
-        "order": 5,
-        "width": "12",
-        "height": "1",
-        "passthru": true,
-        "outs": "all",
-        "topic": "j5",
-        "topicType": "str",
-        "min": "-3.14159",
-        "max": "3.14159",
-        "step": "0.01",
-        "x": 140,
-        "y": 440,
-        "wires": [
-            [
-                "func-collect-joints"
-            ]
-        ]
-    },
-    {
-        "id": "slider-j6",
-        "type": "ui_slider",
-        "z": "arm-control-tab",
-        "name": "J6 wrist_3",
-        "label": "J6 Wrist 3",
-        "tooltip": "ur5_wrist_3_joint",
-        "group": "arm-ui-group-joints",
-        "order": 6,
-        "width": "12",
-        "height": "1",
-        "passthru": true,
-        "outs": "all",
-        "topic": "j6",
-        "topicType": "str",
-        "min": "-3.14159",
-        "max": "3.14159",
-        "step": "0.01",
-        "x": 140,
-        "y": 480,
-        "wires": [
-            [
-                "func-collect-joints"
-            ]
-        ]
-    },
-    {
-        "id": "func-collect-joints",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Collect Joint Values",
-        "func": "flow.set(msg.topic, parseFloat(msg.payload));\n\nvar j1 = (flow.get('j1') !== undefined) ? flow.get('j1') : 0.0;\nvar j2 = (flow.get('j2') !== undefined) ? flow.get('j2') : -1.5708;\nvar j3 = (flow.get('j3') !== undefined) ? flow.get('j3') : -1.5708;\nvar j4 = (flow.get('j4') !== undefined) ? flow.get('j4') : -3.159;\nvar j5 = (flow.get('j5') !== undefined) ? flow.get('j5') : 0.0;\nvar j6 = (flow.get('j6') !== undefined) ? flow.get('j6') : 0.0;\n\nflow.set('joint_values', [j1, j2, j3, j4, j5, j6]);\n\nvar display = '';\ndisplay += 'J1: ' + j1.toFixed(4) + ' rad\\n';\ndisplay += 'J2: ' + j2.toFixed(4) + ' rad\\n';\ndisplay += 'J3: ' + j3.toFixed(4) + ' rad\\n';\ndisplay += 'J4: ' + j4.toFixed(4) + ' rad\\n';\ndisplay += 'J5: ' + j5.toFixed(4) + ' rad\\n';\ndisplay += 'J6: ' + j6.toFixed(4) + ' rad';\n\nmsg.payload = display;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 380,
-        "wires": [
-            [
-                "debug-joint-values",
-                "ui-text-target-joints"
-            ]
-        ]
-    },
-    {
-        "id": "ui-text-target-joints",
-        "type": "ui_text",
-        "z": "arm-control-tab",
-        "group": "arm-ui-group-joints",
-        "order": 10,
-        "width": "12",
-        "height": "4",
-        "name": "Target Joint Positions",
-        "label": "Target Joint Positions (rad)",
-        "format": "<pre>{{msg.payload}}</pre>",
-        "layout": "col-center",
-        "x": 650,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "debug-joint-values",
-        "type": "debug",
-        "z": "arm-control-tab",
-        "name": "Current Joint Values",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 650,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "btn-send-arm",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "SEND to Arm",
-        "group": "arm-ui-group-joints",
-        "order": 7,
-        "width": "6",
-        "height": "1",
-        "passthru": false,
-        "label": "▶ SEND TO ARM",
-        "tooltip": "Send current slider values as JointTrajectory",
-        "color": "white",
-        "bgcolor": "#2ea44f",
-        "icon": "",
-        "x": 140,
-        "y": 540,
-        "wires": [
-            [
-                "func-build-trajectory"
-            ]
-        ]
-    },
-    {
-        "id": "btn-stop-arm",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "STOP",
-        "group": "arm-ui-group-joints",
-        "order": 8,
-        "width": "6",
-        "height": "1",
-        "passthru": false,
-        "label": "⛔ STOP",
-        "tooltip": "หยุดแขน — ทำงานได้แม้ ENABLE ปิดอยู่",
-        "color": "white",
-        "bgcolor": "#d73a49",
-        "icon": "",
-        "x": 140,
-        "y": 580,
-        "wires": [
-            [
-                "func-stop-arm"
-            ]
-        ]
-    },
-    {
-        "id": "func-stop-arm",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Build STOP Command",
-        "func": "// STOP ไม่ต้องผ่าน guard — ทำงานได้เสมอ\nvar currentPositions = flow.get('feedback_positions') || [0,0,0,0,0,0];\n\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\",\n            \"ur5_shoulder_lift_joint\",\n            \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\",\n            \"ur5_wrist_2_joint\",\n            \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": currentPositions,\n            \"velocities\": [0,0,0,0,0,0],\n            \"accelerations\": [],\n            \"effort\": [],\n            \"time_from_start\": { \"sec\": 0, \"nanosec\": 100000000 }\n        }]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 580,
-        "wires": [
-            [
-                "ws-arm-out"
-            ]
-        ]
-    },
-    {
-        "id": "func-build-trajectory",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Build JointTrajectory",
-        "func": "var joints = flow.get('joint_values') || [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nvar duration = parseFloat(flow.get('traj_duration') || 2.0);\n\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\",\n            \"ur5_shoulder_lift_joint\",\n            \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\",\n            \"ur5_wrist_2_joint\",\n            \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": joints,\n            \"velocities\": [],\n            \"accelerations\": [],\n            \"effort\": [],\n            \"time_from_start\": {\n                \"sec\": Math.floor(duration),\n                \"nanosec\": Math.round((duration % 1) * 1e9)\n            }\n        }]\n    }\n};\n\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 540,
-        "wires": [
-            [
-                "func-arm-guard",
-                "debug-send"
-            ]
-        ]
-    },
-    {
-        "id": "debug-send",
-        "type": "debug",
-        "z": "arm-control-tab",
-        "name": "Debug Sent Command",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 650,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "slider-duration",
-        "type": "ui_slider",
-        "z": "arm-control-tab",
-        "name": "Duration (s)",
-        "label": "Duration (sec)",
-        "tooltip": "Time to reach target position",
-        "group": "arm-ui-group-joints",
-        "order": 9,
-        "width": "12",
-        "height": "1",
-        "passthru": true,
-        "outs": "all",
-        "topic": "duration",
-        "topicType": "str",
-        "min": "0.5",
-        "max": "5",
-        "step": "0.5",
-        "x": 140,
-        "y": 620,
-        "wires": [
-            [
-                "func-set-duration"
-            ]
-        ]
-    },
-    {
-        "id": "func-set-duration",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Set Duration",
-        "func": "flow.set('traj_duration', parseFloat(msg.payload));\nreturn null;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 370,
-        "y": 620,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "btn-preset-home",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "HOME",
-        "group": "arm-ui-group-presets",
-        "order": 1,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "label": "🏠 HOME",
-        "tooltip": "[0, -1.5708, -1.5708, -3.159, 0, 0]",
-        "color": "white",
-        "bgcolor": "#0366d6",
-        "icon": "",
-        "x": 140,
-        "y": 700,
-        "wires": [
-            [
-                "func-preset-home"
-            ]
-        ]
-    },
-    {
-        "id": "func-preset-home",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Preset: HOME",
-        "func": "var joints = [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 2, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 700,
-        "wires": [
-            [
-                "func-arm-guard"
-            ]
-        ]
-    },
-    {
-        "id": "btn-preset-pre-approach",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "PRE_APPROACH",
-        "group": "arm-ui-group-presets",
-        "order": 2,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "label": "📦 PRE_APPROACH",
-        "tooltip": "[-1.3963, -2.2689, -1.1519, -1.2217, 1.5708, 0]",
-        "color": "white",
-        "bgcolor": "#6f42c1",
-        "icon": "",
-        "x": 140,
-        "y": 740,
-        "wires": [
-            [
-                "func-preset-pre-approach"
-            ]
-        ]
-    },
-    {
-        "id": "func-preset-pre-approach",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Preset: PRE_APPROACH",
-        "func": "var joints = [-1.3963, -2.2689, -1.1519, -1.2217, 1.5708, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 3, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 400,
-        "y": 740,
-        "wires": [
-            [
-                "func-arm-guard"
-            ]
-        ]
-    },
-    {
-        "id": "btn-preset-lift-up",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "LIFT_UP",
-        "group": "arm-ui-group-presets",
-        "order": 3,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "label": "⬆ LIFT_UP",
-        "tooltip": "[0, -2.7576, -1.5708, -3.3336, -1.5708, 0]",
-        "color": "white",
-        "bgcolor": "#e36209",
-        "icon": "",
-        "x": 140,
-        "y": 780,
-        "wires": [
-            [
-                "func-preset-lift-up"
-            ]
-        ]
-    },
-    {
-        "id": "func-preset-lift-up",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Preset: LIFT_UP",
-        "func": "var joints = [0.0, -2.7576, -1.5708, -3.3336, -1.5708, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 2, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 780,
-        "wires": [
-            [
-                "func-arm-guard"
-            ]
-        ]
-    },
-    {
-        "id": "btn-preset-drop",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "DROP_ROTATE",
-        "group": "arm-ui-group-presets",
-        "order": 4,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "label": "🔄 DROP_ROTATE",
-        "tooltip": "[1.5708, -1.5708, -1.5708, -3.159, 0, 0]",
-        "color": "white",
-        "bgcolor": "#cb2431",
-        "icon": "",
-        "x": 140,
-        "y": 820,
-        "wires": [
-            [
-                "func-preset-drop"
-            ]
-        ]
-    },
-    {
-        "id": "func-preset-drop",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Preset: DROP_ROTATE",
-        "func": "var joints = [1.5708, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 2, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 400,
-        "y": 820,
-        "wires": [
-            [
-                "func-arm-guard"
-            ]
-        ]
-    },
-    {
-        "id": "btn-gripper-open",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "Gripper OPEN",
-        "group": "arm-ui-group-gripper",
-        "order": 1,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "label": "✋ OPEN",
-        "tooltip": "Open gripper (position=0.0)",
-        "color": "white",
-        "bgcolor": "#2ea44f",
-        "icon": "",
-        "x": 140,
-        "y": 900,
-        "wires": [
-            [
-                "func-gripper-open"
-            ]
-        ]
-    },
-    {
-        "id": "func-gripper-open",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Gripper OPEN",
-        "func": "var cmd = {\n    \"op\": \"send_action_goal\",\n    \"action\": \"/robotiq_gripper_controller/gripper_cmd\",\n    \"action_type\": \"control_msgs/action/GripperCommand\",\n    \"args\": {\n        \"command\": {\n            \"position\": 0.0,\n            \"max_effort\": 100.0\n        }\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 900,
-        "wires": [
-            [
-                "func-arm-guard"
-            ]
-        ]
-    },
-    {
-        "id": "btn-gripper-close",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "Gripper CLOSE",
-        "group": "arm-ui-group-gripper",
-        "order": 2,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "label": "👊 CLOSE",
-        "tooltip": "Close gripper (position=0.8)",
-        "color": "white",
-        "bgcolor": "#d73a49",
-        "icon": "",
-        "x": 140,
-        "y": 940,
-        "wires": [
-            [
-                "func-gripper-close"
-            ]
-        ]
-    },
-    {
-        "id": "func-gripper-close",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Gripper CLOSE",
-        "func": "var cmd = {\n    \"op\": \"send_action_goal\",\n    \"action\": \"/robotiq_gripper_controller/gripper_cmd\",\n    \"action_type\": \"control_msgs/action/GripperCommand\",\n    \"args\": {\n        \"command\": {\n            \"position\": 0.8,\n            \"max_effort\": 100.0\n        }\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 940,
-        "wires": [
-            [
-                "func-arm-guard"
-            ]
-        ]
-    },
-    {
-        "id": "ws-arm-in",
-        "type": "websocket in",
-        "z": "arm-control-tab",
-        "name": "Receive from Rosbridge",
-        "server": "",
-        "client": "ws-arm-client",
-        "x": 140,
-        "y": 1040,
-        "wires": [
-            [
-                "func-parse-joint-states"
-            ]
-        ]
-    },
-    {
-        "id": "func-parse-joint-states",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Parse /joint_states",
-        "func": "try {\n    var data = JSON.parse(msg.payload);\n    if (!data.msg || !data.msg.name || !data.msg.position) return null;\n\n    var names = data.msg.name;\n    var positions = data.msg.position;\n\n    var ur5Joints = [\n        'ur5_shoulder_pan_joint',\n        'ur5_shoulder_lift_joint',\n        'ur5_elbow_joint',\n        'ur5_wrist_1_joint',\n        'ur5_wrist_2_joint',\n        'ur5_wrist_3_joint'\n    ];\n\n    var result = {};\n    for (var i = 0; i < names.length; i++) {\n        if (ur5Joints.includes(names[i])) {\n            result[names[i]] = parseFloat(positions[i]);\n        }\n    }\n\n    // Store current positions for STOP command\n    var ur5Positions = ur5Joints.map(function(jn) { return result[jn] || 0.0; });\n    flow.set('feedback_positions', ur5Positions);\n\n    var display = '';\n    var sliders = [null, null, null, null, null, null];\n    var shouldSync = flow.get('sync_sliders_now');\n\n    ur5Joints.forEach(function(jn, idx) {\n        var shortName = ['J1','J2','J3','J4','J5','J6'][idx];\n        var val = result[jn] || 0.0;\n        display += shortName + ': ' + val.toFixed(4) + ' rad\\n';\n        if (shouldSync) {\n            sliders[idx] = {payload: val};\n            flow.set('j'+(idx+1), val);\n        }\n    });\n\n    if (shouldSync) {\n        flow.set('joint_values', ur5Joints.map(function(jn){ return result[jn]||0; }));\n        flow.set('sync_sliders_now', false);\n    }\n\n    msg.payload = display.trim();\n    return [msg, sliders[0], sliders[1], sliders[2], sliders[3], sliders[4], sliders[5]];\n\n} catch(e) {\n    return null;\n}",
-        "outputs": 7,
-        "noerr": 0,
-        "x": 390,
-        "y": 1040,
-        "wires": [
-            [
-                "ui-text-feedback",
-                "debug-feedback"
-            ],
-            [
-                "slider-j1"
-            ],
-            [
-                "slider-j2"
-            ],
-            [
-                "slider-j3"
-            ],
-            [
-                "slider-j4"
-            ],
-            [
-                "slider-j5"
-            ],
-            [
-                "slider-j6"
-            ]
-        ]
-    },
-    {
-        "id": "ui-text-feedback",
-        "type": "ui_text",
-        "z": "arm-control-tab",
-        "group": "arm-ui-group-feedback",
-        "order": 1,
-        "width": "12",
-        "height": "4",
-        "name": "Live Joint Positions",
-        "label": "Current Joint Positions (rad)",
-        "format": "<pre>{{msg.payload}}</pre>",
-        "layout": "col-center",
-        "x": 650,
-        "y": 1020,
-        "wires": []
-    },
-    {
-        "id": "debug-feedback",
-        "type": "debug",
-        "z": "arm-control-tab",
-        "name": "Joint State Debug",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 650,
-        "y": 1060,
-        "wires": []
-    },
-    {
-        "id": "btn-sync-current",
-        "type": "ui_button",
-        "z": "arm-control-tab",
-        "name": "Sync",
-        "group": "arm-ui-group-presets",
-        "order": 5,
-        "width": "6",
-        "height": "1",
-        "passthru": false,
-        "label": "♻ SYNC SLIDERS",
-        "tooltip": "Sync sliders กับตำแหน่งจริงของ robot",
-        "color": "white",
-        "bgcolor": "#6c757d",
-        "icon": "",
-        "x": 140,
-        "y": 860,
-        "wires": [
-            [
-                "func-trigger-sync"
-            ]
-        ]
-    },
-    {
-        "id": "func-trigger-sync",
-        "type": "function",
-        "z": "arm-control-tab",
-        "name": "Trigger Sync",
-        "func": "flow.set('sync_sliders_now', true);\nreturn null;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 860,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "comment-setup",
-        "type": "comment",
-        "z": "arm-control-tab",
-        "name": "⚙️ Safety: ENABLE ARM ต้องเปิดก่อนส่งคำสั่ง / STOP ทำงานได้เสมอ",
-        "info": "guard node ตรวจ flow.arm_enabled ก่อนส่งทุกคำสั่ง\nยกเว้น STOP ซึ่ง bypass guard โดยตรง",
-        "x": 330,
-        "y": 1120,
-        "wires": []
-    },
-    {
-        "id": "amr-map-tab",
-        "type": "tab",
-        "label": "AMR Map View",
-        "disabled": false,
-        "info": ""
-    },
-    {
         "id": "amr-map-ui-tab",
         "type": "ui_tab",
         "name": "🗺️ AMR Map",
         "icon": "map",
         "order": 2,
-        "disabled": false,
-        "hidden": false
+        "disabled": true,
+        "hidden": true
     },
     {
         "id": "amr-map-group",
         "type": "ui_group",
-        "name": "2D SLAM Map",
-        "tab": "amr-map-ui-tab",
-        "order": 1,
-        "disp": false,
+        "name": "🗺️ 2D SLAM Map",
+        "tab": "arm-ui-tab",
+        "order": 8,
+        "disp": true,
         "width": "24",
         "collapse": false
     },
@@ -1000,9 +109,175 @@
         "type": "websocket-client",
         "path": "ws://localhost:9090",
         "tls": "",
-        "wholemessage": "false",
         "hb": "0",
         "subprotocol": ""
+    },
+    {
+        "id": "jog-group-monitor",
+        "type": "ui_group",
+        "name": "🎯 EEF Position (arm frame)",
+        "tab": "arm-ui-tab",
+        "order": 5,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "jog-group-jog",
+        "type": "ui_group",
+        "name": "🕹️ Cartesian Jog",
+        "tab": "arm-ui-tab",
+        "order": 6,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "jog-group-saveload",
+        "type": "ui_group",
+        "name": "💾 Save / Load Position",
+        "tab": "arm-ui-tab",
+        "order": 7,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "1ba8e36307af9b86",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "nav-wp-group",
+        "type": "ui_group",
+        "name": "📍 Nav Waypoints",
+        "tab": "arm-ui-tab",
+        "order": 9,
+        "disp": true,
+        "width": "24",
+        "collapse": false
+    },
+    {
+        "id": "jog-group-orientation",
+        "type": "ui_group",
+        "name": "🎛️ Orientation Jog (EEF local frame)",
+        "tab": "arm-ui-tab",
+        "order": 3,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "jog-group-sequence",
+        "type": "ui_group",
+        "name": "🔄 Sequence Player",
+        "tab": "arm-ui-tab",
+        "order": 4,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "jog-group-mode",
+        "type": "ui_group",
+        "name": "🔒 Mode",
+        "tab": "arm-ui-tab",
+        "order": 5,
+        "disp": true,
+        "width": "12",
+        "collapse": false
     },
     {
         "id": "inject-on-start",
@@ -1013,7 +288,7 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": 5.0,
+        "onceDelay": 5,
         "topic": "",
         "x": 160,
         "y": 80,
@@ -1115,7 +390,7 @@
         "order": 1,
         "width": "24",
         "height": "14",
-        "format": "<style>\n  #slam-wrap { background:#1a1a2e; padding:8px; border-radius:8px; }\n  #slam-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }\n  #slam-title { color:#00ff88; font-weight:bold; font-size:14px; }\n  #map-status { color:#888; font-size:11px; }\n  #slam-canvas { width:100%; border:1px solid #333; border-radius:4px; background:#222; display:block; cursor:crosshair; }\n  #slam-legend { display:flex; gap:16px; margin-top:6px; font-size:11px; color:#aaa; }\n  #pose-info { margin-top:4px; font-size:12px; color:#00ff88; font-family:monospace; }\n</style>\n\n<div id=\"slam-wrap\">\n  <div id=\"slam-header\">\n    <span id=\"slam-title\">🗺️ 2D SLAM Map</span>\n    <span id=\"map-status\">Waiting for /map...</span>\n  </div>\n  <canvas id=\"slam-canvas\" width=\"900\" height=\"520\"></canvas>\n  <div id=\"slam-legend\">\n    <span style=\"color:#ddd;\">⬜ Free</span>\n    <span style=\"color:#333;\">⬛ Obstacle</span>\n    <span style=\"color:#888;\">▪ Unknown</span>\n    <span style=\"color:#00ff88;\">● Robot</span>\n  </div>\n  <div id=\"pose-info\">X: —  Y: —  Yaw: —</div>\n</div>\n\n<script>\n(function() {\n  var canvas = document.getElementById('slam-canvas');\n  var ctx    = canvas.getContext('2d');\n\n  var mapMeta  = null;   // { img, width, height, resolution, origin_x, origin_y }\n  var robot    = { x: 0, y: 0, yaw: 0 };\n\n  /* ── Build ImageData from OccupancyGrid data ── */\n  function buildMapImage(payload) {\n    var w    = payload.width;\n    var h    = payload.height;\n    var data = payload.data;\n    if (!w || !h || !data || data.length === 0) return;\n\n    var off    = document.createElement('canvas');\n    off.width  = w;\n    off.height = h;\n    var offCtx = off.getContext('2d');\n    var img    = offCtx.createImageData(w, h);\n\n    for (var i = 0; i < data.length; i++) {\n      var v = data[i];\n      var r, g, b;\n      if (v < 0)       { r=128; g=128; b=128; }   // unknown  → grey\n      else if (v < 50) { r=220; g=220; b=220; }   // free     → light\n      else             { r=30;  g=30;  b=40;  }   // occupied → dark\n\n      // OccupancyGrid: row 0 = bottom of world → flip Y\n      var row = h - 1 - Math.floor(i / w);\n      var col = i % w;\n      var idx = (row * w + col) * 4;\n      img.data[idx]     = r;\n      img.data[idx + 1] = g;\n      img.data[idx + 2] = b;\n      img.data[idx + 3] = 255;\n    }\n    offCtx.putImageData(img, 0, 0);\n\n    mapMeta = {\n      img       : off,\n      width     : w,\n      height    : h,\n      resolution: payload.resolution,\n      origin_x  : payload.origin_x,\n      origin_y  : payload.origin_y\n    };\n\n    var status = document.getElementById('map-status');\n    if (status) status.textContent =\n      w + '×' + h + ' cells  •  ' + (payload.resolution * 100).toFixed(1) + ' cm/cell';\n  }\n\n  /* ── Render map + robot onto main canvas ── */\n  function render() {\n    var cw = canvas.width;\n    var ch = canvas.height;\n    ctx.fillStyle = '#222';\n    ctx.fillRect(0, 0, cw, ch);\n\n    if (!mapMeta) return;\n\n    // Fit map into canvas with padding\n    var pad   = 10;\n    var scale = Math.min((cw - pad * 2) / mapMeta.width,\n                         (ch - pad * 2) / mapMeta.height);\n    var offX  = (cw - mapMeta.width  * scale) / 2;\n    var offY  = (ch - mapMeta.height * scale) / 2;\n\n    // Draw map image\n    ctx.imageSmoothingEnabled = false;\n    ctx.drawImage(mapMeta.img, offX, offY, mapMeta.width * scale, mapMeta.height * scale);\n\n    // Draw grid overlay (faint)\n    ctx.strokeStyle = 'rgba(0,255,136,0.05)';\n    ctx.lineWidth = 0.5;\n    var step = 50 / mapMeta.resolution * scale;  // every 50 cm real\n    for (var gx = offX; gx < cw; gx += step) { ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,ch); ctx.stroke(); }\n    for (var gy = offY; gy < ch; gy += step) { ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(cw,gy); ctx.stroke(); }\n\n    // World → canvas pixel\n    var res = mapMeta.resolution;\n    var px  = offX + ((robot.x - mapMeta.origin_x) / res) * scale;\n    var py  = offY + ((mapMeta.height - (robot.y - mapMeta.origin_y) / res)) * scale;\n\n    var rr = Math.max(7, Math.min(14, 10 * scale / 2));\n\n    // Glow ring\n    ctx.shadowBlur = 14;\n    ctx.shadowColor = '#00ff88';\n    ctx.beginPath();\n    ctx.arc(px, py, rr + 3, 0, 2 * Math.PI);\n    ctx.strokeStyle = 'rgba(0,255,136,0.3)';\n    ctx.lineWidth = 3;\n    ctx.stroke();\n\n    // Robot body\n    ctx.beginPath();\n    ctx.arc(px, py, rr, 0, 2 * Math.PI);\n    ctx.fillStyle = '#00ff88';\n    ctx.fill();\n    ctx.strokeStyle = '#ffffff';\n    ctx.lineWidth = 1.5;\n    ctx.stroke();\n\n    // Heading arrow\n    var yaw = robot.yaw;\n    var ax  = px + Math.cos(yaw)  * rr * 2.2;\n    var ay  = py - Math.sin(yaw)  * rr * 2.2;\n    ctx.beginPath();\n    ctx.moveTo(px, py);\n    ctx.lineTo(ax, ay);\n    ctx.strokeStyle = '#ffffff';\n    ctx.lineWidth = 2.5;\n    ctx.stroke();\n    // arrowhead\n    var alen = 5;\n    var angle = Math.atan2(-(ay - py), ax - px);\n    ctx.beginPath();\n    ctx.moveTo(ax, ay);\n    ctx.lineTo(ax - alen * Math.cos(angle - 0.4), ay + alen * Math.sin(angle - 0.4));\n    ctx.lineTo(ax - alen * Math.cos(angle + 0.4), ay + alen * Math.sin(angle + 0.4));\n    ctx.closePath();\n    ctx.fillStyle = '#ffffff';\n    ctx.fill();\n\n    ctx.shadowBlur = 0;\n\n    // Pose text\n    var info = document.getElementById('pose-info');\n    if (info) info.textContent =\n      'X: ' + robot.x.toFixed(3) + ' m   ' +\n      'Y: ' + robot.y.toFixed(3) + ' m   ' +\n      'Yaw: ' + (robot.yaw * 180 / Math.PI).toFixed(1) + '°';\n  }\n\n  /* ── Receive msg from Node-RED ── */\n  scope.$watch('msg', function(msg) {\n    if (!msg || !msg.payload) return;\n    var p = msg.payload;\n\n    if (p.type === 'map') {\n      robot.x   = p.robot_x   || 0;\n      robot.y   = p.robot_y   || 0;\n      robot.yaw = p.robot_yaw || 0;\n      buildMapImage(p);\n      render();\n    } else if (p.type === 'pose') {\n      robot.x   = p.robot_x;\n      robot.y   = p.robot_y;\n      robot.yaw = p.robot_yaw;\n      render();\n    }\n  });\n})();\n</script>",
+        "format": "<style>\n  #slam-wrap { background:#1a1a2e; padding:8px; border-radius:8px; }\n  #slam-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }\n  #slam-title { color:#00ff88; font-weight:bold; font-size:14px; }\n  #map-status { color:#888; font-size:11px; }\n  #slam-canvas { width:100%; border:1px solid #333; border-radius:4px; background:#222; display:block; cursor:crosshair; }\n  #slam-legend { display:flex; gap:16px; margin-top:6px; font-size:11px; color:#aaa; }\n  #pose-info { margin-top:4px; font-size:12px; color:#00ff88; font-family:monospace; }\n</style>\n\n<div id=\"slam-wrap\">\n  <div id=\"slam-header\">\n    <span id=\"slam-title\">🗺️ 2D SLAM Map</span>\n    <span id=\"map-status\">Waiting for /map...</span>\n  </div>\n  <canvas id=\"slam-canvas\" width=\"900\" height=\"520\"></canvas>\n  <div id=\"slam-legend\">\n    <span style=\"color:#ddd;\">⬜ Free</span>\n    <span style=\"color:#333;\">⬛ Obstacle</span>\n    <span style=\"color:#888;\">▪ Unknown</span>\n    <span style=\"color:#00ff88;\">● Robot</span>\n  </div>\n  <div id=\"pose-info\">X: —  Y: —  Yaw: —</div>\n</div>\n\n<script>\n(function() {\n  var canvas = document.getElementById('slam-canvas');\n  var ctx    = canvas.getContext('2d');\n\n  var mapMeta  = null;   // { img, width, height, resolution, origin_x, origin_y }\n  var robot    = { x: 0, y: 0, yaw: 0 };\n  var waypoints = [];\n  var navTarget  = null;\n\n  /* ── Build ImageData from OccupancyGrid data ── */\n  function buildMapImage(payload) {\n    var w    = payload.width;\n    var h    = payload.height;\n    var data = payload.data;\n    if (!w || !h || !data || data.length === 0) return;\n\n    var off    = document.createElement('canvas');\n    off.width  = w;\n    off.height = h;\n    var offCtx = off.getContext('2d');\n    var img    = offCtx.createImageData(w, h);\n\n    for (var i = 0; i < data.length; i++) {\n      var v = data[i];\n      var r, g, b;\n      if (v < 0)       { r=128; g=128; b=128; }   // unknown  → grey\n      else if (v < 50) { r=220; g=220; b=220; }   // free     → light\n      else             { r=30;  g=30;  b=40;  }   // occupied → dark\n\n      // OccupancyGrid: row 0 = bottom of world → flip Y\n      var row = h - 1 - Math.floor(i / w);\n      var col = i % w;\n      var idx = (row * w + col) * 4;\n      img.data[idx]     = r;\n      img.data[idx + 1] = g;\n      img.data[idx + 2] = b;\n      img.data[idx + 3] = 255;\n    }\n    offCtx.putImageData(img, 0, 0);\n\n    mapMeta = {\n      img       : off,\n      width     : w,\n      height    : h,\n      resolution: payload.resolution,\n      origin_x  : payload.origin_x,\n      origin_y  : payload.origin_y\n    };\n\n    var status = document.getElementById('map-status');\n    if (status) status.textContent =\n      w + '×' + h + ' cells  •  ' + (payload.resolution * 100).toFixed(1) + ' cm/cell';\n  }\n\n  /* ── Render map + robot onto main canvas ── */\n  function render() {\n    var cw = canvas.width;\n    var ch = canvas.height;\n    ctx.fillStyle = '#222';\n    ctx.fillRect(0, 0, cw, ch);\n\n    if (!mapMeta) return;\n\n    // Fit map into canvas with padding\n    var pad   = 10;\n    var scale = Math.min((cw - pad * 2) / mapMeta.width,\n                         (ch - pad * 2) / mapMeta.height);\n    var offX  = (cw - mapMeta.width  * scale) / 2;\n    var offY  = (ch - mapMeta.height * scale) / 2;\n\n    // Draw map image\n    ctx.imageSmoothingEnabled = false;\n    ctx.drawImage(mapMeta.img, offX, offY, mapMeta.width * scale, mapMeta.height * scale);\n\n    // Draw grid overlay (faint)\n    ctx.strokeStyle = 'rgba(0,255,136,0.05)';\n    ctx.lineWidth = 0.5;\n    var step = 50 / mapMeta.resolution * scale;  // every 50 cm real\n    for (var gx = offX; gx < cw; gx += step) { ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,ch); ctx.stroke(); }\n    for (var gy = offY; gy < ch; gy += step) { ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(cw,gy); ctx.stroke(); }\n\n    // World → canvas pixel\n    var res = mapMeta.resolution;\n    var px  = offX + ((robot.x - mapMeta.origin_x) / res) * scale;\n    var py  = offY + ((mapMeta.height - (robot.y - mapMeta.origin_y) / res)) * scale;\n\n    var rr = Math.max(7, Math.min(14, 10 * scale / 2));\n\n    // Glow ring\n    ctx.shadowBlur = 14;\n    ctx.shadowColor = '#00ff88';\n    ctx.beginPath();\n    ctx.arc(px, py, rr + 3, 0, 2 * Math.PI);\n    ctx.strokeStyle = 'rgba(0,255,136,0.3)';\n    ctx.lineWidth = 3;\n    ctx.stroke();\n\n    // Robot body\n    ctx.beginPath();\n    ctx.arc(px, py, rr, 0, 2 * Math.PI);\n    ctx.fillStyle = '#00ff88';\n    ctx.fill();\n    ctx.strokeStyle = '#ffffff';\n    ctx.lineWidth = 1.5;\n    ctx.stroke();\n\n    // Heading arrow\n    var yaw = robot.yaw;\n    var ax  = px + Math.cos(yaw)  * rr * 2.2;\n    var ay  = py - Math.sin(yaw)  * rr * 2.2;\n    ctx.beginPath();\n    ctx.moveTo(px, py);\n    ctx.lineTo(ax, ay);\n    ctx.strokeStyle = '#ffffff';\n    ctx.lineWidth = 2.5;\n    ctx.stroke();\n    // arrowhead\n    var alen = 5;\n    var angle = Math.atan2(-(ay - py), ax - px);\n    ctx.beginPath();\n    ctx.moveTo(ax, ay);\n    ctx.lineTo(ax - alen * Math.cos(angle - 0.4), ay + alen * Math.sin(angle - 0.4));\n    ctx.lineTo(ax - alen * Math.cos(angle + 0.4), ay + alen * Math.sin(angle + 0.4));\n    ctx.closePath();\n    ctx.fillStyle = '#ffffff';\n    ctx.fill();\n\n\n    // Draw waypoint markers\n    if (mapMeta) {\n      waypoints.forEach(function(wp) {\n        var wx = offX + ((wp.x - mapMeta.origin_x) / res) * scale;\n        var wy = offY + ((mapMeta.height - (wp.y - mapMeta.origin_y) / res)) * scale;\n        var isTarget = (navTarget && wp.name === navTarget);\n        var wColor   = isTarget ? '#ffd54f' : '#4fc3f7';\n        ctx.shadowBlur  = 10;\n        ctx.shadowColor = wColor;\n        ctx.beginPath();\n        ctx.arc(wx, wy, 7, 0, 2 * Math.PI);\n        ctx.fillStyle   = wColor;\n        ctx.fill();\n        ctx.strokeStyle = '#fff';\n        ctx.lineWidth   = 1.5;\n        ctx.stroke();\n        var yawRad = (wp.yaw || 0) * Math.PI / 180;\n        ctx.beginPath();\n        ctx.moveTo(wx, wy);\n        ctx.lineTo(wx + Math.cos(yawRad)*16, wy - Math.sin(yawRad)*16);\n        ctx.strokeStyle = wColor;\n        ctx.lineWidth   = 2;\n        ctx.stroke();\n        ctx.shadowBlur  = 0;\n        ctx.fillStyle   = wColor;\n        ctx.font        = 'bold 11px monospace';\n        ctx.fillText(wp.name, wx + 10, wy - 3);\n      });\n    }\n    ctx.shadowBlur = 0;\n\n    // Pose text\n    var info = document.getElementById('pose-info');\n    if (info) info.textContent =\n      'X: ' + robot.x.toFixed(3) + ' m   ' +\n      'Y: ' + robot.y.toFixed(3) + ' m   ' +\n      'Yaw: ' + (robot.yaw * 180 / Math.PI).toFixed(1) + '°';\n  }\n\n  /* ── Receive msg from Node-RED ── */\n  scope.$watch('msg', function(msg) {\n    if (!msg || !msg.payload) return;\n    var p = msg.payload;\n\n    if (p.type === 'map') {\n      robot.x   = p.robot_x   || 0;\n      robot.y   = p.robot_y   || 0;\n      robot.yaw = p.robot_yaw || 0;\n      buildMapImage(p);\n      render();\n    } else if (p.type === 'pose') {\n      robot.x   = p.robot_x;\n      robot.y   = p.robot_y;\n      robot.yaw = p.robot_yaw;\n      render();\n    } else if (p.type === 'waypoints') {\n      waypoints = p.waypoints || [];\n      navTarget = p.nav_target  || null;\n      if (mapMeta) render();\n    }\n  });\n})();\n</script>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": false,
@@ -1171,6 +446,2473 @@
             [
                 "func-subscribe-map"
             ]
+        ]
+    },
+    {
+        "id": "nav-wp-panel",
+        "type": "ui_template",
+        "z": "amr-map-tab",
+        "group": "nav-wp-group",
+        "name": "Nav Waypoints Panel",
+        "order": 1,
+        "width": "24",
+        "height": "12",
+        "format": "<style>#nw-wrap{background:#1a1a2e;padding:10px;border-radius:8px;font-family:monospace;color:#ccc}.nw-hdr{color:#4fc3f7;font-weight:bold;font-size:14px;margin-bottom:8px}.nw-pose{color:#00ff88;font-size:12px;margin-bottom:10px;min-height:16px}.nw-save-row{display:flex;gap:8px;margin-bottom:10px;align-items:center}.nw-save-row input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;flex:1;outline:none}.nw-save-row input:focus{border-color:#4fc3f7}.nw-btn{border:none;border-radius:4px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:bold}.btn-save{background:#00897b;color:#fff}.btn-go{background:#1565c0;color:#fff}.btn-del{background:#c62828;color:#fff;padding:5px 8px}.btn-cancel{background:#e65100;color:#fff}.nw-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px}.nw-table th{color:#888;text-align:left;padding:4px 8px;border-bottom:1px solid #333}.nw-table td{color:#ccc;padding:4px 8px;border-bottom:1px solid #222;vertical-align:middle}.nw-table tr.active-row td{color:#00ff88;background:rgba(0,255,136,0.06)}.nw-footer{display:flex;align-items:center;gap:10px;font-size:12px}.st-idle{color:#888}.st-navigating{color:#ffd54f}.st-succeeded{color:#00ff88}.st-failed{color:#ef5350}.nw-empty{color:#555;text-align:center;padding:8px}</style><div id=\"nw-wrap\"><div class=\"nw-hdr\">Nav Waypoints</div><div class=\"nw-pose\" id=\"nw-pose\">Waiting for pose...</div><div class=\"nw-save-row\"><input id=\"nw-name\" type=\"text\" placeholder=\"Waypoint name e.g. HOME, PICK_A ...\" maxlength=\"32\" onkeydown=\"if(event.key==='Enter')nwSave()\"><button class=\"nw-btn btn-save\" onclick=\"nwSave()\">Save Waypoint</button></div><table class=\"nw-table\"><thead><tr><th>Name</th><th>X (m)</th><th>Y (m)</th><th>Yaw (deg)</th><th></th><th></th></tr></thead><tbody id=\"nw-tbody\"><tr><td class=\"nw-empty\" colspan=\"6\">Loading...</td></tr></tbody></table><div class=\"nw-footer\">Status: <span id=\"nw-status\" class=\"st-idle\">idle</span><button class=\"nw-btn btn-cancel\" onclick=\"nwCancel()\" style=\"margin-left:8px\">Cancel Nav</button></div></div><script>(function(){var BASE=\"http://localhost:5006\";function api(method,path,body){var opts={method:method,headers:{\"Content-Type\":\"application/json\"}};if(body!==undefined)opts.body=JSON.stringify(body);return fetch(BASE+path,opts).then(function(r){return r.json();});}window.nwSave=function(){var name=(document.getElementById(\"nw-name\").value||\"\").trim();if(!name){alert(\"Please enter a waypoint name\");return;}api(\"POST\",\"/save_waypoint\",{name:name}).then(function(r){if(r.status===\"ok\"){document.getElementById(\"nw-name\").value=\"\";poll();}else alert(\"Error: \"+r.status);}).catch(function(e){alert(\"Connection error: \"+e);});};window.nwGoto=function(name){api(\"POST\",\"/goto_waypoint\",{name:name}).then(function(r){if(r.status!==\"ok\")alert(\"Error: \"+r.status);poll();}).catch(function(e){alert(\"Connection error: \"+e);});};window.nwDelete=function(name){if(!confirm(\"Delete waypoint \\\"\"+name+\"\\\"?\"))return;api(\"DELETE\",\"/waypoint\",{name:name}).then(poll).catch(function(e){alert(\"Connection error: \"+e);});};window.nwCancel=function(){api(\"POST\",\"/cancel_nav\",{}).then(poll).catch(function(e){alert(\"Connection error: \"+e);});};function poll(){api(\"GET\",\"/status\").then(updateUI).catch(function(){document.getElementById(\"nw-pose\").textContent=\"Cannot connect to nav_waypoint_server (port 5006)\";var el=document.getElementById(\"nw-status\");el.textContent=\"offline\";el.className=\"st-failed\";});}function updateUI(data){var p=data.pose||{};var src=data.pose_source||\"?\";document.getElementById(\"nw-pose\").textContent=\"X: \"+(p.x||0).toFixed(3)+\"m  Y: \"+(p.y||0).toFixed(3)+\"m  Yaw: \"+(p.yaw||0).toFixed(1)+\"deg  [\"+src+\"]\";var ns=data.nav_status||\"idle\";var tgt=data.nav_target||\"\";var nsEl=document.getElementById(\"nw-status\");nsEl.textContent=ns+(tgt?\" -> \"+tgt:\"\");nsEl.className=\"st-\"+ns;var wps=data.waypoints||{};var names=Object.keys(wps).sort();var tbody=document.getElementById(\"nw-tbody\");tbody.innerHTML=\"\";if(names.length===0){var row=document.createElement(\"tr\");row.innerHTML=\"<td class=\\\"nw-empty\\\" colspan=\\\"6\\\">No waypoints yet. Drive robot to position and click Save.</td>\";tbody.appendChild(row);return;}names.forEach(function(name){var w=wps[name];var tr=document.createElement(\"tr\");if(data.nav_target===name)tr.className=\"active-row\";tr.innerHTML=\"<td><b>\"+name+\"</b></td>\"+\"<td>\"+(w.x||0).toFixed(3)+\"</td>\"+\"<td>\"+(w.y||0).toFixed(3)+\"</td>\"+\"<td>\"+(w.yaw||0).toFixed(1)+\"</td>\"+\"<td><button class=\\\"nw-btn btn-go\\\" onclick=\\\"nwGoto('\"+name+\"')\\\"\">Go</button></td>\"+\"<td><button class=\\\"nw-btn btn-del\\\" onclick=\\\"nwDelete('\"+name+\"')\\\"\">Del</button></td>\";tbody.appendChild(tr);});}setInterval(poll,2000);setTimeout(poll,500);}());</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 660,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "nav-wp-poll",
+        "type": "inject",
+        "z": "amr-map-tab",
+        "name": "Poll Waypoints (3s)",
+        "props": [],
+        "repeat": "3",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 8,
+        "topic": "",
+        "x": 160,
+        "y": 340,
+        "wires": [
+            [
+                "nav-wp-http-get"
+            ]
+        ]
+    },
+    {
+        "id": "nav-wp-http-get",
+        "type": "http request",
+        "z": "amr-map-tab",
+        "name": "GET /status (nav)",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:5006/status",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "nav-wp-func-canvas"
+            ]
+        ]
+    },
+    {
+        "id": "nav-wp-func-canvas",
+        "type": "function",
+        "z": "amr-map-tab",
+        "name": "Format Waypoints for Canvas",
+        "func": "if (!msg.payload || !msg.payload.waypoints) return null;\nvar wps = [];\nvar raw = msg.payload.waypoints;\nfor (var name in raw) {\n  wps.push({name: name, x: raw[name].x, y: raw[name].y, yaw: raw[name].yaw || 0});\n}\nmsg.payload = {type: 'waypoints', waypoints: wps, nav_target: msg.payload.nav_target || null};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 565,
+        "y": 340,
+        "wires": [
+            [
+                "ui-slam-map"
+            ]
+        ]
+    },
+    {
+        "id": "ba73373851a0903d",
+        "type": "comment",
+        "z": "7f25b3b6ca73783f",
+        "name": "🦾 UR5 Arm Control Dashboard — AMR MTT",
+        "info": "ต้องกด ENABLE ARM ก่อนถึงจะส่งคำสั่งได้\nปุ่ม STOP ทำงานได้เสมอโดยไม่ต้อง enable",
+        "x": 240,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "fc79040ebe60a474",
+        "type": "inject",
+        "z": "7f25b3b6ca73783f",
+        "name": "Init: arm disabled",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.3,
+        "topic": "",
+        "x": 140,
+        "y": 60,
+        "wires": [
+            [
+                "398cd047ca3cd472"
+            ]
+        ]
+    },
+    {
+        "id": "398cd047ca3cd472",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Set arm_enabled = false",
+        "func": "flow.set('arm_enabled', false);\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5f6ccc1af25afbeb",
+        "type": "ui_switch",
+        "z": "7f25b3b6ca73783f",
+        "name": "ENABLE ARM",
+        "label": "🔒 ENABLE ARM CONTROL",
+        "tooltip": "ต้องเปิดก่อนถึงจะส่งคำสั่งแขนได้",
+        "group": "arm-ui-group-safety",
+        "order": 1,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "decouple": "false",
+        "topic": "arm_enable",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "#2ea44f",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "#d73a49",
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "f7bddd58b37ec3c2"
+            ]
+        ]
+    },
+    {
+        "id": "f7bddd58b37ec3c2",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Set arm_enabled",
+        "func": "flow.set('arm_enabled', msg.payload === true || msg.payload === 'true');\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "11c69928bdcd99bd",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "arm-ui-group-safety",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "name": "Arm Status",
+        "label": "Status",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 610,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "f534b346f02658c8",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "ARM GUARD",
+        "func": "if (flow.get('arm_enabled') === true) {\n    return msg;\n} else {\n    node.warn('ARM DISABLED — กด ENABLE ARM ก่อน');\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 560,
+        "y": 440,
+        "wires": [
+            [
+                "c5d066a708c5f69f"
+            ]
+        ]
+    },
+    {
+        "id": "1a2e490b0ed95d42",
+        "type": "inject",
+        "z": "7f25b3b6ca73783f",
+        "name": "Subscribe on Start",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 1.5,
+        "topic": "",
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "8cb00515cd537ec1"
+            ]
+        ]
+    },
+    {
+        "id": "8cb00515cd537ec1",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Subscribe /joint_states",
+        "func": "msg.payload = JSON.stringify({\n    \"op\": \"subscribe\",\n    \"topic\": \"/joint_states\",\n    \"type\": \"sensor_msgs/JointState\"\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [
+                "c5d066a708c5f69f"
+            ]
+        ]
+    },
+    {
+        "id": "c5d066a708c5f69f",
+        "type": "websocket out",
+        "z": "7f25b3b6ca73783f",
+        "name": "Send to Rosbridge",
+        "server": "",
+        "client": "ws-arm-client",
+        "x": 810,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "3e2da934afeae9e1",
+        "type": "inject",
+        "z": "7f25b3b6ca73783f",
+        "name": "Init Sliders (Sync)",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 2,
+        "topic": "init_sync",
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "ac81bcc6bb4f6609"
+            ]
+        ]
+    },
+    {
+        "id": "ac81bcc6bb4f6609",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Enable Auto Sync",
+        "func": "flow.set('sync_sliders_now', true);\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b18fdef4d2b6a120",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "name": "J1 shoulder_pan",
+        "label": "J1 Shoulder Pan",
+        "tooltip": "ur5_shoulder_pan_joint",
+        "group": "arm-ui-group-joints",
+        "order": 1,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j1",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "64dcfc23a6901f04"
+            ]
+        ]
+    },
+    {
+        "id": "e78632b239307d61",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "name": "J2 shoulder_lift",
+        "label": "J2 Shoulder Lift",
+        "tooltip": "ur5_shoulder_lift_joint",
+        "group": "arm-ui-group-joints",
+        "order": 2,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j2",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "64dcfc23a6901f04"
+            ]
+        ]
+    },
+    {
+        "id": "1eb43eeb95815aa5",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "name": "J3 elbow",
+        "label": "J3 Elbow",
+        "tooltip": "ur5_elbow_joint",
+        "group": "arm-ui-group-joints",
+        "order": 3,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j3",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 360,
+        "wires": [
+            [
+                "64dcfc23a6901f04"
+            ]
+        ]
+    },
+    {
+        "id": "f28d4d03960f86d5",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "name": "J4 wrist_1",
+        "label": "J4 Wrist 1",
+        "tooltip": "ur5_wrist_1_joint",
+        "group": "arm-ui-group-joints",
+        "order": 4,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j4",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "64dcfc23a6901f04"
+            ]
+        ]
+    },
+    {
+        "id": "363c23b522a9f851",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "name": "J5 wrist_2",
+        "label": "J5 Wrist 2",
+        "tooltip": "ur5_wrist_2_joint",
+        "group": "arm-ui-group-joints",
+        "order": 5,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j5",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 440,
+        "wires": [
+            [
+                "64dcfc23a6901f04"
+            ]
+        ]
+    },
+    {
+        "id": "f7143859b9c76252",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "name": "J6 wrist_3",
+        "label": "J6 Wrist 3",
+        "tooltip": "ur5_wrist_3_joint",
+        "group": "arm-ui-group-joints",
+        "order": 6,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "j6",
+        "topicType": "str",
+        "min": "-3.14159",
+        "max": "3.14159",
+        "step": "0.01",
+        "x": 140,
+        "y": 480,
+        "wires": [
+            [
+                "64dcfc23a6901f04"
+            ]
+        ]
+    },
+    {
+        "id": "64dcfc23a6901f04",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Collect Joint Values",
+        "func": "flow.set(msg.topic, parseFloat(msg.payload));\n\nvar j1 = (flow.get('j1') !== undefined) ? flow.get('j1') : 0.0;\nvar j2 = (flow.get('j2') !== undefined) ? flow.get('j2') : -1.5708;\nvar j3 = (flow.get('j3') !== undefined) ? flow.get('j3') : -1.5708;\nvar j4 = (flow.get('j4') !== undefined) ? flow.get('j4') : -3.159;\nvar j5 = (flow.get('j5') !== undefined) ? flow.get('j5') : 0.0;\nvar j6 = (flow.get('j6') !== undefined) ? flow.get('j6') : 0.0;\n\nflow.set('joint_values', [j1, j2, j3, j4, j5, j6]);\n\nvar display = '';\ndisplay += 'J1: ' + j1.toFixed(4) + ' rad\\n';\ndisplay += 'J2: ' + j2.toFixed(4) + ' rad\\n';\ndisplay += 'J3: ' + j3.toFixed(4) + ' rad\\n';\ndisplay += 'J4: ' + j4.toFixed(4) + ' rad\\n';\ndisplay += 'J5: ' + j5.toFixed(4) + ' rad\\n';\ndisplay += 'J6: ' + j6.toFixed(4) + ' rad';\n\nmsg.payload = display;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 380,
+        "wires": [
+            [
+                "eb7cae9aa0aa29bd",
+                "efd6c5298e1fcce9"
+            ]
+        ]
+    },
+    {
+        "id": "efd6c5298e1fcce9",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "arm-ui-group-joints",
+        "order": 10,
+        "width": "12",
+        "height": "4",
+        "name": "Target Joint Positions",
+        "label": "Target Joint Positions (rad)",
+        "format": "<pre>{{msg.payload}}</pre>",
+        "layout": "col-center",
+        "x": 650,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "eb7cae9aa0aa29bd",
+        "type": "debug",
+        "z": "7f25b3b6ca73783f",
+        "name": "Current Joint Values",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8a4664cf9db81b8c",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "SEND to Arm",
+        "group": "arm-ui-group-joints",
+        "order": 7,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "▶ SEND TO ARM",
+        "tooltip": "Send current slider values as JointTrajectory",
+        "color": "white",
+        "bgcolor": "#2ea44f",
+        "icon": "",
+        "x": 140,
+        "y": 540,
+        "wires": [
+            [
+                "d9061dd59dbdb359"
+            ]
+        ]
+    },
+    {
+        "id": "8140f96fba06283b",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "STOP",
+        "group": "arm-ui-group-joints",
+        "order": 8,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "⛔ STOP",
+        "tooltip": "หยุดแขน — ทำงานได้แม้ ENABLE ปิดอยู่",
+        "color": "white",
+        "bgcolor": "#d73a49",
+        "icon": "",
+        "x": 140,
+        "y": 580,
+        "wires": [
+            [
+                "fc2859ea9c3b63a8"
+            ]
+        ]
+    },
+    {
+        "id": "fc2859ea9c3b63a8",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Build STOP Command",
+        "func": "// STOP ไม่ต้องผ่าน guard — ทำงานได้เสมอ\nvar currentPositions = flow.get('feedback_positions') || [0,0,0,0,0,0];\n\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\",\n            \"ur5_shoulder_lift_joint\",\n            \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\",\n            \"ur5_wrist_2_joint\",\n            \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": currentPositions,\n            \"velocities\": [0,0,0,0,0,0],\n            \"accelerations\": [],\n            \"effort\": [],\n            \"time_from_start\": { \"sec\": 0, \"nanosec\": 100000000 }\n        }]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 580,
+        "wires": [
+            [
+                "c5d066a708c5f69f"
+            ]
+        ]
+    },
+    {
+        "id": "d9061dd59dbdb359",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Build JointTrajectory",
+        "func": "var joints = flow.get('joint_values') || [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nvar duration = parseFloat(flow.get('traj_duration') || 2.0);\n\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\n            \"ur5_shoulder_pan_joint\",\n            \"ur5_shoulder_lift_joint\",\n            \"ur5_elbow_joint\",\n            \"ur5_wrist_1_joint\",\n            \"ur5_wrist_2_joint\",\n            \"ur5_wrist_3_joint\"\n        ],\n        \"points\": [{\n            \"positions\": joints,\n            \"velocities\": [],\n            \"accelerations\": [],\n            \"effort\": [],\n            \"time_from_start\": {\n                \"sec\": Math.floor(duration),\n                \"nanosec\": Math.round((duration % 1) * 1e9)\n            }\n        }]\n    }\n};\n\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 540,
+        "wires": [
+            [
+                "f534b346f02658c8",
+                "f6dc7b61e0158d16"
+            ]
+        ]
+    },
+    {
+        "id": "f6dc7b61e0158d16",
+        "type": "debug",
+        "z": "7f25b3b6ca73783f",
+        "name": "Debug Sent Command",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "90932d568240f8a2",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "name": "Duration (s)",
+        "label": "Duration (sec)",
+        "tooltip": "Time to reach target position",
+        "group": "arm-ui-group-joints",
+        "order": 9,
+        "width": "12",
+        "height": "1",
+        "passthru": true,
+        "outs": "all",
+        "topic": "duration",
+        "topicType": "str",
+        "min": "0.5",
+        "max": "5",
+        "step": "0.5",
+        "x": 140,
+        "y": 620,
+        "wires": [
+            [
+                "9fd3d419aef0005f"
+            ]
+        ]
+    },
+    {
+        "id": "9fd3d419aef0005f",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Set Duration",
+        "func": "flow.set('traj_duration', parseFloat(msg.payload));\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f70514d19d5b97a0",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "HOME",
+        "group": "arm-ui-group-presets",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "🏠 HOME",
+        "tooltip": "[0, -1.5708, -1.5708, -3.159, 0, 0]",
+        "color": "white",
+        "bgcolor": "#0366d6",
+        "icon": "",
+        "x": 140,
+        "y": 700,
+        "wires": [
+            [
+                "75b9e3fd8b2376a2"
+            ]
+        ]
+    },
+    {
+        "id": "75b9e3fd8b2376a2",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Preset: HOME",
+        "func": "var joints = [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 2, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 700,
+        "wires": [
+            [
+                "f534b346f02658c8"
+            ]
+        ]
+    },
+    {
+        "id": "46d3c913c2b79bf9",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "PRE_APPROACH",
+        "group": "arm-ui-group-presets",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "📦 PRE_APPROACH",
+        "tooltip": "[-1.3963, -2.2689, -1.1519, -1.2217, 1.5708, 0]",
+        "color": "white",
+        "bgcolor": "#6f42c1",
+        "icon": "",
+        "x": 140,
+        "y": 740,
+        "wires": [
+            [
+                "db902223275491fa"
+            ]
+        ]
+    },
+    {
+        "id": "db902223275491fa",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Preset: PRE_APPROACH",
+        "func": "var joints = [-1.3963, -2.2689, -1.1519, -1.2217, 1.5708, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 3, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 740,
+        "wires": [
+            [
+                "f534b346f02658c8"
+            ]
+        ]
+    },
+    {
+        "id": "6979155082da7883",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "LIFT_UP",
+        "group": "arm-ui-group-presets",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "⬆ LIFT_UP",
+        "tooltip": "[0, -2.7576, -1.5708, -3.3336, -1.5708, 0]",
+        "color": "white",
+        "bgcolor": "#e36209",
+        "icon": "",
+        "x": 140,
+        "y": 780,
+        "wires": [
+            [
+                "540583acc023ab6a"
+            ]
+        ]
+    },
+    {
+        "id": "540583acc023ab6a",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Preset: LIFT_UP",
+        "func": "var joints = [0.0, -2.7576, -1.5708, -3.3336, -1.5708, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 2, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 780,
+        "wires": [
+            [
+                "f534b346f02658c8"
+            ]
+        ]
+    },
+    {
+        "id": "4aba1a96555e6ae3",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "DROP_ROTATE",
+        "group": "arm-ui-group-presets",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "🔄 DROP_ROTATE",
+        "tooltip": "[1.5708, -1.5708, -1.5708, -3.159, 0, 0]",
+        "color": "white",
+        "bgcolor": "#cb2431",
+        "icon": "",
+        "x": 140,
+        "y": 820,
+        "wires": [
+            [
+                "b90a90d2b4f4d618"
+            ]
+        ]
+    },
+    {
+        "id": "b90a90d2b4f4d618",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Preset: DROP_ROTATE",
+        "func": "var joints = [1.5708, -1.5708, -1.5708, -3.159, 0.0, 0.0];\nflow.set('joint_values', joints);\nvar cmd = {\n    \"op\": \"publish\",\n    \"topic\": \"/ur_arm_controller/joint_trajectory\",\n    \"type\": \"trajectory_msgs/JointTrajectory\",\n    \"msg\": {\n        \"header\": { \"stamp\": { \"sec\": 0, \"nanosec\": 0 }, \"frame_id\": \"\" },\n        \"joint_names\": [\"ur5_shoulder_pan_joint\",\"ur5_shoulder_lift_joint\",\"ur5_elbow_joint\",\"ur5_wrist_1_joint\",\"ur5_wrist_2_joint\",\"ur5_wrist_3_joint\"],\n        \"points\": [{\"positions\": joints, \"velocities\": [], \"accelerations\": [], \"effort\": [], \"time_from_start\": {\"sec\": 2, \"nanosec\": 0}}]\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 820,
+        "wires": [
+            [
+                "f534b346f02658c8"
+            ]
+        ]
+    },
+    {
+        "id": "3062e44dea93b68b",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "Gripper OPEN",
+        "group": "arm-ui-group-gripper",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "✋ OPEN",
+        "tooltip": "Open gripper (position=0.0)",
+        "color": "white",
+        "bgcolor": "#2ea44f",
+        "icon": "",
+        "x": 140,
+        "y": 900,
+        "wires": [
+            [
+                "edfea376bb997047"
+            ]
+        ]
+    },
+    {
+        "id": "edfea376bb997047",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Gripper OPEN",
+        "func": "var cmd = {\n    \"op\": \"send_action_goal\",\n    \"action\": \"/robotiq_gripper_controller/gripper_cmd\",\n    \"action_type\": \"control_msgs/action/GripperCommand\",\n    \"args\": {\n        \"command\": {\n            \"position\": 0.0,\n            \"max_effort\": 100.0\n        }\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 900,
+        "wires": [
+            [
+                "f534b346f02658c8"
+            ]
+        ]
+    },
+    {
+        "id": "13215f084b0ad1d4",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "Gripper CLOSE",
+        "group": "arm-ui-group-gripper",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "👊 CLOSE",
+        "tooltip": "Close gripper (position=0.8)",
+        "color": "white",
+        "bgcolor": "#d73a49",
+        "icon": "",
+        "x": 140,
+        "y": 940,
+        "wires": [
+            [
+                "f582612723afa4f1"
+            ]
+        ]
+    },
+    {
+        "id": "f582612723afa4f1",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Gripper CLOSE",
+        "func": "var cmd = {\n    \"op\": \"send_action_goal\",\n    \"action\": \"/robotiq_gripper_controller/gripper_cmd\",\n    \"action_type\": \"control_msgs/action/GripperCommand\",\n    \"args\": {\n        \"command\": {\n            \"position\": 0.8,\n            \"max_effort\": 100.0\n        }\n    }\n};\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 940,
+        "wires": [
+            [
+                "f534b346f02658c8"
+            ]
+        ]
+    },
+    {
+        "id": "eee70247ae9e16c6",
+        "type": "websocket in",
+        "z": "7f25b3b6ca73783f",
+        "name": "Receive from Rosbridge",
+        "server": "",
+        "client": "ws-arm-client",
+        "x": 140,
+        "y": 1040,
+        "wires": [
+            [
+                "f2c28c86b757bed1"
+            ]
+        ]
+    },
+    {
+        "id": "f2c28c86b757bed1",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Parse /joint_states",
+        "func": "try {\n    var data = JSON.parse(msg.payload);\n    if (!data.msg || !data.msg.name || !data.msg.position) return null;\n\n    var names = data.msg.name;\n    var positions = data.msg.position;\n\n    var ur5Joints = [\n        'ur5_shoulder_pan_joint',\n        'ur5_shoulder_lift_joint',\n        'ur5_elbow_joint',\n        'ur5_wrist_1_joint',\n        'ur5_wrist_2_joint',\n        'ur5_wrist_3_joint'\n    ];\n\n    var result = {};\n    for (var i = 0; i < names.length; i++) {\n        if (ur5Joints.includes(names[i])) {\n            result[names[i]] = parseFloat(positions[i]);\n        }\n    }\n\n    // Store current positions for STOP command\n    var ur5Positions = ur5Joints.map(function(jn) { return result[jn] || 0.0; });\n    flow.set('feedback_positions', ur5Positions);\n\n    var display = '';\n    var sliders = [null, null, null, null, null, null];\n    var shouldSync = flow.get('sync_sliders_now');\n\n    ur5Joints.forEach(function(jn, idx) {\n        var shortName = ['J1','J2','J3','J4','J5','J6'][idx];\n        var val = result[jn] || 0.0;\n        display += shortName + ': ' + val.toFixed(4) + ' rad\\n';\n        if (shouldSync) {\n            sliders[idx] = {payload: val};\n            flow.set('j'+(idx+1), val);\n        }\n    });\n\n    if (shouldSync) {\n        flow.set('joint_values', ur5Joints.map(function(jn){ return result[jn]||0; }));\n        flow.set('sync_sliders_now', false);\n    }\n\n    msg.payload = display.trim();\n    return [msg, sliders[0], sliders[1], sliders[2], sliders[3], sliders[4], sliders[5]];\n\n} catch(e) {\n    return null;\n}",
+        "outputs": 7,
+        "noerr": 0,
+        "x": 390,
+        "y": 1040,
+        "wires": [
+            [
+                "6bb9c9201871f058",
+                "7e6641bea452b3e3"
+            ],
+            [
+                "b18fdef4d2b6a120"
+            ],
+            [
+                "e78632b239307d61"
+            ],
+            [
+                "1eb43eeb95815aa5"
+            ],
+            [
+                "f28d4d03960f86d5"
+            ],
+            [
+                "363c23b522a9f851"
+            ],
+            [
+                "f7143859b9c76252"
+            ]
+        ]
+    },
+    {
+        "id": "6bb9c9201871f058",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "arm-ui-group-feedback",
+        "order": 1,
+        "width": "12",
+        "height": "4",
+        "name": "Live Joint Positions",
+        "label": "Current Joint Positions (rad)",
+        "format": "<pre>{{msg.payload}}</pre>",
+        "layout": "col-center",
+        "x": 650,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "7e6641bea452b3e3",
+        "type": "debug",
+        "z": "7f25b3b6ca73783f",
+        "name": "Joint State Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "109ce0af2a0cccf0",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "name": "Sync",
+        "group": "arm-ui-group-presets",
+        "order": 5,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "♻ SYNC SLIDERS",
+        "tooltip": "Sync sliders กับตำแหน่งจริงของ robot",
+        "color": "white",
+        "bgcolor": "#6c757d",
+        "icon": "",
+        "x": 140,
+        "y": 860,
+        "wires": [
+            [
+                "27e3f5b2e2937f06"
+            ]
+        ]
+    },
+    {
+        "id": "27e3f5b2e2937f06",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "Trigger Sync",
+        "func": "flow.set('sync_sliders_now', true);\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e94bcc0010df59bd",
+        "type": "comment",
+        "z": "7f25b3b6ca73783f",
+        "name": "⚙️ Safety: ENABLE ARM ต้องเปิดก่อนส่งคำสั่ง / STOP ทำงานได้เสมอ",
+        "info": "guard node ตรวจ flow.arm_enabled ก่อนส่งทุกคำสั่ง\nยกเว้น STOP ซึ่ง bypass guard โดยตรง",
+        "x": 330,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "2fde53d903c39439",
+        "type": "inject",
+        "z": "7f25b3b6ca73783f",
+        "name": "Poll 500ms",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "0.2",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.5,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 1200,
+        "wires": [
+            [
+                "0a02858d05334be4"
+            ]
+        ]
+    },
+    {
+        "id": "0a02858d05334be4",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "GET /status",
+        "method": "GET",
+        "ret": "obj",
+        "url": "http://localhost:5005/status",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 340,
+        "y": 1200,
+        "wires": [
+            [
+                "761b4b059747ce3d"
+            ]
+        ]
+    },
+    {
+        "id": "761b4b059747ce3d",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "name": "parse status",
+        "func": "var d=msg.payload;\nif(!d||!d.eef)return null;\nvar e=d.eef,q=d.joints;\nflow.set('jog_saved_slots',d.saved_slots||[]);\nvar gripperStr=d.gripper_open?'🟢 OPEN':'🔴 CLOSED';\ngripperStr+=' ('+((d.gripper_pos||0)*180/Math.PI).toFixed(1)+'°)';\nvar modeColor=d.mode==='LOCKED'?'🔴':'🟢';\nreturn[\n  {payload:'X: '+e.x.toFixed(4)+'  Y: '+e.y.toFixed(4)+'  Z: '+e.z.toFixed(4)},\n  {payload:'Roll: '+e.roll.toFixed(1)+'°  Pitch: '+e.pitch.toFixed(1)+'°  Yaw: '+e.yaw.toFixed(1)+'°'},\n  {payload:q.map(function(v,i){return 'J'+(i+1)+':'+v.toFixed(1)}).join('  ')},\n  {payload:gripperStr},\n  {payload:modeColor+' '+(d.mode||'MANUAL')+(d.seq_running?' | ▶ SEQ RUNNING':'')}\n];",
+        "outputs": 5,
+        "noerr": 0,
+        "x": 560,
+        "y": 1200,
+        "wires": [
+            [
+                "e306b3a52128b018"
+            ],
+            [
+                "08325b7215e998d0"
+            ],
+            [
+                "4fc171e71c7cf1e0"
+            ],
+            [
+                "d2cbff5f148ce577"
+            ],
+            [
+                "jog-mode-text"
+            ]
+        ]
+    },
+    {
+        "id": "e306b3a52128b018",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-monitor",
+        "order": 1,
+        "width": "12",
+        "height": "1",
+        "label": "Position (m)",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 780,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "08325b7215e998d0",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-monitor",
+        "order": 2,
+        "width": "12",
+        "height": "1",
+        "label": "Rotation",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 780,
+        "y": 1210,
+        "wires": []
+    },
+    {
+        "id": "4fc171e71c7cf1e0",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-monitor",
+        "order": 3,
+        "width": "12",
+        "height": "1",
+        "label": "Joints (°)",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 780,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "d2cbff5f148ce577",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-monitor",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "label": "Gripper",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 780,
+        "y": 1270,
+        "wires": []
+    },
+    {
+        "id": "494f19c68c438bf0",
+        "type": "ui_dropdown",
+        "z": "7f25b3b6ca73783f",
+        "name": "Step",
+        "label": "Step Size",
+        "group": "jog-group-jog",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "5 mm",
+                "value": "0.005",
+                "type": "str"
+            },
+            {
+                "label": "10 mm",
+                "value": "0.010",
+                "type": "str"
+            },
+            {
+                "label": "20 mm",
+                "value": "0.020",
+                "type": "str"
+            },
+            {
+                "label": "50 mm",
+                "value": "0.050",
+                "type": "str"
+            },
+            {
+                "label": "100 mm",
+                "value": "0.100",
+                "type": "str"
+            }
+        ],
+        "payload": "0.020",
+        "topic": "step",
+        "topicType": "str",
+        "x": 140,
+        "y": 1320,
+        "wires": [
+            [
+                "379ae6375b2a854c"
+            ]
+        ]
+    },
+    {
+        "id": "379ae6375b2a854c",
+        "type": "change",
+        "z": "7f25b3b6ca73783f",
+        "name": "store step",
+        "rules": [
+            {
+                "t": "set",
+                "p": "jog_step",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "x": 340,
+        "y": 1320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23baa0cf675ca1ea",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "label": "⬆ Z+ Up",
+        "color": "white",
+        "bgcolor": "#2196F3",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1360,
+        "wires": [
+            [
+                "8900786ab8aded74"
+            ]
+        ]
+    },
+    {
+        "id": "8900786ab8aded74",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'z',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1360,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "3b94294991b7b16a",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "label": "⬇ Z- Down",
+        "color": "white",
+        "bgcolor": "#2196F3",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1400,
+        "wires": [
+            [
+                "89653e10f7dbc7cd"
+            ]
+        ]
+    },
+    {
+        "id": "89653e10f7dbc7cd",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'z',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1400,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "421da8c290bbc403",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "label": "▶ Y+ Fwd",
+        "color": "white",
+        "bgcolor": "#4CAF50",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1440,
+        "wires": [
+            [
+                "22380954362a93d8"
+            ]
+        ]
+    },
+    {
+        "id": "22380954362a93d8",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'y',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1440,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "9e81bbf7bdb915a7",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "label": "◀ Y- Back",
+        "color": "white",
+        "bgcolor": "#4CAF50",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1480,
+        "wires": [
+            [
+                "84ea4361e7d30592"
+            ]
+        ]
+    },
+    {
+        "id": "84ea4361e7d30592",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'y',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1480,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "1ed51864a551f56d",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "label": "X+ →",
+        "color": "white",
+        "bgcolor": "#FF9800",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1520,
+        "wires": [
+            [
+                "700de069dfc4359c"
+            ]
+        ]
+    },
+    {
+        "id": "700de069dfc4359c",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'x',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1520,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "85214062b1eadc03",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "label": "← X-",
+        "color": "white",
+        "bgcolor": "#FF9800",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1560,
+        "wires": [
+            [
+                "4bbf3a93c974781b"
+            ]
+        ]
+    },
+    {
+        "id": "4bbf3a93c974781b",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'x',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1560,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "868ff6a4701e385e",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 8,
+        "width": "2",
+        "height": "1",
+        "label": "↻ Wrist+",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1600,
+        "wires": [
+            [
+                "8d30db70fb4d0049"
+            ]
+        ]
+    },
+    {
+        "id": "8d30db70fb4d0049",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'wrist',dir:1,step:0.0873};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1600,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "d465712feeb0d524",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 9,
+        "width": "2",
+        "height": "1",
+        "label": "↺ Wrist-",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1640,
+        "wires": [
+            [
+                "4fd5bccc6533de2d"
+            ]
+        ]
+    },
+    {
+        "id": "4fd5bccc6533de2d",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'wrist',dir:-1,step:0.0873};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1640,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "30a21aa7e88cf144",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 10,
+        "width": "3",
+        "height": "1",
+        "label": "🏠 HOME",
+        "color": "white",
+        "bgcolor": "#F44336",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1680,
+        "wires": [
+            [
+                "3d6e9c122b7ab727"
+            ]
+        ]
+    },
+    {
+        "id": "3d6e9c122b7ab727",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /home",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/home",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 1680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6b127750a512d950",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 11,
+        "width": "2",
+        "height": "1",
+        "label": "✋ Open",
+        "color": "white",
+        "bgcolor": "#4CAF50",
+        "payload": "open",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1720,
+        "wires": [
+            [
+                "4f4744b51431e34a"
+            ]
+        ]
+    },
+    {
+        "id": "a426e197b7f5f94c",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 12,
+        "width": "2",
+        "height": "1",
+        "label": "✊ Close",
+        "color": "white",
+        "bgcolor": "#795548",
+        "payload": "close",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1760,
+        "wires": [
+            [
+                "4f4744b51431e34a"
+            ]
+        ]
+    },
+    {
+        "id": "4f4744b51431e34a",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={action:msg.payload};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1740,
+        "wires": [
+            [
+                "1599c9349c36b093"
+            ]
+        ]
+    },
+    {
+        "id": "1599c9349c36b093",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /gripper",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/gripper",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 490,
+        "y": 1740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1acfada9db716bb6",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /jog",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/jog",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 510,
+        "y": 1480,
+        "wires": [
+            [
+                "0831516c47c05670"
+            ]
+        ]
+    },
+    {
+        "id": "0831516c47c05670",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-jog",
+        "order": 13,
+        "width": "4",
+        "height": "1",
+        "label": "Jog Status",
+        "format": "{{msg.payload.status}}",
+        "layout": "row-left",
+        "x": 700,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "a4afe14f166349b2",
+        "type": "ui_dropdown",
+        "z": "7f25b3b6ca73783f",
+        "name": "Slot",
+        "label": "Position Slot",
+        "group": "jog-group-saveload",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Position 1",
+                "value": "1",
+                "type": "str"
+            },
+            {
+                "label": "Position 2",
+                "value": "2",
+                "type": "str"
+            },
+            {
+                "label": "Position 3",
+                "value": "3",
+                "type": "str"
+            },
+            {
+                "label": "Position 4",
+                "value": "4",
+                "type": "str"
+            },
+            {
+                "label": "Position 5",
+                "value": "5",
+                "type": "str"
+            },
+            {
+                "label": "Position 6",
+                "value": "6",
+                "type": "str"
+            },
+            {
+                "label": "Position 7",
+                "value": "7",
+                "type": "str"
+            },
+            {
+                "label": "Position 8",
+                "value": "8",
+                "type": "str"
+            },
+            {
+                "label": "Position 9",
+                "value": "9",
+                "type": "str"
+            },
+            {
+                "label": "Position 10",
+                "value": "10",
+                "type": "str"
+            },
+            {
+                "label": "Position 11",
+                "value": "11",
+                "type": "str"
+            },
+            {
+                "label": "Position 12",
+                "value": "12",
+                "type": "str"
+            },
+            {
+                "label": "Position 13",
+                "value": "13",
+                "type": "str"
+            },
+            {
+                "label": "Position 14",
+                "value": "14",
+                "type": "str"
+            },
+            {
+                "label": "Position 15",
+                "value": "15",
+                "type": "str"
+            },
+            {
+                "label": "Position 16",
+                "value": "16",
+                "type": "str"
+            },
+            {
+                "label": "Position 17",
+                "value": "17",
+                "type": "str"
+            },
+            {
+                "label": "Position 18",
+                "value": "18",
+                "type": "str"
+            },
+            {
+                "label": "Position 19",
+                "value": "19",
+                "type": "str"
+            },
+            {
+                "label": "Position 20",
+                "value": "20",
+                "type": "str"
+            }
+        ],
+        "payload": "1",
+        "topic": "slot",
+        "topicType": "str",
+        "x": 140,
+        "y": 1840,
+        "wires": [
+            [
+                "8a5708d1720115ed"
+            ]
+        ]
+    },
+    {
+        "id": "8a5708d1720115ed",
+        "type": "change",
+        "z": "7f25b3b6ca73783f",
+        "name": "store slot",
+        "rules": [
+            {
+                "t": "set",
+                "p": "jog_slot",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "x": 350,
+        "y": 1840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "316feb9bfcae5430",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-saveload",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "label": "💾 Save",
+        "color": "white",
+        "bgcolor": "#FF9800",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1880,
+        "wires": [
+            [
+                "bbb3f81c516c7a8c"
+            ]
+        ]
+    },
+    {
+        "id": "bbb3f81c516c7a8c",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={slot:flow.get('jog_slot')||'1'};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1880,
+        "wires": [
+            [
+                "9a18272cf52002c7"
+            ]
+        ]
+    },
+    {
+        "id": "9a18272cf52002c7",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /save_pos",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/save_pos",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 500,
+        "y": 1880,
+        "wires": [
+            [
+                "6f9710788a160ad6"
+            ]
+        ]
+    },
+    {
+        "id": "5155017bd125334f",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-saveload",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "label": "▶ Go To",
+        "color": "white",
+        "bgcolor": "#2196F3",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1920,
+        "wires": [
+            [
+                "98b5414b09776384"
+            ]
+        ]
+    },
+    {
+        "id": "98b5414b09776384",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={slot:flow.get('jog_slot')||'1'};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1920,
+        "wires": [
+            [
+                "0bf211153eca6ce0"
+            ]
+        ]
+    },
+    {
+        "id": "0bf211153eca6ce0",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /goto_pos",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/goto_pos",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 500,
+        "y": 1920,
+        "wires": [
+            [
+                "6f9710788a160ad6"
+            ]
+        ]
+    },
+    {
+        "id": "6f9710788a160ad6",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-saveload",
+        "order": 4,
+        "width": "5",
+        "height": "1",
+        "label": "Status",
+        "format": "{{msg.payload.status}}",
+        "layout": "row-left",
+        "x": 700,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "jog-btn-rx-up",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-orientation",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "label": "Pitch ↑ RX+",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1500,
+        "wires": [
+            [
+                "jog-fn-rx-up"
+            ]
+        ]
+    },
+    {
+        "id": "jog-fn-rx-up",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'rx',dir:1,step:parseFloat(flow.get('jog_step')||'0.0873')};return msg;",
+        "outputs": 1,
+        "x": 340,
+        "y": 1500,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "jog-btn-rx-dn",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-orientation",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "label": "Pitch ↓ RX-",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1500,
+        "wires": [
+            [
+                "jog-fn-rx-dn"
+            ]
+        ]
+    },
+    {
+        "id": "jog-fn-rx-dn",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'rx',dir:-1,step:parseFloat(flow.get('jog_step')||'0.0873')};return msg;",
+        "outputs": 1,
+        "x": 340,
+        "y": 1500,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "jog-btn-ry-up",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-orientation",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "label": "Roll ↑ RY+",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1540,
+        "wires": [
+            [
+                "jog-fn-ry-up"
+            ]
+        ]
+    },
+    {
+        "id": "jog-fn-ry-up",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'ry',dir:1,step:parseFloat(flow.get('jog_step')||'0.0873')};return msg;",
+        "outputs": 1,
+        "x": 340,
+        "y": 1540,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "jog-btn-ry-dn",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-orientation",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "label": "Roll ↓ RY-",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1540,
+        "wires": [
+            [
+                "jog-fn-ry-dn"
+            ]
+        ]
+    },
+    {
+        "id": "jog-fn-ry-dn",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload={axis:'ry',dir:-1,step:parseFloat(flow.get('jog_step')||'0.0873')};return msg;",
+        "outputs": 1,
+        "x": 340,
+        "y": 1540,
+        "wires": [
+            [
+                "1acfada9db716bb6"
+            ]
+        ]
+    },
+    {
+        "id": "jog-http-run-seq",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /run_sequence",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/run_sequence",
+        "x": 560,
+        "y": 1620,
+        "wires": [
+            [
+                "jog-seq-status-text"
+            ]
+        ]
+    },
+    {
+        "id": "jog-http-stop-seq",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /stop_sequence",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/stop_sequence",
+        "x": 560,
+        "y": 1660,
+        "wires": [
+            [
+                "jog-seq-status-text"
+            ]
+        ]
+    },
+    {
+        "id": "jog-http-lock",
+        "type": "http request",
+        "z": "7f25b3b6ca73783f",
+        "name": "POST /lock",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/lock",
+        "x": 560,
+        "y": 1740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "jog-seq-slots-input",
+        "type": "ui_text_input",
+        "z": "7f25b3b6ca73783f",
+        "label": "Slots (เช่น 1,2,3)",
+        "group": "jog-group-sequence",
+        "order": 1,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "",
+        "x": 140,
+        "y": 1600,
+        "wires": [
+            [
+                "jog-fn-save-slots"
+            ]
+        ]
+    },
+    {
+        "id": "jog-fn-save-slots",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "flow.set('seq_slots', msg.payload); return null;",
+        "outputs": 1,
+        "x": 340,
+        "y": 1600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "jog-seq-delay-slider",
+        "type": "ui_slider",
+        "z": "7f25b3b6ca73783f",
+        "label": "Delay (s)",
+        "tooltip": "",
+        "group": "jog-group-sequence",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "outs": "end",
+        "topic": "",
+        "min": "0.2",
+        "max": "5",
+        "step": "0.1",
+        "x": 140,
+        "y": 1640,
+        "wires": [
+            [
+                "jog-fn-save-delay"
+            ]
+        ]
+    },
+    {
+        "id": "jog-fn-save-delay",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "flow.set('seq_delay', msg.payload); return null;",
+        "outputs": 1,
+        "x": 340,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "jog-btn-run-seq",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-sequence",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "label": "▶ Run Sequence",
+        "color": "white",
+        "bgcolor": "#4CAF50",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 1680,
+        "wires": [
+            [
+                "jog-fn-run-seq"
+            ]
+        ]
+    },
+    {
+        "id": "jog-fn-run-seq",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "var raw = flow.get('seq_slots') || '1';\nvar slots = raw.split(',').map(function(s){return s.trim();}).filter(Boolean);\nvar delay = parseFloat(flow.get('seq_delay') || '1.0');\nmsg.payload = {slots: slots, delay_sec: delay};\nreturn msg;",
+        "outputs": 1,
+        "x": 340,
+        "y": 1680,
+        "wires": [
+            [
+                "jog-http-run-seq"
+            ]
+        ]
+    },
+    {
+        "id": "jog-btn-stop-seq",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-sequence",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "label": "⏹ Stop",
+        "color": "white",
+        "bgcolor": "#f44336",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 1720,
+        "wires": [
+            [
+                "jog-http-stop-seq"
+            ]
+        ]
+    },
+    {
+        "id": "jog-seq-status-text",
+        "type": "function",
+        "z": "7f25b3b6ca73783f",
+        "func": "msg.payload = msg.payload && msg.payload.status ? msg.payload.status : JSON.stringify(msg.payload); return msg;",
+        "outputs": 1,
+        "x": 760,
+        "y": 1640,
+        "wires": [
+            [
+                "jog-seq-status-display"
+            ]
+        ]
+    },
+    {
+        "id": "jog-seq-status-display",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-sequence",
+        "order": 5,
+        "width": "6",
+        "height": "1",
+        "label": "Sequence Status",
+        "format": "{{msg.value}}",
+        "x": 940,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "jog-mode-text",
+        "type": "ui_text",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-mode",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "label": "Mode",
+        "format": "{{msg.value}}",
+        "x": 940,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "jog-btn-lock",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-mode",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "label": "🔒 Lock Jog",
+        "color": "white",
+        "bgcolor": "#FF5722",
+        "payload": "{\"lock\":true}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 1780,
+        "wires": [
+            [
+                "jog-http-lock"
+            ]
+        ]
+    },
+    {
+        "id": "jog-btn-unlock",
+        "type": "ui_button",
+        "z": "7f25b3b6ca73783f",
+        "group": "jog-group-mode",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "label": "🔓 Unlock Jog",
+        "color": "white",
+        "bgcolor": "#607D8B",
+        "payload": "{\"lock\":false}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 1820,
+        "wires": [
+            [
+                "jog-http-lock"
+            ]
+        ]
+    },
+    {
+        "id": "2e4976d8c68a5bc6",
+        "type": "inject",
+        "z": "4792cf662a67706e",
+        "name": "Subscribe on Start",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 5,
+        "topic": "",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "5b2bb348e8489ade",
+                "633c830e4d7e1c64"
+            ]
+        ]
+    },
+    {
+        "id": "5b2bb348e8489ade",
+        "type": "function",
+        "z": "4792cf662a67706e",
+        "name": "Subscribe /map",
+        "func": "msg.payload = JSON.stringify({\n    \"op\": \"subscribe\",\n    \"topic\": \"/map\",\n    \"type\": \"nav_msgs/OccupancyGrid\",\n    \"throttle_rate\": 2000,\n    \"qos\": {\n        \"durability\": \"transient_local\",\n        \"reliability\": \"reliable\"\n    }\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 400,
+        "y": 60,
+        "wires": [
+            [
+                "3b317ba6475b9bf8"
+            ]
+        ]
+    },
+    {
+        "id": "633c830e4d7e1c64",
+        "type": "function",
+        "z": "4792cf662a67706e",
+        "name": "Subscribe /amcl_pose",
+        "func": "msg.payload = JSON.stringify({\n    \"op\": \"subscribe\",\n    \"topic\": \"/amcl_pose\",\n    \"type\": \"geometry_msgs/PoseWithCovarianceStamped\"\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 400,
+        "y": 100,
+        "wires": [
+            [
+                "3b317ba6475b9bf8"
+            ]
+        ]
+    },
+    {
+        "id": "3b317ba6475b9bf8",
+        "type": "websocket out",
+        "z": "4792cf662a67706e",
+        "name": "Send to Rosbridge",
+        "server": "",
+        "client": "ws-rosbridge-client",
+        "x": 640,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "bded0ae0ab67b1fa",
+        "type": "websocket in",
+        "z": "4792cf662a67706e",
+        "name": "Receive from Rosbridge",
+        "server": "",
+        "client": "ws-rosbridge-client",
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "f9f1514ed02ac3b6"
+            ]
+        ]
+    },
+    {
+        "id": "f9f1514ed02ac3b6",
+        "type": "function",
+        "z": "4792cf662a67706e",
+        "name": "Route by Topic",
+        "func": "try {\n    var data = JSON.parse(msg.payload);\n\n    if (data.topic === '/map') {\n        if (data.msg && data.msg.info) {\n            var info = data.msg.info;\n            flow.set('map_width', info.width);\n            flow.set('map_height', info.height);\n            flow.set('map_resolution', info.resolution);\n            flow.set('map_origin_x', info.origin.position.x);\n            flow.set('map_origin_y', info.origin.position.y);\n            flow.set('map_data', data.msg.data);\n        }\n        // Send full map payload to canvas\n        msg.payload = {\n            type: 'map',\n            width: flow.get('map_width') || 0,\n            height: flow.get('map_height') || 0,\n            resolution: flow.get('map_resolution') || 0.05,\n            origin_x: flow.get('map_origin_x') || 0,\n            origin_y: flow.get('map_origin_y') || 0,\n            data: flow.get('map_data') || [],\n            robot_x: flow.get('robot_x') || 0,\n            robot_y: flow.get('robot_y') || 0,\n            robot_yaw: flow.get('robot_yaw') || 0\n        };\n        return [msg, null];\n\n    } else if (data.topic === '/amcl_pose') {\n        if (data.msg && data.msg.pose && data.msg.pose.pose) {\n            var pose = data.msg.pose.pose;\n            var rx = pose.position.x;\n            var ry = pose.position.y;\n            var qz = pose.orientation.z;\n            var qw = pose.orientation.w;\n            var yaw = Math.atan2(2.0 * qw * qz, 1.0 - 2.0 * qz * qz);\n            flow.set('robot_x', rx);\n            flow.set('robot_y', ry);\n            flow.set('robot_yaw', yaw);\n            msg.payload = {\n                type: 'pose',\n                robot_x: rx,\n                robot_y: ry,\n                robot_yaw: yaw\n            };\n            return [null, msg];\n        }\n    }\n    return [null, null];\n} catch(e) {\n    return [null, null];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 390,
+        "y": 220,
+        "wires": [
+            [
+                "4b665cb12407975d"
+            ],
+            [
+                "4b665cb12407975d",
+                "473dbb7be54dd806"
+            ]
+        ]
+    },
+    {
+        "id": "4b665cb12407975d",
+        "type": "ui_template",
+        "z": "4792cf662a67706e",
+        "group": "amr-map-group",
+        "name": "SLAM Map Canvas",
+        "order": 1,
+        "width": "24",
+        "height": "14",
+        "format": "<style>\n  #slam-wrap { background:#1a1a2e; padding:8px; border-radius:8px; }\n  #slam-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }\n  #slam-title { color:#00ff88; font-weight:bold; font-size:14px; }\n  #map-status { color:#888; font-size:11px; }\n  #slam-canvas { width:100%; border:1px solid #333; border-radius:4px; background:#222; display:block; cursor:crosshair; }\n  #slam-legend { display:flex; gap:16px; margin-top:6px; font-size:11px; color:#aaa; }\n  #pose-info { margin-top:4px; font-size:12px; color:#00ff88; font-family:monospace; }\n</style>\n\n<div id=\"slam-wrap\">\n  <div id=\"slam-header\">\n    <span id=\"slam-title\">🗺️ 2D SLAM Map</span>\n    <span id=\"map-status\">Waiting for /map...</span>\n  </div>\n  <canvas id=\"slam-canvas\" width=\"900\" height=\"520\"></canvas>\n  <div id=\"slam-legend\">\n    <span style=\"color:#ddd;\">⬜ Free</span>\n    <span style=\"color:#333;\">⬛ Obstacle</span>\n    <span style=\"color:#888;\">▪ Unknown</span>\n    <span style=\"color:#00ff88;\">● Robot</span>\n  </div>\n  <div id=\"pose-info\">X: —  Y: —  Yaw: —</div>\n</div>\n\n<script>\n(function() {\n  var canvas = document.getElementById('slam-canvas');\n  var ctx    = canvas.getContext('2d');\n\n  var mapMeta  = null;   // { img, width, height, resolution, origin_x, origin_y }\n  var robot    = { x: 0, y: 0, yaw: 0 };\n\n  /* ── Build ImageData from OccupancyGrid data ── */\n  function buildMapImage(payload) {\n    var w    = payload.width;\n    var h    = payload.height;\n    var data = payload.data;\n    if (!w || !h || !data || data.length === 0) return;\n\n    var off    = document.createElement('canvas');\n    off.width  = w;\n    off.height = h;\n    var offCtx = off.getContext('2d');\n    var img    = offCtx.createImageData(w, h);\n\n    for (var i = 0; i < data.length; i++) {\n      var v = data[i];\n      var r, g, b;\n      if (v < 0)       { r=128; g=128; b=128; }   // unknown  → grey\n      else if (v < 50) { r=220; g=220; b=220; }   // free     → light\n      else             { r=30;  g=30;  b=40;  }   // occupied → dark\n\n      // OccupancyGrid: row 0 = bottom of world → flip Y\n      var row = h - 1 - Math.floor(i / w);\n      var col = i % w;\n      var idx = (row * w + col) * 4;\n      img.data[idx]     = r;\n      img.data[idx + 1] = g;\n      img.data[idx + 2] = b;\n      img.data[idx + 3] = 255;\n    }\n    offCtx.putImageData(img, 0, 0);\n\n    mapMeta = {\n      img       : off,\n      width     : w,\n      height    : h,\n      resolution: payload.resolution,\n      origin_x  : payload.origin_x,\n      origin_y  : payload.origin_y\n    };\n\n    var status = document.getElementById('map-status');\n    if (status) status.textContent =\n      w + '×' + h + ' cells  •  ' + (payload.resolution * 100).toFixed(1) + ' cm/cell';\n  }\n\n  /* ── Render map + robot onto main canvas ── */\n  function render() {\n    var cw = canvas.width;\n    var ch = canvas.height;\n    ctx.fillStyle = '#222';\n    ctx.fillRect(0, 0, cw, ch);\n\n    if (!mapMeta) return;\n\n    // Fit map into canvas with padding\n    var pad   = 10;\n    var scale = Math.min((cw - pad * 2) / mapMeta.width,\n                         (ch - pad * 2) / mapMeta.height);\n    var offX  = (cw - mapMeta.width  * scale) / 2;\n    var offY  = (ch - mapMeta.height * scale) / 2;\n\n    // Draw map image\n    ctx.imageSmoothingEnabled = false;\n    ctx.drawImage(mapMeta.img, offX, offY, mapMeta.width * scale, mapMeta.height * scale);\n\n    // Draw grid overlay (faint)\n    ctx.strokeStyle = 'rgba(0,255,136,0.05)';\n    ctx.lineWidth = 0.5;\n    var step = 50 / mapMeta.resolution * scale;  // every 50 cm real\n    for (var gx = offX; gx < cw; gx += step) { ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,ch); ctx.stroke(); }\n    for (var gy = offY; gy < ch; gy += step) { ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(cw,gy); ctx.stroke(); }\n\n    // World → canvas pixel\n    var res = mapMeta.resolution;\n    var px  = offX + ((robot.x - mapMeta.origin_x) / res) * scale;\n    var py  = offY + ((mapMeta.height - (robot.y - mapMeta.origin_y) / res)) * scale;\n\n    var rr = Math.max(7, Math.min(14, 10 * scale / 2));\n\n    // Glow ring\n    ctx.shadowBlur = 14;\n    ctx.shadowColor = '#00ff88';\n    ctx.beginPath();\n    ctx.arc(px, py, rr + 3, 0, 2 * Math.PI);\n    ctx.strokeStyle = 'rgba(0,255,136,0.3)';\n    ctx.lineWidth = 3;\n    ctx.stroke();\n\n    // Robot body\n    ctx.beginPath();\n    ctx.arc(px, py, rr, 0, 2 * Math.PI);\n    ctx.fillStyle = '#00ff88';\n    ctx.fill();\n    ctx.strokeStyle = '#ffffff';\n    ctx.lineWidth = 1.5;\n    ctx.stroke();\n\n    // Heading arrow\n    var yaw = robot.yaw;\n    var ax  = px + Math.cos(yaw)  * rr * 2.2;\n    var ay  = py - Math.sin(yaw)  * rr * 2.2;\n    ctx.beginPath();\n    ctx.moveTo(px, py);\n    ctx.lineTo(ax, ay);\n    ctx.strokeStyle = '#ffffff';\n    ctx.lineWidth = 2.5;\n    ctx.stroke();\n    // arrowhead\n    var alen = 5;\n    var angle = Math.atan2(-(ay - py), ax - px);\n    ctx.beginPath();\n    ctx.moveTo(ax, ay);\n    ctx.lineTo(ax - alen * Math.cos(angle - 0.4), ay + alen * Math.sin(angle - 0.4));\n    ctx.lineTo(ax - alen * Math.cos(angle + 0.4), ay + alen * Math.sin(angle + 0.4));\n    ctx.closePath();\n    ctx.fillStyle = '#ffffff';\n    ctx.fill();\n\n    ctx.shadowBlur = 0;\n\n    // Pose text\n    var info = document.getElementById('pose-info');\n    if (info) info.textContent =\n      'X: ' + robot.x.toFixed(3) + ' m   ' +\n      'Y: ' + robot.y.toFixed(3) + ' m   ' +\n      'Yaw: ' + (robot.yaw * 180 / Math.PI).toFixed(1) + '°';\n  }\n\n  /* ── Receive msg from Node-RED ── */\n  scope.$watch('msg', function(msg) {\n    if (!msg || !msg.payload) return;\n    var p = msg.payload;\n\n    if (p.type === 'map') {\n      robot.x   = p.robot_x   || 0;\n      robot.y   = p.robot_y   || 0;\n      robot.yaw = p.robot_yaw || 0;\n      buildMapImage(p);\n      render();\n    } else if (p.type === 'pose') {\n      robot.x   = p.robot_x;\n      robot.y   = p.robot_y;\n      robot.yaw = p.robot_yaw;\n      render();\n    }\n  });\n})();\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 650,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "473dbb7be54dd806",
+        "type": "debug",
+        "z": "4792cf662a67706e",
+        "name": "Debug Pose",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5e1c711dbc4f29f0",
+        "type": "comment",
+        "z": "4792cf662a67706e",
+        "name": "📡 ROS 2 → rosbridge → Node-RED 2D SLAM Map (Canvas)",
+        "info": "Subscribe /map (OccupancyGrid) + /amcl_pose\nRender occupancy grid บน HTML5 Canvas\nOverlay robot position + heading arrow\nไม่ใช้ worldmap หรือ external map tiles",
+        "x": 280,
+        "y": 30,
+        "wires": []
+    },
+    {
+        "id": "d753f7c83f75cd19",
+        "type": "ui_button",
+        "z": "4792cf662a67706e",
+        "name": "Reload Map",
+        "group": "amr-map-group",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "🔄 Reload Map",
+        "tooltip": "Re-subscribe /map จาก rosbridge",
+        "color": "white",
+        "bgcolor": "#0366d6",
+        "icon": "",
+        "x": 160,
+        "y": 140,
+        "wires": [
+            [
+                "5b2bb348e8489ade"
+            ]
+        ]
+    },
+    {
+        "id": "map-mgr-group",
+        "type": "ui_group",
+        "name": "🗺️ SLAM & Map Manager",
+        "tab": "arm-ui-tab",
+        "order": 10,
+        "disp": true,
+        "width": "24",
+        "collapse": false
+    },
+    {
+        "id": "map-mgr-panel",
+        "type": "ui_template",
+        "z": "amr-map-tab",
+        "group": "map-mgr-group",
+        "name": "SLAM & Map Manager Panel",
+        "order": 1,
+        "width": "24",
+        "height": "12",
+        "format": "<style>\n#mm-wrap{background:#1a1a2e;padding:12px;border-radius:8px;font-family:monospace;color:#ccc}\n.mm-hdr{color:#4fc3f7;font-weight:bold;font-size:15px;margin-bottom:10px;border-bottom:1px solid #333;padding-bottom:6px}\n.mm-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}\n.mm-label{color:#aaa;font-size:12px;min-width:90px}\n.mm-btn{border:none;border-radius:4px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:bold;transition:opacity .2s}\n.mm-btn:hover{opacity:.8}\n.mm-btn:active{opacity:.6}\n.btn-green{background:#00c853;color:#000}\n.btn-red{background:#d32f2f;color:#fff}\n.btn-blue{background:#1565c0;color:#fff}\n.btn-amber{background:#ff8f00;color:#000}\n.mm-input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1;min-width:120px}\n.mm-input:focus{border-color:#4fc3f7}\n.mm-select{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1}\n.mm-status{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap}\n.mm-badge{padding:3px 10px;border-radius:12px;font-size:12px;font-weight:bold}\n.badge-slam-on{background:#00c853;color:#000}\n.badge-slam-off{background:#444;color:#aaa}\n.badge-map{background:#1565c0;color:#fff}\n.badge-none{background:#333;color:#888}\n.mm-log{background:#111;border-radius:4px;padding:6px 8px;font-size:11px;color:#0f0;min-height:28px;margin-top:8px;border:1px solid #222;word-break:break-all}\n.mm-divider{border:none;border-top:1px solid #2a2a3e;margin:10px 0}\n.mm-map-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}\n.mm-map-chip{padding:3px 10px;border-radius:10px;font-size:11px;cursor:pointer;border:1px solid #555}\n.mm-map-chip.pkg{background:#1a237e;color:#90caf9}\n.mm-map-chip.user{background:#1b5e20;color:#a5d6a7}\n.mm-map-chip.selected{outline:2px solid #4fc3f7}\n</style>\n\n<div id=\"mm-wrap\">\n  <div class=\"mm-hdr\">🗺️ SLAM &amp; Map Manager</div>\n\n  <!-- Status -->\n  <div class=\"mm-status\">\n    <span id=\"mm-slam-badge\" class=\"mm-badge badge-slam-off\">⏹ SLAM OFF</span>\n    <span id=\"mm-navmap-badge\" class=\"mm-badge badge-none\">📂 No map loaded</span>\n  </div>\n\n  <!-- SLAM controls -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">SLAM Mapping</span>\n    <button class=\"mm-btn btn-green\" onclick=\"mmStartSlam()\">▶ Start SLAM</button>\n    <button class=\"mm-btn btn-red\"   onclick=\"mmStopSlam()\">⏹ Stop SLAM</button>\n  </div>\n\n  <hr class=\"mm-divider\">\n\n  <!-- Save map -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">Save Map</span>\n    <input class=\"mm-input\" id=\"mm-save-name\" placeholder=\"ชื่อ map เช่น warehouse_v1\" maxlength=\"40\">\n    <button class=\"mm-btn btn-amber\" onclick=\"mmSaveMap()\">💾 Save Map</button>\n  </div>\n\n  <hr class=\"mm-divider\">\n\n  <!-- Load map -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">Load to Nav2</span>\n    <select class=\"mm-select\" id=\"mm-map-select\"><option value=\"\">-- เลือก map --</option></select>\n    <button class=\"mm-btn btn-blue\" onclick=\"mmLoadMap()\">📂 Load Map</button>\n  </div>\n  <div id=\"mm-map-chips\" class=\"mm-map-list\"></div>\n\n  <!-- Log -->\n  <div class=\"mm-log\" id=\"mm-log\">รอ map_manager_node...</div>\n</div>\n\n<script>\n(function(){\n  var API = 'http://localhost:5007';\n  var lastMaps = [];\n  var selectedMap = '';\n\n  function log(msg){ document.getElementById('mm-log').textContent = msg; }\n\n  function updateUI(data){\n    // SLAM badge\n    var slamBadge = document.getElementById('mm-slam-badge');\n    if(data.slam_running){\n      slamBadge.className = 'mm-badge badge-slam-on';\n      slamBadge.textContent = '🔴 SLAM ON';\n    } else {\n      slamBadge.className = 'mm-badge badge-slam-off';\n      slamBadge.textContent = '⏹ SLAM OFF';\n    }\n    // Nav map badge\n    var mapBadge = document.getElementById('mm-navmap-badge');\n    if(data.nav_map){\n      mapBadge.className = 'mm-badge badge-map';\n      mapBadge.textContent = '📂 ' + data.nav_map;\n    } else {\n      mapBadge.className = 'mm-badge badge-none';\n      mapBadge.textContent = '📂 No map loaded';\n    }\n    // Map list\n    var maps = data.maps || [];\n    var sel = document.getElementById('mm-map-select');\n    var chips = document.getElementById('mm-map-chips');\n    // rebuild only if changed\n    var names = maps.map(function(m){return m.name+':'+m.source;}).join(',');\n    var lastName = lastMaps.map(function(m){return m.name+':'+m.source;}).join(',');\n    if(names !== lastName){\n      lastMaps = maps;\n      sel.innerHTML = '<option value=\"\">-- เลือก map --</option>';\n      chips.innerHTML = '';\n      maps.forEach(function(m){\n        var opt = document.createElement('option');\n        opt.value = m.name; opt.textContent = m.name + ' [' + m.source + ']';\n        sel.appendChild(opt);\n        var chip = document.createElement('span');\n        chip.className = 'mm-map-chip ' + m.source;\n        chip.textContent = m.name;\n        chip.title = m.path;\n        chip.onclick = function(){ selectedMap = m.name; sel.value = m.name; highlightChips(); };\n        chips.appendChild(chip);\n      });\n    }\n    if(selectedMap) sel.value = selectedMap;\n  }\n\n  function highlightChips(){\n    document.querySelectorAll('.mm-map-chip').forEach(function(c){\n      c.classList.toggle('selected', c.textContent === selectedMap);\n    });\n  }\n\n  function poll(){\n    fetch(API + '/status')\n      .then(function(r){return r.json();})\n      .then(updateUI)\n      .catch(function(){ document.getElementById('mm-slam-badge').textContent='⚠️ offline'; });\n  }\n\n  function mmStartSlam(){\n    log('กำลัง start SLAM...');\n    fetch(API + '/start_slam',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Start SLAM: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmStopSlam(){\n    log('กำลัง stop SLAM...');\n    fetch(API + '/stop_slam',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Stop SLAM: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmSaveMap(){\n    var name = document.getElementById('mm-save-name').value.trim();\n    if(!name){ log('กรุณาใส่ชื่อ map ก่อน'); return; }\n    log('กำลัง save map \"' + name + '\"...');\n    fetch(API + '/save_map',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Save map: ' + d.status); if(d.status==='ok') document.getElementById('mm-save-name').value=''; poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmLoadMap(){\n    var name = document.getElementById('mm-map-select').value;\n    if(!name){ log('กรุณาเลือก map ก่อน'); return; }\n    log('กำลัง load map \"' + name + '\" ไปยัง Nav2...');\n    fetch(API + '/load_map',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Load map: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  // expose to global for onclick\n  window.mmStartSlam = mmStartSlam;\n  window.mmStopSlam  = mmStopSlam;\n  window.mmSaveMap   = mmSaveMap;\n  window.mmLoadMap   = mmLoadMap;\n\n  setInterval(poll, 4000);\n  poll();\n})();\n</script>",
+        "storeOutMessages": true,
+        "fwd": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 760,
+        "y": 340,
+        "wires": [
+            []
         ]
     }
 ]
