@@ -78,8 +78,32 @@
 - [x] `pick_ik` node — inverse kinematics สำหรับ pick pose
 - [x] `coordinator_node` — Multi-task coordination state machine
 - [x] `task_sequence` node — Full autonomous pick → navigate → drop pipeline
-- [x] Node-RED dashboard — ควบคุม joint ทีละตัว + gripper control
-- [x] `arm_jog_node` — real-time arm jogging
+- [x] `arm_jog_node` — real-time arm jogging (HTTP REST port 5005)
+- [x] `nav_waypoint_server` — บันทึก/ไปยัง waypoint (HTTP REST port 5006)
+- [x] `map_manager_node` — Start/Stop SLAM, Save/Load map (HTTP REST port 5007)
+
+#### Node-RED Dashboard (`amr_mtt_flows.json`)
+
+**Section ที่เสร็จแล้ว:**
+- [x] **Section 0 — Safety**: ENABLE ARM switch + ARM GUARD (block เมื่อ disabled)
+- [x] **Section 0 — Emergency Stop**: 🚨 EMERGENCY STOP button — ตัดทั้งระบบ (arm + nav), bypass guard, alert banner กะพริบแดง
+- [x] **Section 0 — Reset**: 🔓 RESET EMERGENCY button + System Status banner (เขียว/แดง)
+- [x] **Section 1 — Joint Control**: Slider J1–J6 (±π rad), Duration, SEND, STOP
+- [x] **Section 2 — Preset Poses**: HOME / PRE_APPROACH / LIFT_UP / DROP_ROTATE + SYNC SLIDERS
+- [x] **Section 3 — Live Joint State**: Subscribe `/joint_states`, แสดง feedback real-time
+- [x] **Section 4 — EEF Monitor**: X/Y/Z, Roll/Pitch/Yaw, Gripper state (poll 200ms)
+- [x] **Section 5 — Cartesian Jog**: X±/Y±/Z±/Wrist± step 5–100mm + Gripper Open/Close
+- [x] **Section 6 — Save/Load Position**: 20 slot บันทึก/เรียกคืน joint positions
+- [x] **Section 7 — 2D SLAM Map**: HTML5 Canvas แสดง OccupancyGrid + robot + waypoints
+- [x] **Section 8 — Nav Waypoints**: Save/Go/Delete waypoint, Cancel nav, สถานะ real-time
+
+**Backend ที่ Node-RED ใช้:**
+| Backend | Port | ใช้กับ Section |
+|---|---|---|
+| rosbridge WebSocket | 9090 | 0,1,2,3,7 |
+| arm_jog_node HTTP | 5005 | 0(emg),4,5,6 |
+| nav_waypoint_server HTTP | 5006 | 0(emg),8 |
+| map_manager_node HTTP | 5007 | 7(SLAM manager) |
 
 ### กำลังพัฒนา / In Progress
 - [ ] ปรับจูน pick pose coordinates ให้แม่นยำกับ parcel box (6×6×8 cm)
@@ -89,8 +113,9 @@
 
 ### Package หลัก
 - `amr_mtt_moveit_config` — MoveIt config, move_group launch
-- `amr_mtt_task_planner` — task_sequence, coordinator_node, planning_scene_setup
+- `amr_mtt_task_planner` — task_sequence, coordinator_node, planning_scene_setup, arm_jog_node, nav_waypoint_server
 - `amr_mtt_gripper` — gripper controller configuration
+- `node_red_flows/amr_mtt_flows.json` — Dashboard flow (9 sections)
 
 ---
 

@@ -86,13 +86,13 @@ wait_for_topic() {
     printf "\r%-80s\n" "  ✓ $TOPIC พร้อมแล้ว (${ELAPSED}s)"
 }
 
-# ── Step 1: Gazebo + MoveIt ──────────────────────
-log "Step 1/6 — Gazebo + MoveIt"
+# ── Step 1: Gazebo Simulation ────────────────────
+log "Step 1/6 — Gazebo Simulation"
 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia \
-    ros2 launch amr_mtt_moveit_config moveit.launch.py \
-    > "$LOG_DIR/moveit.log" 2>&1 &
+    ros2 launch amr_mtt_bot launch_sim_amr.launch.py \
+    > "$LOG_DIR/gazebo.log" 2>&1 &
 PID_MOVEIT=$!
-wait_for_topic "/clock" "$LOG_DIR/moveit.log" 90
+wait_for_topic "/clock" "$LOG_DIR/gazebo.log" 90
 sleep 3
 
 # ── Step 2: Nav2 ─────────────────────────────────
@@ -130,7 +130,7 @@ ELAPSED=0
 until ros2 action list 2>/dev/null | grep -q "follow_joint_trajectory"; do
     sleep 2; ELAPSED=$((ELAPSED+2))
     if [ $ELAPSED -ge 60 ]; then
-        err "ur_arm_controller timeout — ดู log: tail -f $LOG_DIR/moveit.log"; cleanup
+        err "ur_arm_controller timeout — ดู log: tail -f $LOG_DIR/gazebo.log"; cleanup
     fi
 done
 echo "  ✓ ur_arm_controller พร้อมแล้ว (${ELAPSED}s)"
