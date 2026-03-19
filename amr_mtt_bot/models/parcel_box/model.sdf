@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="parcel_box">
+
+    <link name="link">
+
+      <!-- ฟิสิกส์: กล่องพัสดุ 0.3 kg  7×12×10 cm -->
+      <inertial>
+        <mass>0.3</mass>
+        <inertia>
+          <!-- ixx = m*(d²+h²)/12 = 0.3*(0.12²+0.10²)/12 -->
+          <ixx>0.000610</ixx>
+          <ixy>0</ixy><ixz>0</ixz>
+          <!-- iyy = m*(w²+h²)/12 = 0.3*(0.07²+0.10²)/12 -->
+          <iyy>0.000373</iyy>
+          <iyz>0</iyz>
+          <!-- izz = m*(w²+d²)/12 = 0.3*(0.07²+0.12²)/12 -->
+          <izz>0.000483</izz>
+        </inertia>
+      </inertial>
+
+      <!-- ── 1. ตัวกล่องหลัก: cardboard brown ── -->
+      <visual name="box_body">
+        <geometry><box><size>0.07 0.12 0.10</size></box></geometry>
+        <material>
+          <ambient>0.72 0.52 0.28 1</ambient>
+          <diffuse>0.80 0.60 0.35 1</diffuse>
+          <specular>0.04 0.04 0.02 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── 2. พื้น label สีขาว (กระดาษ) บนหน้าบน ── -->
+      <visual name="label_paper">
+        <pose>0.005 0.01 0.0503 0 0 0</pose>
+        <geometry><box><size>0.054 0.082 0.001</size></box></geometry>
+        <material>
+          <ambient>0.96 0.94 0.90 1</ambient>
+          <diffuse>0.98 0.96 0.92 1</diffuse>
+          <specular>0.15 0.15 0.15 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── 3. label สีแดง (shipping label) บนหน้าบน ── -->
+      <visual name="label_red">
+        <pose>0.005 0.01 0.0506 0 0 0</pose>
+        <geometry><box><size>0.046 0.070 0.001</size></box></geometry>
+        <material>
+          <ambient>0.82 0.06 0.06 1</ambient>
+          <diffuse>0.95 0.10 0.10 1</diffuse>
+          <specular>0.12 0.05 0.05 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── 4. เทปกาว แนว Y บนหน้าบน (front→back) ── -->
+      <visual name="tape_top">
+        <pose>0 0 0.0509 0 0 0</pose>
+        <geometry><box><size>0.018 0.122 0.001</size></box></geometry>
+        <material>
+          <ambient>0.88 0.80 0.55 1</ambient>
+          <diffuse>0.90 0.83 0.58 1</diffuse>
+          <specular>0.50 0.45 0.25 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── 5. เทปกาวลงหน้า front face (y = -0.06) ── -->
+      <visual name="tape_front">
+        <pose>0 -0.0601 0.028 1.5708 0 0</pose>
+        <geometry><box><size>0.018 0.044 0.001</size></box></geometry>
+        <material>
+          <ambient>0.88 0.80 0.55 1</ambient>
+          <diffuse>0.90 0.83 0.58 1</diffuse>
+          <specular>0.50 0.45 0.25 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── 6. เทปกาวลงหน้า back face (y = +0.06) ── -->
+      <visual name="tape_back">
+        <pose>0 0.0601 0.028 -1.5708 0 0</pose>
+        <geometry><box><size>0.018 0.044 0.001</size></box></geometry>
+        <material>
+          <ambient>0.88 0.80 0.55 1</ambient>
+          <diffuse>0.90 0.83 0.58 1</diffuse>
+          <specular>0.50 0.45 0.25 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── 7. รอยพับฝากล่อง (center seam) แนว X ── -->
+      <visual name="seam_top">
+        <pose>0 0 0.0507 0 0 0</pose>
+        <geometry><box><size>0.072 0.003 0.001</size></box></geometry>
+        <material>
+          <ambient>0.50 0.34 0.16 1</ambient>
+          <diffuse>0.52 0.36 0.18 1</diffuse>
+          <specular>0.0 0.0 0.0 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── 8. address label ที่หน้ากล่อง front face ── -->
+      <visual name="address_label">
+        <pose>0 -0.0602 0.020 1.5708 0 0</pose>
+        <geometry><box><size>0.038 0.028 0.001</size></box></geometry>
+        <material>
+          <ambient>0.95 0.93 0.88 1</ambient>
+          <diffuse>0.97 0.95 0.90 1</diffuse>
+          <specular>0.10 0.10 0.10 1</specular>
+        </material>
+      </visual>
+
+      <!-- ── Collision ── -->
+      <collision name="collision">
+        <geometry><box><size>0.07 0.12 0.10</size></box></geometry>
+        <surface>
+          <friction>
+            <ode><mu>0.9</mu><mu2>0.9</mu2></ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1000000.0</kp>
+              <kd>10.0</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+
+    </link>
+  </model>
+</sdf>

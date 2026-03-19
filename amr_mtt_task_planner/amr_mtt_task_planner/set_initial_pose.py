@@ -67,7 +67,9 @@ class SetInitialPoseNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = SetInitialPoseNode()
-    rclpy.spin(node)
+    # spin จนกว่าจะ publish เสร็จ แล้วออก
+    while rclpy.ok() and not node._published:
+        rclpy.spin_once(node, timeout_sec=0.1)
     node.destroy_node()
     rclpy.shutdown()
 

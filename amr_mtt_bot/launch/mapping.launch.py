@@ -38,37 +38,8 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}, {'robot_description': doc.toxml()}]
     )
 
-    # 3.2 Lidar Bridge (รับข้อมูลจาก Gazebo)
-    lidar_bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        name='lidar_bridge',
-        arguments=[
-            '/lidar_front/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
-            '/lidar_rear/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan'
-        ],
-        output='screen'
-    )
-
-    # 3.3 Dual Lidar Merger (รวมข้อมูลเป็น /merged)
-    dual_lidar_merger = Node(
-        package='dual_laser_merger', # ตรวจสอบชื่อ package ให้ตรงกับที่คุณลงไว้
-        executable='dual_laser_merger_node',
-        name='dual_laser_merger',
-        output='screen',
-        parameters=[{
-            'laser_1_topic': '/lidar_front/scan',
-            'laser_2_topic': '/lidar_rear/scan',
-            'merged_topic': '/merged',               
-            'target_frame': 'base_link',
-            'publish_rate': 20, # ปรับความถี่ตามเหมาะสม
-            'range_min': 0.30,
-            'range_max': 25.0,
-            'angle_min': -3.141592654,
-            'angle_max': 3.141592654,
-            'use_inf': False
-        }]
-    )
+    # หมายเหตุ: lidar_bridge และ dual_laser_merger เปิดจาก amr_mtt_ign_spawn.launch.py แล้ว
+    # merged scan อยู่ที่ /amr_mtt/scan — ไม่ต้องเปิดซ้ำ
 
     # ---------------------------------------------------------
     # 4. SLAM & Visualization
@@ -101,8 +72,6 @@ def generate_launch_description():
         
         # รันทุกอย่างพร้อมกัน
         robot_state_publisher,
-        lidar_bridge,
-        dual_lidar_merger,
         slam_toolbox_launch_cmd,
         rviz_launch_cmd
     ])

@@ -41,7 +41,7 @@
           <diffuse>1 1 1 1</diffuse>
           <pbr>
             <metal>
-              <albedo_map>model://charging_dock/materials/textures/aruco_marker_0.png</albedo_map>
+              <albedo_map>model://charging_dock/materials/textures/apriltag_36h11_0.png</albedo_map>
             </metal>
           </pbr>
         </material>

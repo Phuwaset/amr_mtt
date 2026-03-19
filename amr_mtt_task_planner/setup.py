@@ -25,15 +25,15 @@ setup(
     entry_points={
         'console_scripts': [
             'coordinator_node = amr_mtt_task_planner.coordinator_node:main',
-            'coordinator_demo_tf = amr_mtt_task_planner.coordinator_demo_tf:main',
-            'spawn_box_marker = amr_mtt_task_planner.spawn_box_marker:main',
             'planning_scene_setup = amr_mtt_task_planner.planning_scene_setup:main',
-            'pick_sequence = amr_mtt_task_planner.pick_sequence:main',
             'nav_sequence = amr_mtt_task_planner.nav_sequence:main',
             'save_waypoint = amr_mtt_task_planner.save_waypoint:main',
             'task_sequence = amr_mtt_task_planner.task_sequence:main',
             'set_initial_pose = amr_mtt_task_planner.set_initial_pose:main',
-            'pick_drop_sequence = amr_mtt_task_planner.pick_drop_sequence:main',
+            'pick_ik = amr_mtt_task_planner.pick_ik:main',
+            'arm_jog_node = amr_mtt_task_planner.arm_jog_node:main',
+            'nav_waypoint_server = amr_mtt_task_planner.nav_waypoint_server:main',
+            'map_manager_node = amr_mtt_task_planner.map_manager_node:main',
         ],
     },
 )

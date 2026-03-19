@@ -32,11 +32,11 @@ diff_drive_controller:
       linear:
         x:
           has_velocity_limits: true
-          max_velocity: 1.0
+          max_velocity: 0.8
           has_acceleration_limits: true
-          max_acceleration: 0.35  # ค่านี้ยิ่งน้อย ยิ่งออกตัวนิ่มครับ
+          max_acceleration: 1.5
           has_deceleration_limits: true
-          max_deceleration: -0.30  # ชะลอนุ่ม (ค่ายิ่งน้อย ยิ่งเบรกนิ่ม)
+          max_deceleration: -1.5
           has_jerk_limits: true
           max_jerk: 0.5  # จำกัดความกระชาก
       angular:

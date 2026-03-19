@@ -25,6 +25,8 @@
 
   <!-- Vision -->
   <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>apriltag_ros</exec_depend>
+  <exec_depend>apriltag_msgs</exec_depend>
 
   <!-- Base robot -->
   <exec_depend>amr_mtt_bot</exec_depend>

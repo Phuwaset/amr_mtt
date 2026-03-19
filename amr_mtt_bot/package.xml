@@ -43,6 +43,7 @@
 	<exec_depend>nav2_bringup</exec_depend>
 	<exec_depend>nav2_map_server</exec_depend>
 	<exec_depend>slam_toolbox</exec_depend>
+	<exec_depend>robot_localization</exec_depend>
 
 	<!-- Sensor processing -->
 	<exec_depend>dual_laser_merger</exec_depend>

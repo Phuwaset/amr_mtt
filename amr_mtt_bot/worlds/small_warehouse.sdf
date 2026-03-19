@@ -321,53 +321,48 @@
     </model>
 
     <!-- ===================================================== -->
-    <!-- กล่องพัสดุ (Dynamic + ฟิสิกส์) วางบนหน้าโต๊ะ         -->
-    <!-- z = 0.785 (table top center) + 0.015 (half top) +     -->
-    <!--     0.05 (half box) = 0.85                            -->
+    <!-- กล่องพัสดุ 6 ใบ — 2 แถว × 3 กล่อง บนโต๊ะ pick_table  -->
+    <!-- model: parcel_box (7×12×10 cm, 0.3 kg)               -->
+    <!-- โต๊ะ center (-1.5, -0.5)  surface z=0.80             -->
+    <!-- X: center-to-center 14cm → gap 7cm  (finger clearance)-->
+    <!-- Y: center-to-center 22cm → gap 10cm (gripper body)   -->
+    <!-- แถว front (y=-0.610) / แถว back (y=-0.390)           -->
+    <!-- x: -1.640 / -1.500 / -1.360                          -->
     <!-- ===================================================== -->
-    <model name="parcel_box">
-      <pose>-1.5 -0.5 0.84 0 0 0</pose>
-      <link name="link">
-        <inertial>
-          <mass>0.1</mass>
-          <inertia>
-            <ixx>0.0000833</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.0000833</iyy>
-            <iyz>0</iyz>
-            <izz>0.00006</izz>
-          </inertia>
-        </inertial>
-        <visual name="visual">
-          <geometry>
-            <box><size>0.05 0.15 0.07</size></box>
-          </geometry>
-          <material>
-            <ambient>1.0 0.0 0.0 1</ambient>
-            <diffuse>1.0 0.0 0.0 1</diffuse>
-            <specular>0.2 0.2 0.2 1</specular>
-          </material>
-        </visual>
-        <collision name="collision">
-          <geometry>
-            <box><size>0.05 0.15 0.07</size></box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode><mu>0.8</mu><mu2>0.8</mu2></ode>
-            </friction>
-            <contact>
-              <ode>
-                <kp>1000000.0</kp>
-                <kd>10.0</kd>
-                <min_depth>0.001</min_depth>
-              </ode>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-    </model>
+
+    <!-- แถวหน้า (front row) — ใกล้หุ่น -->
+    <include>
+      <uri>model://parcel_box</uri>
+      <name>parcel_box_f1</name>
+      <pose>-1.640 -0.610 0.85 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://parcel_box</uri>
+      <name>parcel_box_f2</name>
+      <pose>-1.500 -0.610 0.85 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://parcel_box</uri>
+      <name>parcel_box_f3</name>
+      <pose>-1.360 -0.610 0.85 0 0 0</pose>
+    </include>
+
+    <!-- แถวหลัง (back row) -->
+    <include>
+      <uri>model://parcel_box</uri>
+      <name>parcel_box_b1</name>
+      <pose>-1.640 -0.390 0.85 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://parcel_box</uri>
+      <name>parcel_box_b2</name>
+      <pose>-1.500 -0.390 0.85 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://parcel_box</uri>
+      <name>parcel_box_b3</name>
+      <pose>-1.360 -0.390 0.85 0 0 0</pose>
+    </include>
 
     	
     <light name="Warehouse_CeilingLight_003" type="point">

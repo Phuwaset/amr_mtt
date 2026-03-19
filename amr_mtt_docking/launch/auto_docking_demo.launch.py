@@ -4,279 +4,210 @@
 Auto Docking Demo - Unified Launch File
 =======================================
 Single entry point for the entire AMR Auto-Docking System.
-Functionality:
-- Launches Gazebo Simulation (Warehouse World)
-- Spawns AMR Robot and Charging Dock
-- Sets up ROS-Gazebo Bridges (Sensors, Cmd_vel, TF)
-- Launches Robot State Publisher & Controllers
-- Launches RViz2 for visualization
-- Launches Auto Docking Node (Logic)
-- Launches Battery Monitor GUI (Control)
+- ใช้ ign.launch.py เป็น base (เหมือน launch_sim_amr.launch.py)
+- Robot spawn position เหมือนกับ launch_sim_amr.launch.py
+- ส่งแขนกลไป HOME_POS หลัง 12 วินาที
+- Spawn charging_dock เพิ่มเติม
+- Launch enhanced_auto_docking_node
 """
 
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, TimerAction
+from launch.actions import (
+    IncludeLaunchDescription, OpaqueFunction,
+    TimerAction, ExecuteProcess
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, Command
-from launch.conditions import IfCondition
 from launch_ros.actions import Node
 
-def generate_launch_description():
-    # Package Directories
-    pkg_amr_mtt_bot = get_package_share_directory('amr_mtt_bot')
-    pkg_amr_mtt_docking = get_package_share_directory('amr_mtt_docking')
-    pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
+# ============================================================
+# HOME POSITION (radians) - อัปเดตค่าตรงนี้เพื่อเปลี่ยน Home Pose ของแขนกล
+# [pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3]
+# ค่าปัจจุบัน:  0°,     -90°,      -90°,    -181°,    0°,      0°
+HOME_POS = [0.0, -1.5708, -1.5708, -3.159, 0.0, 0.0]
 
-    # Paths (use share directory for installed packages)
-    # For development, these will point to install/share
-    # models_path = os.path.join(pkg_amr_mtt_bot, 'models')
-    
-    # Hardcoded paths for development (update when deployed)
-    models_path_src = os.path.join(pkg_amr_mtt_bot, 'models')
-    pkg_root_path = os.path.join(pkg_amr_mtt_bot, '..')
-    
-    # Try to use bcr_bot warehouse world if available, otherwise use our own
-    try:
-        warehouse_world_path = "/opt/ros/humble/share/bcr_bot/worlds"
-    except:
-        warehouse_world_path = os.path.join(pkg_amr_mtt_bot, 'worlds')
+# ตำแหน่งเริ่มต้นของหุ่นยนต์ (เหมือน launch_sim_amr.launch.py)
+ROBOT_START_X   = '-1.7'
+ROBOT_START_Y   = '-1.3'
+ROBOT_START_YAW = '0.0'
 
-    # ========== Launch Arguments ==========
-    use_sim_time = LaunchConfiguration('use_sim_time')
-    declare_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time', default_value='true', description='Use simulation time')
+# ตำแหน่ง Charging Dock 
+DOCK_X   = '-2.3'
+DOCK_Y   = '-4.0'
+DOCK_YAW = '0.0'  
+# ============================================================
 
-    enable_rviz = LaunchConfiguration('enable_rviz')
-    declare_enable_rviz = DeclareLaunchArgument(
-        'enable_rviz', default_value='true', description='Launch RViz')
 
-    enable_gui = LaunchConfiguration('enable_gui')
-    declare_enable_gui = DeclareLaunchArgument(
-        'enable_gui', default_value='true', description='Launch Battery Monitor GUI')
+def prompt_user(context, *args, **kwargs):
+    """Prompt user for sensor configuration (เหมือน launch_sim_amr.launch.py)."""
+    print("\n--- Auto Docking Demo Configuration ---")
 
-    two_d_lidar_enabled = LaunchConfiguration('two_d_lidar_enabled') == True
-    
-    
-    # ========== Environment Setup ==========
-    # Append to existing IGN_GAZEBO_RESOURCE_PATH
-    if 'IGN_GAZEBO_RESOURCE_PATH' in os.environ:
-        resource_path_list = [models_path_src, pkg_root_path, warehouse_world_path, os.environ['IGN_GAZEBO_RESOURCE_PATH']]
-    else:
-        resource_path_list = [models_path_src, pkg_root_path, warehouse_world_path]
-    
-    ign_resource_path = SetEnvironmentVariable(
-        name='IGN_GAZEBO_RESOURCE_PATH',
-        value=os.pathsep.join(resource_path_list)
-    )
+    def is_true(val):
+        return val.lower() in ['y', 'yes', 't', 'true', '1']
 
-    # ========== 1. Gazebo Simulation ==========
-    gz_sim = IncludeLaunchDescription(
+    # 1. camera_enabled
+    ans_cam = input("Enable Front/Rear Cameras? (y/n) [default: y]: ").strip()
+    if not ans_cam:
+        ans_cam = 'y'
+    camera_enabled = 'true' if is_true(ans_cam) else 'false'
+
+    # 2. stereo_camera_enabled
+    ans_stereo = input("Enable Stereo Camera? (y/n) [default: n]: ").strip()
+    if not ans_stereo:
+        ans_stereo = 'n'
+    stereo_camera_enabled = 'true' if is_true(ans_stereo) else 'false'
+
+    # 3. two_d_lidar_enabled
+    ans_lidar = input("Enable 2D LiDAR? (y/n) [default: y]: ").strip()
+    if not ans_lidar:
+        ans_lidar = 'y'
+    two_d_lidar_enabled = 'true' if is_true(ans_lidar) else 'false'
+
+    print("---------------------------------------\n")
+    print(f"Cameras: {camera_enabled}, Stereo: {stereo_camera_enabled}, LiDAR: {two_d_lidar_enabled}")
+    print(f"Robot Start: x={ROBOT_START_X}, y={ROBOT_START_Y}, yaw={ROBOT_START_YAW}")
+    print(f"Arm Home Pose: {HOME_POS}")
+    print(f"Charging Dock: x={DOCK_X}, y={DOCK_Y}, yaw={DOCK_YAW}\n")
+
+    # Package Paths
+    amr_mtt_path    = get_package_share_directory('amr_mtt_bot')
+    amr_docking_path = get_package_share_directory('amr_mtt_docking')
+
+    # ==========================================================
+    # 1. Gazebo Simulation (ใช้ ign.launch.py เหมือน launch_sim_amr)
+    # ==========================================================
+    ign_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
+            os.path.join(amr_mtt_path, 'launch', 'ign.launch.py')
         ),
-        launch_arguments={'gz_args': '-r small_warehouse.sdf'}.items(),
+        launch_arguments={
+            'use_sim_time':            'true',
+            'position_x':              ROBOT_START_X,
+            'position_y':              ROBOT_START_Y,
+            'orientation_yaw':         ROBOT_START_YAW,
+            'odometry_source':         'world',
+            'world_file':              'small_warehouse.sdf',
+            'camera_enabled':          camera_enabled,
+            'stereo_camera_enabled':   stereo_camera_enabled,
+            'two_d_lidar_enabled':     two_d_lidar_enabled,
+        }.items()
     )
 
-    # ========== 2. Robot Description & State Publisher ==========
-    xacro_file = os.path.join(pkg_amr_mtt_bot, 'urdf', 'amr_mtt.xacro')
-    robot_description = Command([
-        'xacro ', xacro_file,
-        ' sim_ign:=true',
-        ' camera_enabled:=true',
-        ' two_d_lidar_enabled:=true',
-        ' odometry_source:=false' 
-    ])
-
-    robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        output='screen',
-        parameters=[{'robot_description': robot_description, 'use_sim_time': use_sim_time}]
-    )
-
-    # ========== 3. Spawn Robot & Dock ==========
-    spawn_robot = Node(
-        package='ros_gz_sim',
-        executable='create',
-        arguments=[
-            '-topic', 'robot_description',
-            '-name', 'amr_mtt',
-            '-z', '0.3', 
-            '-x', '0.0',
-            '-y', '0.0',
-            '-Y', '0.0'
-        ],
-        output='screen'
-    )
-
-    dock_sdf_path = os.path.join(models_path_src, 'charging_dock', 'model.sdf')
+    # ==========================================================
+    # 2. Spawn Charging Dock (รอ Gazebo โหลดเสร็จก่อน)
+    # ==========================================================
+    dock_sdf_path = os.path.join(amr_mtt_path, 'models', 'charging_dock', 'model.sdf')
     spawn_dock = Node(
         package='ros_gz_sim',
         executable='create',
         arguments=[
             '-name', 'charging_dock',
             '-file', dock_sdf_path,
-            '-x', '2.0',
-            '-y', '0.0',
+            '-x', DOCK_X,
+            '-y', DOCK_Y,
             '-z', '0.0',
-            '-Y', '3.14159' 
+            '-Y', DOCK_YAW,
         ],
         output='screen'
     )
-    
-    # Delayed Spawning
-    spawn_robot_delayed = TimerAction(period=5.0, actions=[spawn_robot])
-    spawn_dock_delayed = TimerAction(period=7.0, actions=[spawn_dock])
+    # รอให้ controllers activate เสร็จก่อน (~8-9s) แล้วค่อย spawn dock
+    spawn_dock_delayed = TimerAction(period=10.0, actions=[spawn_dock])
 
-    # ========== 4. Controllers & Bridge ==========
-    spawn_ddc = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['diff_drive_controller'],
+    # ==========================================================
+    # 3. ส่งแขนกลไป HOME_POS หลัง 12 วินาที (ไม่ใช้ MoveIt)
+    # ==========================================================
+    home_pos_str = str(HOME_POS).replace(' ', '')
+    # รอให้ controllers ทั้งหมด settle ก่อน (20s) แล้วค่อยส่ง home goal
+    send_home_goal = TimerAction(
+        period=20.0,
+        actions=[
+            ExecuteProcess(
+                cmd=[
+                    'ros2', 'action', 'send_goal',
+                    '/ur_arm_controller/follow_joint_trajectory',
+                    'control_msgs/action/FollowJointTrajectory',
+                    (
+                        '{trajectory: {'
+                        'joint_names: [ur5_shoulder_pan_joint, ur5_shoulder_lift_joint, ur5_elbow_joint, ur5_wrist_1_joint, ur5_wrist_2_joint, ur5_wrist_3_joint], '
+                        'points: [{positions: ' + home_pos_str + ', time_from_start: {sec: 3}}]}}'
+                    )
+                ],
+                output='screen'
+            )
+        ]
+    )
+
+    # ==========================================================
+    # 4. apriltag_ros node ← แทนที่ cv2.aruco
+    #    remap /image_rect + /camera_info → rear_camera topics
+    # ==========================================================
+    apriltag_node = Node(
+        package='apriltag_ros',
+        executable='apriltag_node',
+        name='apriltag_node',
         output='screen',
-    )
-    
-    spawn_ddc_delayed = TimerAction(period=10.0, actions=[spawn_ddc])
-
-    bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=[ 
-            '/model/amr_mtt/battery/linear_battery/state@sensor_msgs/msg/BatteryState[ignition.msgs.BatteryState',
-             '/kinect_camera@sensor_msgs/msg/Image[ignition.msgs.Image',
-             'kinect_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo',
-             '/rear_camera@sensor_msgs/msg/Image[ignition.msgs.Image',
-             'rear_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo',
-             '/cmd_vel@geometry_msgs/msg/Twist@ignition.msgs.Twist',
-             '/odom@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
-             # '/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V', # Disabled: Using diff_drive_controller for TF
-             '/world/default/model/amr_mtt/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model',
-             '/imu@sensor_msgs/msg/Imu[ignition.msgs.IMU',
-             '/lidar_front/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
-             '/lidar_rear/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
-        ],
         remappings=[
-            ('/model/amr_mtt/battery/linear_battery/state', '/battery_state'),
-            ('/kinect_camera', '/camera/image_raw'),
-            ('kinect_camera/camera_info', '/camera/camera_info'),
-            ('/rear_camera', '/rear_camera/image_raw'),
-            ('rear_camera/camera_info', '/rear_camera/camera_info'),
-            ('/world/default/model/amr_mtt/joint_state', '/joint_states')
+            ('image_rect',   '/rear_camera/image_raw'),   # sim ไม่ distort → raw ใช้แทน rect ได้
+            ('camera_info',  '/rear_camera/camera_info'),
         ],
-        output='screen'
+        parameters=[{
+            'family':  'tag36h11',
+            'size':    0.2,         # ขนาด tag จริง (m) — ตั้งเหมือน model.sdf
+            'max_hamming': 0,       # strict: ไม่ detect tag ที่เสีย
+        }]
     )
 
-    # ========== 5. RViz ==========
-    rviz_node = Node(
-        condition=IfCondition(enable_rviz),
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', os.path.join(pkg_amr_mtt_bot, 'rviz', 'entire_setup.rviz')],
-        parameters=[{'use_sim_time': use_sim_time}],
-        output='screen'
-    )
-
-    # ========== 6. Auto-Docking System (Enhanced) ==========
-    # 6.1 Enhanced Docking Logic
+    # ==========================================================
+    # 5. Enhanced Auto-Docking Node
+    # ==========================================================
     enhanced_auto_docking_node = Node(
         package='amr_mtt_docking',
         executable='enhanced_docking_node.py',
         name='enhanced_auto_docking_node',
         output='screen',
         parameters=[{
-            'use_sim_time': use_sim_time,
-            'use_global_nav': True,
-            'docking_timeout': 180.0
+            'use_sim_time':      True,
+            'use_global_nav':    True,
+            'docking_timeout':   180.0,
+            # Dock position (ผ่านค่า constant ด้านบน)
+            'dock_x':            float(DOCK_X),
+            'dock_y':            float(DOCK_Y),
+            'dock_yaw':          float(DOCK_YAW),
+            'pre_dock_offset':   1.5,  # ระยะหน้า dock ที่ robot จอดก่อน
         }]
     )
 
-    # 6.2 Battery Predictor (TODO: Not implemented yet)
-    # battery_predictor_node = Node(
-    #     package='amr_mtt_docking',
-    #     executable='battery_predictor_node.py',
-    #     name='battery_predictor_node',
-    #     output='screen',
-    #     parameters=[{
-    #         'use_sim_time': use_sim_time,
-    #         'battery_capacity_ah': 20.0,
-    #         'prediction_window': 60.0
-    #     }]
-    # )
-
-    # 6.3 Charging Station Detector (TODO: Not implemented yet)
-    # charging_station_detector_node = Node(
-    #     package='amr_mtt_docking',
-    #     executable='charging_station_detector_node.py',
-    #     name='charging_station_detector_node',
-    #     output='screen',
-    #     parameters=[{
-    #         'use_sim_time': use_sim_time,
-    #         'auto_create_stations': True
-    #     }]
-    # )
-
-    # Battery Monitor GUI (TODO: Not implemented yet)
-    # battery_monitor_gui = Node(
-    #     condition=IfCondition(enable_gui),
-    #     package='amr_mtt_docking',
-    #     executable='battery_monitor_gui.py',
-    #     name='battery_monitor_gui',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': use_sim_time}]
-    # )
-
-    # ========== 7. LiDAR Merger & Cmd_Vel Remapper ==========
-    # Remaps /cmd_vel to /diff_drive_controller/cmd_vel_unstamped
-    remapper_node = Node(
-        package='amr_mtt_bot',
-        executable='remapper.py',
-        name='remapper_node',
-        output='screen',
-        parameters=[{'use_sim_time': use_sim_time}]
+    # ==========================================================
+    # 5. Trigger Docking อัตโนมัติ (หลัง 25 วิ)
+    #    พิมพ์ /battery/override = 10% → node เริ่ม docking sequence
+    # ==========================================================
+    trigger_docking = TimerAction(
+        period=25.0,
+        actions=[
+            ExecuteProcess(
+                cmd=[
+                    'ros2', 'topic', 'pub', '--once',
+                    '/battery/override',
+                    'std_msgs/msg/Float32',
+                    '{data: 10.0}',
+                ],
+                output='screen'
+            )
+        ]
     )
 
-    # Dual Lidar Merger (Restored from rviz.launch.py)
-    # Merges LIDAR_FRONT and LIDAR_REAR into /merged
-    dual_laser_merger = Node(
-        package='dual_laser_merger',
-        executable='dual_laser_merger_node',
-        name='dual_laser_merger',
-        output='screen',
-        parameters=[{
-            'laser_1_topic': '/lidar_front/scan',
-            'laser_2_topic': '/lidar_rear/scan',
-            'merged_topic': '/merged', # Original topic requested by user
-            'merged_cloud_topic': '/merged_cloud',
-            'target_frame': 'base_link',
-            'publisher_qos_reliability': 'best_effort',  
-            'publish_rate': 100,
-            'angle_increment': 0.0043633,
-            'scan_time': 0.067,
-            'range_min': 0.05,
-            'range_max': 25.0,
-            'angle_min': -3.141592654,
-            'angle_max': 3.141592654,
-            'use_inf': False
-        }]
-    )
-
-    return LaunchDescription([
-        declare_use_sim_time,
-        declare_enable_rviz,
-        declare_enable_gui,
-        ign_resource_path,
-        gz_sim,
-        robot_state_publisher,
-        spawn_robot_delayed,
+    return [
+        ign_sim,
         spawn_dock_delayed,
-        spawn_ddc_delayed,
-        bridge,
-        rviz_node,
+        send_home_goal,
+        apriltag_node,
         enhanced_auto_docking_node,
-        remapper_node,
-        dual_laser_merger
+        trigger_docking,
+    ]
+
+
+def generate_launch_description():
+    return LaunchDescription([
+        OpaqueFunction(function=prompt_user)
     ])

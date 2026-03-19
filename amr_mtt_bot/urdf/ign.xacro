@@ -17,7 +17,6 @@
     </gazebo>
 
     <!-- ........................... ROS2 CONTROL PLUGIN ................................... -->
-    <!-- ........................... ROS2 CONTROL PLUGIN ................................... -->
     <!-- Enable plugin loader to support UR5 Arm (even if MobileBase is disabled here) -->
     <gazebo>
         <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
@@ -119,7 +118,7 @@
                     <noise>
                         <type>gaussian</type>
                         <mean>0.0</mean>
-                        <stddev>0.001</stddev>
+                        <stddev>0.015</stddev>
                     </noise>
                 </lidar>
                 <always_on>1</always_on>
@@ -150,7 +149,7 @@
                     <noise>
                         <type>gaussian</type>
                         <mean>0.0</mean>
-                        <stddev>0.001</stddev>
+                        <stddev>0.015</stddev>
                     </noise>
                 </lidar>
                 <always_on>1</always_on>
@@ -163,11 +162,10 @@
 
     <xacro:if value="$(arg camera_enabled)">
         <gazebo reference="kinect_camera">
-            <sensor type="camera" name="kinect_camera">
+            <sensor type="rgbd_camera" name="kinect_camera">
                 <update_rate>30.0</update_rate>
                 <topic>kinect_camera</topic>
                 <ignition_frame_id>kinect_camera</ignition_frame_id>
-                <camera_info_topic>kinect_camera/camera_info</camera_info_topic>
                 <camera>
                     <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
                     <image>
@@ -176,8 +174,8 @@
                         <format>R8G8B8</format>
                     </image>
                     <clip>
-                        <near>0.05</near>
-                        <far>8.0</far>
+                        <near>0.1</near>
+                        <far>10.0</far>
                     </clip>
                 </camera>
             </sensor>
@@ -188,11 +186,10 @@
 
     <xacro:if value="$(arg camera_enabled)">
         <gazebo reference="rear_camera">
-            <sensor type="camera" name="rear_camera">
+            <sensor type="rgbd_camera" name="rear_camera">
                 <update_rate>30.0</update_rate>
                 <topic>rear_camera</topic>
                 <ignition_frame_id>rear_camera</ignition_frame_id>
-                <camera_info_topic>rear_camera/camera_info</camera_info_topic>
                 <camera>
                     <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
                     <image>
@@ -201,8 +198,8 @@
                         <format>R8G8B8</format>
                     </image>
                     <clip>
-                        <near>0.05</near>
-                        <far>8.0</far>
+                        <near>0.1</near>
+                        <far>10.0</far>
                     </clip>
                 </camera>
             </sensor>
@@ -210,14 +207,61 @@
     </xacro:if>
 
     <!-- ........................... IMU config ................................... -->
+    <!-- Simulated as MicroStrain 3DM-GX5-10                                      -->
+    <!-- Gyro  ARW : 0.07 °/√hr  → σ = 0.0003 rad/s @ 200 Hz                    -->
+    <!-- Gyro  bias: 1 °/hr      → 4.85e-6 rad/s                                 -->
+    <!-- Accel VRW : 0.005 m/s/√hr → σ = 0.0012 m/s² @ 200 Hz                  -->
+    <!-- Accel bias: 0.025 mg    → 2.45e-4 m/s²                                  -->
 
     <gazebo reference="imu_frame">
         <sensor name="imu_sensor" type="imu">
             <always_on>1</always_on>
-            <update_rate>50</update_rate>
+            <update_rate>200</update_rate>
             <ignition_frame_id>imu_frame</ignition_frame_id>
             <visualize>true</visualize>
             <topic>imu</topic>
+            <imu>
+                <angular_velocity>
+                    <x><noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.0003</stddev>
+                        <bias_mean>0.0000049</bias_mean>
+                        <bias_stddev>0.0000025</bias_stddev>
+                    </noise></x>
+                    <y><noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.0003</stddev>
+                        <bias_mean>0.0000049</bias_mean>
+                        <bias_stddev>0.0000025</bias_stddev>
+                    </noise></y>
+                    <z><noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.0003</stddev>
+                        <bias_mean>0.0000049</bias_mean>
+                        <bias_stddev>0.0000025</bias_stddev>
+                    </noise></z>
+                </angular_velocity>
+                <linear_acceleration>
+                    <x><noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.0012</stddev>
+                        <bias_mean>0.000245</bias_mean>
+                        <bias_stddev>0.000125</bias_stddev>
+                    </noise></x>
+                    <y><noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.0012</stddev>
+                        <bias_mean>0.000245</bias_mean>
+                        <bias_stddev>0.000125</bias_stddev>
+                    </noise></y>
+                    <z><noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.0012</stddev>
+                        <bias_mean>0.000245</bias_mean>
+                        <bias_stddev>0.000125</bias_stddev>
+                    </noise></z>
+                </linear_acceleration>
+            </imu>
         </sensor>
     </gazebo>
 

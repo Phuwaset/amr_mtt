@@ -26,19 +26,22 @@ Author: AMR-MTT Project
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
-from sensor_msgs.msg import Image, BatteryState, Imu
+from sensor_msgs.msg import Image, BatteryState, Imu, CameraInfo
+from nav_msgs.msg import Odometry
+from apriltag_msgs.msg import AprilTagDetectionArray
 from geometry_msgs.msg import Twist, PoseStamped
 from std_msgs.msg import String, Float32, Bool
 from visualization_msgs.msg import Marker
 from nav2_msgs.action import NavigateToPose
-from cv_bridge import CvBridge
-import cv2
-import numpy as np
 import math
 import time
 
-# Import from refactored modules
-from docking import PIDController, LowPassFilter, normalize_angle, DockingMetrics
+import sys
+import os
+# Allow importing local files in the same directory
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from pid_controller import PIDController, LowPassFilter, normalize_angle
+from docking_metrics import DockingMetrics
 
 
 class EnhancedAutoDockingNode(Node):
@@ -82,9 +85,7 @@ class EnhancedAutoDockingNode(Node):
         self._init_parameters()
         
         # Initialize CV components
-        self.bridge = CvBridge()
-        self.aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
-        self.aruco_params = cv2.aruco.DetectorParameters()
+        # Note: CvBridge and ArUco params removed since using apriltag_ros
         
         # Setup ROS interfaces
         self._init_subscribers()
@@ -100,8 +101,8 @@ class EnhancedAutoDockingNode(Node):
         # Docking metrics
         self.metrics = DockingMetrics()
         
-        self.get_logger().info('Enhanced Auto Docking Node Started (Multi-Stage)')
-        self.get_logger().info(f'ArUco Target ID: {self.target_id}')
+        self.get_logger().info('Enhanced Auto Docking Node Started (Multi-Stage) [AprilTag mode]')
+        self.get_logger().info(f'AprilTag Target ID: {self.target_id}')
         self.get_logger().info(f'Global Navigation: {"Enabled" if self.use_global_nav else "Disabled"}')
 
     def _init_parameters(self) -> None:
@@ -120,8 +121,9 @@ class EnhancedAutoDockingNode(Node):
         self.declare_parameter('fine_align_timeout', 30.0)
         self.declare_parameter('verify_timeout', 10.0)
         
-        # Load and validate parameters
+        # Load and validate parameters  
         self.target_id = self._validate_aruco_id(self.get_parameter('aruco_id').value)
+        self.tag_family = 'tag36h11'  # AprilTag family
         self.use_global_nav = self.get_parameter('use_global_nav').value
         self.max_attempts = self._validate_positive_int(
             self.get_parameter('max_docking_attempts').value, 'max_docking_attempts', default=3)
@@ -136,9 +138,25 @@ class EnhancedAutoDockingNode(Node):
             self.STATE_FINE_ALIGN: self.get_parameter('fine_align_timeout').value,
             self.STATE_VERIFY_CONNECTION: self.get_parameter('verify_timeout').value,
         }
+
+        # Dock position + pre-dock offset (ส่งมาจาก launch file)
+        self.declare_parameter('dock_x', -2.3)
+        self.declare_parameter('dock_y', -4.0)
+        self.declare_parameter('dock_yaw', 0.0)
+        self.declare_parameter('pre_dock_offset', 1.5)  # meters หน้า ArUco
+        _dock_x   = self.get_parameter('dock_x').value
+        _dock_y   = self.get_parameter('dock_y').value
+        _dock_yaw = self.get_parameter('dock_yaw').value
+        _offset   = self.get_parameter('pre_dock_offset').value
+        # Pre-dock = จุดที่ robot หยุดและหันหน้าไปในทิศเดียวกับ ArUco
+        # (rear camera จะมอง -X ของ robot → เห็น ArUco ที่หัน +X)
+        self.pre_dock_x   = _dock_x + _offset * math.cos(_dock_yaw)
+        self.pre_dock_y   = _dock_y + _offset * math.sin(_dock_yaw)
+        self.pre_dock_yaw = _dock_yaw  # robot หันหน้าไปทิศ ArUco → rear หัน dock
         
         self.get_logger().debug(f'Parameters loaded: aruco_id={self.target_id}, '
                                f'max_attempts={self.max_attempts}, timeout={self.docking_timeout}s')
+        self.get_logger().info(f'Pre-dock target: ({self.pre_dock_x:.2f}, {self.pre_dock_y:.2f}), yaw={self.pre_dock_yaw:.3f}')
     
     def _validate_aruco_id(self, value: int) -> int:
         """Validate ArUco marker ID."""
@@ -171,8 +189,14 @@ class EnhancedAutoDockingNode(Node):
 
     def _init_subscribers(self) -> None:
         """Initialize all ROS subscribers."""
-        self.sub_cam = self.create_subscription(
-            Image, '/rear_camera/image_raw', self.image_callback, 10)
+        # AprilTag detections from apriltag_ros node
+        self.sub_detections = self.create_subscription(
+            AprilTagDetectionArray, '/detections',
+            self.detection_callback, 10)
+        # Camera info สำหรับคำนวณ focal length
+        self.sub_cam_info = self.create_subscription(
+            CameraInfo, '/rear_camera/camera_info',
+            self.camera_info_callback, 10)
         self.sub_battery = self.create_subscription(
             BatteryState, '/battery_state', self.battery_callback, 10)
         self.sub_should_charge = self.create_subscription(
@@ -183,6 +207,9 @@ class EnhancedAutoDockingNode(Node):
             Bool, '/charging/connected', self.charging_connection_callback, 10)
         self.sub_battery_override = self.create_subscription(
             Float32, '/battery/override', self.override_battery_callback, 10)
+        # Odometry สำหรับ global navigation (and orientation)
+        self.sub_odom = self.create_subscription(
+            Odometry, '/diff_drive_controller/odom', self.odom_callback, 10)
 
     def _init_publishers(self) -> None:
         """Initialize all ROS publishers."""
@@ -238,7 +265,9 @@ class EnhancedAutoDockingNode(Node):
         self.marker_area = 0.0
         self.marker_center_x = 0.0
         self.marker_distance = 5.0  # meters (estimated)
-        self.image_width = 640
+        self.image_width  = 640
+        self.image_height = 480
+        self.focal_length = 554.0  # อัปเดตจาก camera_info
         self.marker_lost_count = 0
         self.max_marker_lost = 10
         self.last_marker_time = time.time()  # Track when marker was last seen
@@ -259,8 +288,31 @@ class EnhancedAutoDockingNode(Node):
         self.consecutive_errors = 0
         self.max_consecutive_errors = 5
 
+        # Robot position (from odometry)
+        self.robot_x = 0.0
+        self.robot_y = 0.0
+        self.odom_received = False
+
     # ========== Callback Methods ==========
-    
+
+    def odom_callback(self, msg: Odometry) -> None:
+        """Update robot position and orientation from odometry."""
+        self.robot_x = msg.pose.pose.position.x
+        self.robot_y = msg.pose.pose.position.y
+        
+        # คํานวณ yaw จาก quaternion ของ odometry ได้เลย ไม่ต้องรอ IMU
+        qx, qy, qz, qw = msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w
+        siny_cosp = 2.0 * (qw * qz + qx * qy)
+        cosy_cosp = 1.0 - 2.0 * (qy * qy + qz * qz)
+        self.current_yaw = math.atan2(siny_cosp, cosy_cosp)
+        
+        self.imu_received = True  # We have orientation data now
+        
+        if not self.odom_received:
+            self.odom_received = True
+            self.get_logger().info(
+                f'Odometry received. Robot at ({self.robot_x:.2f}, {self.robot_y:.2f})')
+
     def imu_callback(self, msg: Imu) -> None:
         """
         Extract yaw from IMU quaternion with validation.
@@ -358,105 +410,68 @@ class EnhancedAutoDockingNode(Node):
             self.get_logger().warn(f'Battery Override Low ({self.battery_override}%). Force starting docking...')
             self.start_docking_sequence()
 
-    def image_callback(self, msg: Image) -> None:
+    def camera_info_callback(self, msg: CameraInfo) -> None:
+        """อัปเดต image size และ focal_length จาก CameraInfo."""
+        self.image_width  = msg.width
+        self.image_height = msg.height
+        if msg.k[0] > 0:          # K[0] = fx
+            self.focal_length = msg.k[0]
+
+    def detection_callback(self, msg: AprilTagDetectionArray) -> None:
         """
-        Process camera images and detect ArUco markers with error handling.
-        
-        Args:
-            msg: Image message from rear camera
+        Process AprilTag detections from apriltag_ros.
+        แทนที่ image_callback พร้อม ArUco — ใช้ centre + corners ของ AprilTag
         """
-        try:
-            # Convert image
-            try:
-                frame = self.bridge.imgmsg_to_cv2(msg, 'bgr8')
-            except Exception as e:
-                self.consecutive_errors += 1
-                if self.consecutive_errors > self.max_consecutive_errors:
-                    self.get_logger().error(f'Critical: Multiple image conversion failures ({self.consecutive_errors})')
-                    if self.current_state not in [self.STATE_IDLE, self.STATE_ERROR]:
-                        self.transition_to_error('Camera failure: Cannot process images')
-                else:
-                    self.get_logger().warn(f'Failed to convert image (attempt {self.consecutive_errors}): {e}')
-                return
-            
-            # Reset error counter on success
+        self.marker_detected = False
+
+        for det in msg.detections:
+            if det.id != self.target_id:
+                continue
+
+            # Centre pixel
+            cx = det.centre.x
+            cy = det.centre.y
+
+            # Validate position
+            if not (0 < cx < self.image_width):
+                continue
+
+            self.marker_detected   = True
+            self.marker_center_x   = cx
+            self.marker_lost_count = 0
+            self.last_marker_time  = time.time()
             self.consecutive_errors = 0
-            
-            # Convert to grayscale
-            try:
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            except Exception as e:
-                self.get_logger().error(f'Failed to convert to grayscale: {e}')
-                return
-            
-            h, w = gray.shape
-            if w <= 0 or h <= 0:
-                self.get_logger().warn(f'Invalid image dimensions: {w}x{h}')
-                return
-            self.image_width = w
-            
-            # Detect ArUco markers
-            try:
-                corners, ids, rejected = cv2.aruco.detectMarkers(
-                    gray, self.aruco_dict, parameters=self.aruco_params)
-            except Exception as e:
-                self.get_logger().error(f'ArUco detection failed: {e}')
-                return
-            
-            self.marker_detected = False
-            
-            if ids is not None:
-                for i, marker_id in enumerate(ids.flatten()):
-                    if marker_id == self.target_id:
-                        try:
-                            c = corners[i][0]
-                            center_x = (c[0][0] + c[2][0]) / 2
-                            
-                            # Validate marker position
-                            if center_x < 0 or center_x > w:
-                                self.get_logger().warn(f'Marker center outside image bounds: {center_x}')
-                                continue
-                            
-                            self.marker_detected = True
-                            self.marker_center_x = center_x
-                            self.marker_area = cv2.contourArea(c)
-                            self.marker_lost_count = 0
-                            self.last_marker_time = time.time()
-                            
-                            # Estimate distance with validation
-                            size_px = np.linalg.norm(c[0] - c[1])
-                            if size_px > 0:
-                                focal_length = 554.0
-                                marker_size = 0.2  # meters
-                                distance = (marker_size * focal_length) / size_px
-                                # Sanity check on distance
-                                if 0.1 < distance < 10.0:  # Reasonable range
-                                    self.marker_distance = distance
-                                else:
-                                    self.get_logger().warn(f'Unreasonable distance estimate: {distance:.2f}m')
-                            
-                            # Publish marker visualization
-                            self.publish_marker_viz(self.marker_distance)
-                            
-                            break
-                        except Exception as e:
-                            self.get_logger().error(f'Error processing marker {marker_id}: {e}')
-                            continue
-            
-            if not self.marker_detected:
-                self.marker_lost_count += 1
-                # Log warning if marker lost for extended period during critical states
-                if self.marker_lost_count == self.max_marker_lost // 2:
-                    if self.current_state in [self.STATE_VISUAL_SERVO, self.STATE_FINE_ALIGN]:
-                        self.get_logger().warn(f'Marker lost for {self.marker_lost_count} frames')
-            
-            # Run control loop
-            self.control_loop()
-            
-        except Exception as e:
-            self.get_logger().error(f'Unexpected error in image_callback: {e}')
-            import traceback
-            self.get_logger().error(traceback.format_exc())
+
+            # Area ที่แม่นยำกว่า ArUco — คำนวณจาก corners (shoelace formula)
+            pts = [(c.x, c.y) for c in det.corners]
+            n   = len(pts)
+            area = abs(sum(pts[i][0]*pts[(i+1)%n][1] -
+                           pts[(i+1)%n][0]*pts[i][1]
+                           for i in range(n)) / 2.0)
+            self.marker_area = area
+
+            # Distance จาก tag side length ใน pixel
+            side_px = math.dist(
+                (det.corners[0].x, det.corners[0].y),
+                (det.corners[1].x, det.corners[1].y))
+            if side_px > 0:
+                marker_size   = 0.2   # ขนาด tag จริง (m) — แก้ตาม ArUco ใน SDF
+                distance_est  = (marker_size * self.focal_length) / side_px
+                if 0.1 < distance_est < 10.0:
+                    self.marker_distance = distance_est
+
+            self.publish_marker_viz(self.marker_distance)
+            break   # ใช้แค่ tag แรกที่เจอ
+
+        if not self.marker_detected:
+            self.marker_lost_count += 1
+            if self.marker_lost_count == self.max_marker_lost // 2:
+                if self.current_state in [self.STATE_VISUAL_SERVO, self.STATE_FINE_ALIGN]:
+                    self.get_logger().warn(
+                        f'AprilTag ID={self.target_id} lost for {self.marker_lost_count} frames')
+
+        # Run control loop (drive decisions)
+        self.control_loop()
 
     # ========== State Transition Methods ==========
     
@@ -620,18 +635,60 @@ class EnhancedAutoDockingNode(Node):
 
     def handle_global_nav_state(self) -> Twist:
         """
-        Handle global navigation state logic.
-        
-        Returns:
-            Twist: Velocity command (currently empty, Nav2 handles movement)
+        Navigate to pre-dock position using cmd_vel + odometry.
+        Pre-dock = offset meters in front of dock's ArUco face.
+        เมื่อถึงแล้วหัน yaw ให้ตรง แล้ว transition_to_searching()
         """
-        # Waiting for Nav2 to complete
-        # TODO: Check Nav2 status and transition when arrived
-        # For now, timeout and transition
-        if time.time() - self.state_start_time > 5.0:
-            self.transition_to_searching()
-        
-        return Twist()
+        if not self.odom_received or not self.imu_received:
+            self.get_logger().warn('Waiting for odom/IMU data...', throttle_duration_sec=2.0)
+            return Twist()
+
+        twist = Twist()
+        dx = self.pre_dock_x - self.robot_x
+        dy = self.pre_dock_y - self.robot_y
+        distance = math.sqrt(dx*dx + dy*dy)
+        # ===== [NAV + CAMERA INTEGRATION] =====
+        # ถ้ากล้องหลังมองเห็น AprilTag แล้ว! 
+        # ไม่จำเป็นต้องวิ่งไปถึงจุด pre-dock ตามพิกัดบน map ก็ได้
+        # สามารถตัดจบกระบวนการตาบอด และใช้ตา (Visual Servo) พาเข้าแท่นชาร์จได้เลย
+        if self.marker_detected:
+            self.get_logger().info(
+                f'Camera Detected AprilTag ID={self.target_id} while in GLOBAL_NAV! '
+                'Switching to VISUAL_SERVO immediately.'
+            )
+            self.transition_to_visual_servo()
+            return Twist()
+        # ======================================
+
+        if distance < 0.2:  # ถึง pre-dock แล้ว → จัด yaw
+            yaw_error = normalize_angle(self.pre_dock_yaw - self.current_yaw)
+            if abs(yaw_error) < 0.08:
+                self.get_logger().info(
+                    f'Pre-dock reached ({self.robot_x:.2f},{self.robot_y:.2f}). '
+                    f'Searching for ArUco marker...')
+                self.transition_to_searching()
+                return Twist()
+            # หมุนให้ตรงทิศ
+            twist.angular.z = max(-0.4, min(0.4, 1.2 * yaw_error))
+            return twist
+
+        # ยังไม่ถึง → navigate
+        desired_yaw = math.atan2(dy, dx)
+        yaw_error   = normalize_angle(desired_yaw - self.current_yaw)
+
+        if abs(yaw_error) > 0.3:   # หมุนก่อน
+            twist.angular.z = max(-0.5, min(0.5, 0.8 * yaw_error))
+        else:                       # วิ่งพร้อมแก้ course
+            twist.linear.x  = min(0.3, 0.4 * distance)
+            twist.angular.z = max(-0.4, min(0.4, 0.6 * yaw_error))
+
+        self.get_logger().info(
+            f'GLOBAL_NAV: ({self.robot_x:.2f},{self.robot_y:.2f}) '
+            f'→ ({self.pre_dock_x:.2f},{self.pre_dock_y:.2f}) '
+            f'dist={distance:.2f}m yaw_err={math.degrees(yaw_error):.1f}°',
+            throttle_duration_sec=1.0)
+
+        return twist
 
     def handle_searching_state(self) -> Twist:
         """
@@ -809,7 +866,6 @@ def main(args=None):
     finally:
         node.destroy_node()
         rclpy.shutdown()
-        cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':

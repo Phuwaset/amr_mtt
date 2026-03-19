@@ -3,8 +3,8 @@
 
     <!--................................ XACRO CONSTANTS .............................. -->
 
-    <!-- หุ่นยนต์หนัก 60 kg -->
-    <xacro:property name="chassis_mass" value="60"/>
+    <!-- หุ่นยนต์หนัก 200 kg รวมทุกชิ้นส่วน (chassis 162.8 + battery 20 + trolley wheels 8 + traction wheels 9.2) -->
+    <xacro:property name="chassis_mass" value="162.8"/>
 
     <xacro:property name="chassis_length" value="0.9"/>
     
@@ -38,16 +38,17 @@
     <!-- พารามิเตอร์นี้คือระยะห่างระหว่าง "กึ่งกลางล้อซ้าย" ถึง "กึ่งกลางล้อขวา" -->
     <xacro:property name="traction_track_width" value="0.5"/>
     
-    <xacro:property name="two_d_lidar_update_rate" value="30"/>
-    <xacro:property name="two_d_lidar_sample_size" value="361"/>
-    <xacro:property name="two_d_lidar_min_angle" value="0"/>
-    <xacro:property name="two_d_lidar_max_angle" value="360"/>
-    <xacro:property name="two_d_lidar_min_range" value="0.55"/>
-    <xacro:property name="two_d_lidar_max_range" value="16"/>
+    <!-- SICK picoScan100 : scanning angle 275° · resolution 0.1° · 50Hz · range 40m -->
+    <xacro:property name="two_d_lidar_update_rate" value="50"/>
+    <xacro:property name="two_d_lidar_sample_size" value="2750"/>
+    <xacro:property name="two_d_lidar_min_angle" value="-137.5"/>
+    <xacro:property name="two_d_lidar_max_angle" value="137.5"/>
+    <xacro:property name="two_d_lidar_min_range" value="0.35"/>
+    <xacro:property name="two_d_lidar_max_range" value="40"/>
 
     <xacro:property name="camera_baseline" value="0.06"/>
     <xacro:property name="camera_height" value="0.10"/>
-    <xacro:property name="camera_horizontal_fov" value="60"/>
+    <xacro:property name="camera_horizontal_fov" value="87"/>
 
     <xacro:arg name="robot_namespace" default=""/>
     <xacro:arg name="wheel_odom_topic" default="odom" />
@@ -302,7 +303,7 @@
             <parent link="base_link"/>
             <child link="R_B_Lidar_Link"/>
             <!-- จุดติดตั้งด้านหลัง -->
-            <origin xyz="-0.4 -0.25 0.07" rpy="-3.1416 0 -0.7854"/>
+            <origin xyz="-0.4 -0.25 0.07" rpy="-3.1416 0 -2.3562"/>
         </joint>
 
         <gazebo reference="R_B_Lidar_joint">

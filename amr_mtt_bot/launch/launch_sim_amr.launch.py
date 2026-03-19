@@ -66,11 +66,11 @@ def prompt_user(context, *args, **kwargs):
         }.items()
     )
 
-    # ส่งแขนกลไป HOME_POS หลังจาก 8 วินาที (รอให้ Controller พร้อมก่อน)
+    # ส่งแขนกลไป HOME_POS หลังจาก 20 วินาที (รอให้ Controller activate เสร็จก่อน)
     # ไม่ใช้ MoveIt — ส่งตรงผ่าน /ur_arm_controller/follow_joint_trajectory
     home_pos_str = str(HOME_POS).replace(' ', '')
     send_home_goal = TimerAction(
-        period=12.0,
+        period=20.0,
         actions=[
             ExecuteProcess(
                 cmd=[

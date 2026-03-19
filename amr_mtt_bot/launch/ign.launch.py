@@ -111,6 +111,17 @@ def generate_launch_description():
         actions=[spawn_amr_mtt_node]
     )
 
+    # หน่วงเวลา 8 วินาที ให้ robot spawn เสร็จและ controller_manager พร้อมก่อน
+    delayed_controllers = TimerAction(
+        period=8.0,
+        actions=[
+            diff_drive_spawner,
+            joint_state_broadcaster_spawner,
+            ur_arm_controller_spawner,
+            gripper_spawner,
+        ]
+    )
+
     return LaunchDescription([
         # Declare Arguments (ประกาศว่าฉันรับค่าพวกนี้นะ)
         DeclareLaunchArgument("use_sim_time", default_value='true'),
@@ -124,15 +135,10 @@ def generate_launch_description():
         DeclareLaunchArgument("ur5_enabled", default_value="true"),
 
         # Start Processes
-        set_ign_resource_path,        
+        set_ign_resource_path,
         gz_sim,
-        delayed_spawn,  # รอ Gazebo โหลดเสร็จก่อน
-        diff_drive_spawner,
-        
-        # Controllers (รอให้ Spawn เสร็จก่อนถึงจะทำงานจริง แต่ ROS2 Launch จะจัดการให้)
-        joint_state_broadcaster_spawner,
-        ur_arm_controller_spawner,
-        gripper_spawner,
+        delayed_spawn,        # t+5s: spawn robot
+        delayed_controllers,  # t+8s: activate controllers (หลัง controller_manager พร้อม)
         # gz_spawn_desk และ gz_spawn_box ถูก inline ใน small_warehouse.sdf แล้ว
 
     ])

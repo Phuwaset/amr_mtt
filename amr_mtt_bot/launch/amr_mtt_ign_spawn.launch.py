@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import os
 from os.path import join
 from xacro import parse, process_doc
 
@@ -86,13 +87,21 @@ def generate_launch_description():
             "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",
             "/lidar_front/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
             "/lidar_rear/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
-            "/kinect_camera@sensor_msgs/msg/Image[ignition.msgs.Image",
+            # kinect_camera (front) — RealSense-like RGBD
+            "/kinect_camera/image@sensor_msgs/msg/Image[ignition.msgs.Image",
+            "/kinect_camera/depth_image@sensor_msgs/msg/Image[ignition.msgs.Image",
+            "/kinect_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
+            "/kinect_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
+            # rear_camera — RealSense-like RGBD
+            "/rear_camera/image@sensor_msgs/msg/Image[ignition.msgs.Image",
+            "/rear_camera/depth_image@sensor_msgs/msg/Image[ignition.msgs.Image",
+            "/rear_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
+            "/rear_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
+            # stereo camera
             "/stereo_camera/left/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image",
             "stereo_camera/right/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image",
-            "kinect_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
             "stereo_camera/left/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
             "stereo_camera/right/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
-            "/kinect_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
             "/imu@sensor_msgs/msg/Imu[ignition.msgs.IMU",
             "/world/default/model/amr_mtt/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model",
             "/model/amr_mtt/battery/linear_battery/state@sensor_msgs/msg/BatteryState[ignition.msgs.BatteryState",
@@ -100,15 +109,23 @@ def generate_launch_description():
         remappings=[
             ('/world/default/model/amr_mtt/joint_state', 'amr_mtt/joint_states'),
             ('/odom', 'amr_mtt/odom'),
-            ('/kinect_camera', 'amr_mtt/kinect_camera'),
+            # kinect_camera remappings
+            ('/kinect_camera/image', 'amr_mtt/kinect_camera/image'),
+            ('/kinect_camera/depth_image', 'amr_mtt/kinect_camera/depth_image'),
+            ('/kinect_camera/points', 'amr_mtt/kinect_camera/points'),
+            ('/kinect_camera/camera_info', 'amr_mtt/kinect_camera/camera_info'),
+            # rear_camera remappings
+            ('/rear_camera/image', 'amr_mtt/rear_camera/image'),
+            ('/rear_camera/depth_image', 'amr_mtt/rear_camera/depth_image'),
+            ('/rear_camera/points', 'amr_mtt/rear_camera/points'),
+            ('/rear_camera/camera_info', 'amr_mtt/rear_camera/camera_info'),
+            # stereo camera remappings
             ('/stereo_camera/left/image_raw', 'amr_mtt/stereo_camera/left/image_raw'),
             ('/stereo_camera/right/image_raw', 'amr_mtt/stereo_camera/right/image_raw'),
             ('/imu', 'amr_mtt/imu'),
             ('/cmd_vel', 'amr_mtt/cmd_vel'),
-            ('kinect_camera/camera_info', 'amr_mtt/kinect_camera/camera_info'),
             ('stereo_camera/left/camera_info', 'amr_mtt/stereo_camera/left/camera_info'),
             ('stereo_camera/right/camera_info', 'amr_mtt/stereo_camera/right/camera_info'),
-            ('/kinect_camera/points', 'amr_mtt/kinect_camera/points'),
             ('/model/amr_mtt/battery/linear_battery/state', 'amr_mtt/battery_state'),
         ]
     )
@@ -126,21 +143,28 @@ def generate_launch_description():
                     "--child-frame-id", "amr_mtt/base_footprint/kinect_camera"]
     )
 
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[
+            os.path.join(amr_mtt_path, 'config', 'ekf.yaml'),
+            {'use_sim_time': True}
+        ]
+    )
+
     dual_lidar_merger = Node(
         package='dual_laser_merger',
         executable='dual_laser_merger_node',
         name='dual_laser_merger',
         output='screen',
-        remappings=[
-            ('/merged', '/amr_mtt/scan'),  # Send merged output directly to what Nav2 expects
-        ],
         parameters=[{
             'laser_1_topic': '/lidar_front/scan',
             'laser_2_topic': '/lidar_rear/scan',
-            'merged_topic': '/merged',
+            'merged_scan_topic': '/amr_mtt/scan',
             'target_frame': 'base_footprint',
-            'publish_rate': 20,
-            'range_min': 0.1,
+            'range_min': 0.35,
             'range_max': 25.0,
             'angle_min': -3.141592654,
             'angle_max': 3.141592654,
@@ -157,5 +181,6 @@ def generate_launch_description():
         DeclareLaunchArgument("orientation_yaw", default_value="0.0"),
         DeclareLaunchArgument("odometry_source", default_value="world"),
         robot_state_publisher,
-        gz_spawn_entity, transform_publisher, gz_ros2_bridge, dual_lidar_merger
+        gz_spawn_entity, transform_publisher, gz_ros2_bridge,
+        ekf_node, dual_lidar_merger
     ])
