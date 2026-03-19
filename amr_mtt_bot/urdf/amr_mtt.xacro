@@ -3,7 +3,7 @@
 
     <!--................................ XACRO CONSTANTS .............................. -->
 
-    <!-- หุ่นยนต์หนัก 200 kg รวมทุกชิ้นส่วน (chassis 162.8 + battery 20 + trolley wheels 8 + traction wheels 9.2) -->
+    <!-- หุ่นยนต์หนัก 200 kg -->
     <xacro:property name="chassis_mass" value="162.8"/>
 
     <xacro:property name="chassis_length" value="0.9"/>
@@ -361,8 +361,8 @@
                 <geometry>
                     <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
                 </geometry>
-                <material name="black">
-                    <color rgba="0 0 1 1" />
+                <material name="white">
+                    <color rgba="1 1 1 1" />
                 </material>
             </visual>
 
@@ -409,8 +409,8 @@
                 <geometry>
                     <mesh filename="package://amr_mtt_bot/meshes/amr_mtt_model/F_Cam_Link.STL" scale="1 1 1"/>
                 </geometry>
-                <material name="black">
-                    <color rgba="1 0 0 1" />
+                <material name="white">
+                    <color rgba="1 1 1 1" />
                 </material>
             </visual>
 

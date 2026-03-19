@@ -426,7 +426,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /rear_camera/image_raw
+        Value: /amr_mtt/kinect_camera/image
       Value: false
   Enabled: true
   Global Options:

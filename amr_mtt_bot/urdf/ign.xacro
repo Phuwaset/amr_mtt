@@ -159,6 +159,11 @@
     </xacro:if>
 
     <!-- ........................... CAMERA config ................................... -->
+    <!-- Simulated as Intel RealSense D435                                           -->
+    <!-- Depth H-FOV : 87°  V-FOV : 58°  (640×360 gives ~56° ≈ 58°)               -->
+    <!-- Depth Range : 0.1 m – 10.0 m                                               -->
+    <!-- Depth Noise : <2% at 2m  → stddev ≈ 0.007 m at 1m (Gaussian)             -->
+    <!-- RGB Update  : 30 Hz  (adequate for AMR navigation/mapping)                 -->
 
     <xacro:if value="$(arg camera_enabled)">
         <gazebo reference="kinect_camera">
@@ -167,16 +172,24 @@
                 <topic>kinect_camera</topic>
                 <ignition_frame_id>kinect_camera</ignition_frame_id>
                 <camera>
+                    <!-- H-FOV 87° matches D435 depth module -->
                     <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
                     <image>
+                        <!-- 640×360 → V-FOV ≈ 56° (close to D435 58°) -->
                         <width>640</width>
-                        <height>480</height>
+                        <height>360</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
                         <near>0.1</near>
                         <far>10.0</far>
                     </clip>
+                    <!-- D435 depth noise: <2% at 2m → ~0.007 m stddev at 1m -->
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
                 </camera>
             </sensor>
         </gazebo>
@@ -194,13 +207,18 @@
                     <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
                     <image>
                         <width>640</width>
-                        <height>480</height>
+                        <height>360</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
                         <near>0.1</near>
                         <far>10.0</far>
                     </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
                 </camera>
             </sensor>
         </gazebo>
