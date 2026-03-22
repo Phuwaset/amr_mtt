@@ -25,7 +25,7 @@ def generate_launch_description():
     pkg_share    = get_package_share_directory('amr_mtt_bot')
     nav2_bringup = get_package_share_directory('nav2_bringup')
 
-    default_map    = os.path.join(pkg_share, 'map', 'amr_mtt_map_v2.yaml')
+    default_map    = os.path.join(pkg_share, 'map', 'amr_mtt.yaml')
     default_params = os.path.join(pkg_share, 'config', 'nav2_params.yaml')
     rviz_config    = os.path.join(nav2_bringup, 'rviz', 'nav2_default_view.rviz')
 

@@ -14,8 +14,12 @@ HTTP REST API (Flask, port 5007):
 import os
 import glob
 import json
+import logging
 import threading
 import subprocess
+
+# Suppress werkzeug access logs (poll requests are too noisy)
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 from flask import Flask, request, jsonify
 
@@ -205,6 +209,19 @@ class MapManagerNode(Node):
 
 app  = Flask(__name__)
 node: MapManagerNode = None   # set in main()
+
+
+@app.after_request
+def _cors(response):
+    response.headers['Access-Control-Allow-Origin']  = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
+@app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
+@app.route('/<path:path>', methods=['OPTIONS'])
+def _preflight(path):
+    return '', 204
 
 
 @app.route('/status', methods=['GET'])

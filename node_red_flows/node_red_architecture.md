@@ -1,6 +1,6 @@
 # Node-RED Architecture — AMR MTT
 
-> **หมายเหตุ:** เอกสารนี้เขียนจากการวิเคราะห์ `amr_mtt_flows.json` โดยตรง (อัปเดตล่าสุด 2026-03-18)
+> **หมายเหตุ:** เอกสารนี้เขียนจากการวิเคราะห์ `amr_mtt_flows.json` โดยตรง (อัปเดตล่าสุด 2026-03-20)
 
 ---
 
@@ -14,7 +14,8 @@ Browser Dashboard (localhost:1880/ui)
          │
          ├── rosbridge WebSocket (ws://localhost:9090)   ← Section 0,1,2,4 + Map
          ├── arm_jog_node   HTTP REST (localhost:5005)   ← Section 5,6,7,8
-         └── nav_waypoint_server HTTP REST (localhost:5006) ← Section 9
+         ├── nav_waypoint_server HTTP REST (localhost:5006) ← Section 9
+         └── map_manager_node   HTTP REST (localhost:5007) ← Section SLAM & Map Manager
 ```
 
 ---
@@ -287,6 +288,18 @@ Poll (200ms)  ──→ GET localhost:5005/status ──→ parse status ──�
 
 ## 8. วิธีเปิดใช้งาน
 
+### วิธีที่ 1 — คำสั่งเดียว (แนะนำ)
+
+```bash
+# เปิด backend ทั้งหมดพร้อมกัน (rosbridge + arm_jog + nav_waypoint + map_manager)
+ros2 launch amr_mtt_task_planner node_red_backend.launch.py
+
+# สำหรับ real robot (ไม่ใช้ sim time)
+ros2 launch amr_mtt_task_planner node_red_backend.launch.py use_sim_time:=false
+```
+
+### วิธีที่ 2 — แยก terminal
+
 ```bash
 # Terminal 1: rosbridge (สำหรับ joint control + map)
 ros2 launch rosbridge_server rosbridge_websocket_launch.xml
@@ -297,7 +310,12 @@ ros2 run amr_mtt_task_planner arm_jog_node
 # Terminal 3: nav_waypoint_server (สำหรับ waypoints)
 ros2 run amr_mtt_task_planner nav_waypoint_server
 
-# Terminal 4: Node-RED
+# Terminal 4: map_manager_node (สำหรับ SLAM + Save/Load map)
+ros2 run amr_mtt_task_planner map_manager_node
+```
+
+```bash
+# Terminal 5: Node-RED
 node-red
 
 # Browser
@@ -309,13 +327,38 @@ node-red
 
 ## 9. ลำดับการใช้งานที่แนะนำ (Startup Sequence)
 
+### ลำดับปกติ (Navigation + Arm Control)
 ```
 1. เปิด Gazebo simulation
-2. เปิด rosbridge, arm_jog_node, nav_waypoint_server
+2. ros2 launch amr_mtt_task_planner node_red_backend.launch.py
 3. เปิด Node-RED → http://localhost:1880/ui
 4. กด ♻ SYNC SLIDERS (sync slider ให้ตรงกับ robot จริง)
 5. กด 🔒 ENABLE ARM CONTROL (เปิด permission)
 6. ใช้งาน Preset Poses / Cartesian Jog ตามต้องการ
 7. กด 🚨 EMERGENCY STOP เมื่อต้องการหยุดทันที
 8. หลัง emergency: กด 🔓 RESET EMERGENCY → กด ENABLE ARM ใหม่
+```
+
+### ลำดับสำหรับสร้างแผนที่ใหม่ (SLAM Mapping)
+```
+1. เปิด Gazebo simulation
+2. ros2 launch amr_mtt_task_planner node_red_backend.launch.py
+3. เปิด Node-RED → http://localhost:1880/ui → กลุ่ม "🗺️ SLAM & Map Manager"
+4. กด ▶ Start SLAM  (map_manager_node เปิด slam_toolbox อัตโนมัติ)
+5. ขับหุ่นเพื่อสำรวจพื้นที่ — แผนที่จะปรากฏบน SLAM Map Canvas
+6. พิมพ์ชื่อ map เช่น "warehouse_v1" → กด 💾 Save Map
+   (ไฟล์ถูกบันทึกที่ ~/.ros/slam_maps/warehouse_v1.yaml)
+7. กด ⏹ Stop SLAM เมื่อสร้างแผนที่เสร็จแล้ว
+8. เปิด Nav2: ros2 launch amr_mtt_bot nav2.launch.py
+9. เลือก map จาก dropdown → กด 📂 Load Map (โหลดเข้า Nav2 ทันที)
+```
+
+### Map Manager API (port 5007)
+```
+GET  /status               → { slam_running, nav_map, maps[] }
+POST /start_slam           → เปิด slam_toolbox
+POST /stop_slam            → ปิด slam_toolbox
+POST /save_map  {name}     → บันทึก map → ~/.ros/slam_maps/<name>.yaml
+GET  /maps                 → รายการ map (package + user-saved)
+POST /load_map  {name}     → โหลด map เข้า Nav2 ผ่าน /map_server/load_map
 ```

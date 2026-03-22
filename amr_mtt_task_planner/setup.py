@@ -10,6 +10,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/launch', ['launch/node_red_backend.launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -26,14 +27,13 @@ setup(
         'console_scripts': [
             'coordinator_node = amr_mtt_task_planner.coordinator_node:main',
             'planning_scene_setup = amr_mtt_task_planner.planning_scene_setup:main',
-            'nav_sequence = amr_mtt_task_planner.nav_sequence:main',
             'save_waypoint = amr_mtt_task_planner.save_waypoint:main',
             'task_sequence = amr_mtt_task_planner.task_sequence:main',
             'set_initial_pose = amr_mtt_task_planner.set_initial_pose:main',
-            'pick_ik = amr_mtt_task_planner.pick_ik:main',
             'arm_jog_node = amr_mtt_task_planner.arm_jog_node:main',
             'nav_waypoint_server = amr_mtt_task_planner.nav_waypoint_server:main',
             'map_manager_node = amr_mtt_task_planner.map_manager_node:main',
+            'task_config_server = amr_mtt_task_planner.task_config_server:main',
         ],
     },
 )

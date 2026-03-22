@@ -16,8 +16,12 @@ Endpoints:
 
 import math
 import json
+import logging
 import threading
 import os
+
+# Suppress werkzeug access logs (poll requests are too noisy)
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 from flask import Flask, request, jsonify
 
@@ -241,6 +245,19 @@ class NavWaypointNode(Node):
 
 app  = Flask(__name__)
 node: NavWaypointNode = None   # set in main()
+
+
+@app.after_request
+def _cors(response):
+    response.headers['Access-Control-Allow-Origin']  = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
+@app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
+@app.route('/<path:path>', methods=['OPTIONS'])
+def _preflight(path):
+    return '', 204
 
 
 @app.route('/status', methods=['GET'])

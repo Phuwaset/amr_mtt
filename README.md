@@ -146,6 +146,46 @@ node-red
 
 ---
 
+---
+
+## Usage For test
+
+### 1. Launch Main Simulation (Gazebo + Controllers)
+```bash
+ros2_nvidia launch amr_mtt_bot launch_sim_amr.launch.py
+```
+> **หลัก** — เปิด Ignition Gazebo + ros2_control + ส่งแขนกลไป HOME pose อัตโนมัติหลัง 12 วินาที
+> จะถามตอน launch: กล้อง / Stereo Camera / LiDAR เปิดหรือปิด
+> NVIDIA GPU offload. ใช้ GPU ปกติให้ใช้ `ros2 launch ...`
+
+### 2. Run Navigation (ต่างหน้าต่าง)
+```bash
+ros2_nvidia launch amr_mtt_bot nav2.launch.py
+```
+
+### 3. Run Localization AMCL
+```bash
+ros2 run amr_mtt_task_planner set_initial_pose
+```
+
+### 4. Launch node_red_backend rosbridge
+```bash
+ros2 launch amr_mtt_task_planner node_red_backend.launch.py
+```
+
+### 5. Node-RED Arm Control Dashboard
+```bash
+# Terminal เปิด Node-RED
+node-red
+
+# Import flow แล้วเปิด Dashboard
+# http://localhost:1880/ui
+```
+> Import: `node_red_flows/arm_control_flow.json` — ควบคุม joint ทีละตัวพร้อม preset poses + gripper
+
+
+---
+
 ## Robot Specifications
 
 | Parameter | Value |

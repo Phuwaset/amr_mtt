@@ -39,15 +39,20 @@ Coordinator integration:
 
 import math
 import json
+import logging
 import threading
 import os
 import time
+
+# Suppress werkzeug access logs (GET /status polls every 200 ms — too noisy)
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 import numpy as np
 import PyKDL as kdl
 
 from flask import Flask, request, jsonify
 from flask_socketio import SocketIO
+from flask_cors import CORS
 
 import rclpy
 from rclpy.node import Node
@@ -71,7 +76,7 @@ JOG_STEP_M    = 0.02           # 20 mm per Cartesian click
 JOG_STEP_RAD  = math.radians(5)  # 5° per orientation/wrist click
 JOG_DURATION  = 0.3            # seconds per jog move
 HOME_DURATION = 2.5
-GOTO_DURATION = 3.0
+GOTO_DURATION = 1.5
 
 POSITIONS_FILE = os.path.expanduser('~/.ros/arm_positions.json')
 
@@ -97,6 +102,7 @@ class ArmJogNode(Node):
         self._gripper_open   = True
         self._gripper_pos    = 0.0          # actual knuckle joint angle [rad]
         self._arm_goal_handle = None
+        self._arm_done_event  = threading.Event()
         self._mode           = 'MANUAL'     # 'MANUAL' | 'LOCKED'
         self._seq_running    = False
 
@@ -204,6 +210,7 @@ class ArmJogNode(Node):
     def _arm_result_cb(self, future):
         with self._lock:
             self._arm_goal_handle = None
+        self._arm_done_event.set()   # แจ้ง _runner ว่า trajectory เสร็จแล้ว
 
     def _send_gripper(self, open_g: bool):
         goal = GripperCommand.Goal()
@@ -313,16 +320,31 @@ class ArmJogNode(Node):
 
         def _runner():
             self._seq_running = True
+            total = len(slots)
             self.get_logger().info(f'[Jog] Sequence start: {slots}')
             try:
-                for slot in slots:
-                    if not self._seq_running:
+                for i, slot in enumerate(slots):
+                    if not self._seq_running or self._mode == 'LOCKED':
                         self.get_logger().info('[Jog] Sequence aborted')
+                        socketio.emit('seq_progress', {
+                            'slot': slot, 'idx': i, 'total': total, 'aborted': True
+                        })
                         return
-                    q = self._positions[slot]['q']
-                    self._send_arm(q, GOTO_DURATION)
-                    time.sleep(GOTO_DURATION + delay_sec)
+                    pos = self._positions[slot]
+                    self._arm_done_event.clear()
+                    self._send_arm(pos['q'], GOTO_DURATION)
+                    # รอ action result จริง (ไม่ใช่ wall-clock sleep)
+                    self._arm_done_event.wait(timeout=GOTO_DURATION * 10)
+                    # ส่ง gripper command ตาม state ที่บันทึกไว้
+                    if 'gripper_open' in pos:
+                        self._send_gripper(pos['gripper_open'])
+                    time.sleep(delay_sec)   # หน่วงเล็กน้อยหลังถึงจุด
+                    self.get_logger().info(f'[Jog] Slot {slot} done ({i+1}/{total})')
+                    socketio.emit('seq_progress', {
+                        'slot': slot, 'idx': i + 1, 'total': total, 'aborted': False
+                    })
                 self.get_logger().info('[Jog] Sequence complete')
+                socketio.emit('seq_complete', {'slots': slots})
             finally:
                 self._seq_running = False
 
@@ -352,6 +374,32 @@ class ArmJogNode(Node):
             return f'unknown action: {action}'
         return 'ok'
 
+    def do_emergency_stop(self) -> str:
+        """Cancel active arm goal immediately and lock all motion commands."""
+        with self._lock:
+            old_gh = self._arm_goal_handle
+            self._mode = 'LOCKED'
+        self._seq_running = False   # หยุด sequence runner
+        if old_gh is not None:
+            old_gh.cancel_goal_async()
+        self.get_logger().warn('[Jog] *** EMERGENCY STOP activated ***')
+        return 'LOCKED'
+
+    def do_move_joint(self, joint_idx: int, angle_deg: float, duration_sec: float = JOG_DURATION) -> str:
+        """Move a single joint to an absolute angle (degrees)."""
+        err = self._check_locked()
+        if err:
+            return err
+        if not 0 <= joint_idx <= 5:
+            return f'invalid joint index: {joint_idx}'
+        q_new = self.current_q()
+        q_new[joint_idx] = math.radians(angle_deg)
+        ok, violations = check_joint_limits(q_new)
+        if not ok:
+            return f'joint limit: {violations[0]}'
+        self._send_arm(q_new, max(0.1, float(duration_sec)))
+        return 'ok'
+
     def do_set_lock(self, locked: bool) -> str:
         with self._lock:
             self._mode = 'LOCKED' if locked else 'MANUAL'
@@ -364,6 +412,7 @@ class ArmJogNode(Node):
 # ─────────────────────────────────────────────────────────────────
 
 app      = Flask(__name__)
+CORS(app)
 socketio = SocketIO(app, async_mode='threading', cors_allowed_origins='*')
 node: ArmJogNode = None   # set in main()
 
@@ -436,7 +485,7 @@ def goto_pos():
 def run_sequence():
     data      = request.get_json(force=True)
     slots     = [str(s) for s in data.get('slots', [])]
-    delay_sec = float(data.get('delay_sec', 1.0))
+    delay_sec = float(data.get('delay_sec', 0.3))
     if not slots:
         return jsonify({'status': 'no slots provided'}), 400
     return jsonify({'status': node.do_run_sequence(slots, delay_sec)})
@@ -462,6 +511,20 @@ def home():
 def mode():
     with node._lock:
         return jsonify({'mode': node._mode})
+
+
+@app.route('/estop', methods=['POST'])
+def estop():
+    return jsonify({'mode': node.do_emergency_stop()})
+
+
+@app.route('/move_joint', methods=['POST'])
+def move_joint():
+    data         = request.get_json(force=True)
+    joint_idx    = int(data.get('joint', 0))
+    angle_deg    = float(data.get('angle_deg', 0.0))
+    duration_sec = float(data.get('duration_sec', JOG_DURATION))
+    return jsonify({'status': node.do_move_joint(joint_idx, angle_deg, duration_sec)})
 
 
 @app.route('/lock', methods=['POST'])
