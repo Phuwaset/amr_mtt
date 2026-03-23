@@ -1,1871 +1,1970 @@
 [
-  {
-    "id": "ae0acf5dd203d39a",
-    "type": "tab",
-    "label": "AMR MTT",
-    "disabled": false,
-    "info": ""
-  },
-  {
-    "id": "2329504dafa34a2e",
-    "type": "websocket-client",
-    "z": "ae0acf5dd203d39a",
-    "path": "ws://localhost:9090",
-    "tls": "",
-    "hb": "0",
-    "subprotocol": ""
-  },
-  {
-    "id": "9e04139f6caf16ed",
-    "type": "ui_base",
-    "theme": {
-      "name": "theme-light",
-      "lightTheme": {
-        "default": "#0094CE",
-        "baseColor": "#0094CE",
-        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-        "edited": true,
-        "reset": false
-      },
-      "darkTheme": {
-        "default": "#097479",
-        "baseColor": "#097479",
-        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-        "edited": false
-      },
-      "customTheme": {
-        "name": "Untitled Theme 1",
-        "default": "#4B7930",
-        "baseColor": "#4B7930",
-        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
-      },
-      "themeState": {
-        "base-color": {
-          "default": "#0094CE",
-          "value": "#0094CE",
-          "edited": false
-        },
-        "page-titlebar-backgroundColor": {
-          "value": "#0094CE",
-          "edited": false
-        },
-        "page-backgroundColor": {
-          "value": "#fafafa",
-          "edited": false
-        },
-        "page-sidebar-backgroundColor": {
-          "value": "#ffffff",
-          "edited": false
-        },
-        "group-textColor": {
-          "value": "#1bbfff",
-          "edited": false
-        },
-        "group-borderColor": {
-          "value": "#ffffff",
-          "edited": false
-        },
-        "group-backgroundColor": {
-          "value": "#ffffff",
-          "edited": false
-        },
-        "widget-textColor": {
-          "value": "#111111",
-          "edited": false
-        },
-        "widget-backgroundColor": {
-          "value": "#0094ce",
-          "edited": false
-        },
-        "widget-borderColor": {
-          "value": "#ffffff",
-          "edited": false
-        },
-        "base-font": {
-          "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
-        }
-      },
-      "angularTheme": {
-        "primary": "indigo",
-        "accents": "blue",
-        "warn": "red",
-        "background": "grey",
-        "palette": "light"
-      }
+    {
+        "id": "ae0acf5dd203d39a",
+        "type": "tab",
+        "label": "AMR MTT",
+        "disabled": false,
+        "info": ""
     },
-    "site": {
-      "name": "Node-RED Dashboard",
-      "hideToolbar": "false",
-      "allowSwipe": "false",
-      "lockMenu": "false",
-      "allowTempTheme": "true",
-      "dateFormat": "DD/MM/YYYY",
-      "sizes": {
-        "sx": 48,
-        "sy": 48,
-        "gx": 6,
-        "gy": 6,
-        "cx": 6,
-        "cy": 6,
-        "px": 0,
-        "py": 0
-      }
+    {
+        "id": "2329504dafa34a2e",
+        "type": "websocket-client",
+        "z": "ae0acf5dd203d39a",
+        "path": "ws://localhost:9090",
+        "tls": "",
+        "hb": "0",
+        "subprotocol": ""
+    },
+    {
+        "id": "9e04139f6caf16ed",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "f3aa5153a951260c",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "1a2b3c4d5e6f7a8b",
+        "type": "ui_group",
+        "name": "Joint Sliders",
+        "tab": "f3aa5153a951260c",
+        "order": 3,
+        "disp": true,
+        "width": 16,
+        "collapse": false
+    },
+    {
+        "id": "task_cfg_group_01",
+        "type": "ui_group",
+        "name": "Task Configuration",
+        "tab": "f3aa5153a951260c",
+        "order": 5,
+        "disp": true,
+        "width": 16,
+        "collapse": false
+    },
+    {
+        "id": "es00group0000001",
+        "type": "ui_group",
+        "name": "Emergency Control",
+        "tab": "f3aa5153a951260c",
+        "order": 0,
+        "disp": true,
+        "width": 16,
+        "collapse": false
+    },
+    {
+        "id": "0fe3cda65e472512",
+        "type": "ui_group",
+        "name": "AMR_GUI",
+        "tab": "f3aa5153a951260c",
+        "order": 1,
+        "disp": true,
+        "width": 16,
+        "collapse": false
+    },
+    {
+        "id": "54cdf6a9e4bd7986",
+        "type": "ui_group",
+        "name": "Group 2",
+        "tab": "f3aa5153a951260c",
+        "order": 2,
+        "disp": true,
+        "width": 26,
+        "collapse": false
+    },
+    {
+        "id": "a0709f9bcbe2f7c6",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 1,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "4192d9f51f632657",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 3,
+        "width": 11,
+        "height": 1
+    },
+    {
+        "id": "a6529124d8445f1d",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 4,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "8879c62efd88418e",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 5,
+        "width": 11,
+        "height": 1
+    },
+    {
+        "id": "36692fea2f47e774",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 11,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "a30de9618e92a0cd",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 18,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "9c66378d617c6105",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 20,
+        "width": 11,
+        "height": 1
+    },
+    {
+        "id": "c9a463599936349a",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 21,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "13bb608ba32cd762",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "0fe3cda65e472512",
+        "order": 22,
+        "width": 11,
+        "height": 1
+    },
+    {
+        "id": "7bc887663ddff59c",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b69cf8c18994b91e",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "87103103a52e3061",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "21c10dfd8912e785",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "bc1018e2438369d3",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "ec01bf337ee8253c",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "1473341c4d16a6b9",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 9,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "c27df1919bbb4307",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 10,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "0f5e9abe0352f757",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 11,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "1211c2eb032e8ec8",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 12,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "cfe502eac817d5aa",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 13,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "8065ee88bb20a555",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 14,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "aace8f59eb83ca0a",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 15,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "22c92530ec705d3b",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 16,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "fc5ad7fca8719dad",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 17,
+        "width": 26,
+        "height": 1
+    },
+    {
+        "id": "deb8e777606630d0",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 18,
+        "width": 26,
+        "height": 1
+    },
+    {
+        "id": "d88c957fe9a5d4e6",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 20,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "f4bd2a527d1e63a6",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 21,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "c32e9177a4bbf42e",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 22,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "2eed248784f06848",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 23,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "3e2991900a95fa17",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 24,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "21b875d5824b86f3",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 25,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "54774b7a53fc96d4",
+        "type": "ui_spacer",
+        "z": "ae0acf5dd203d39a",
+        "name": "spacer",
+        "group": "54cdf6a9e4bd7986",
+        "order": 26,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "704966202e213b2d",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "0fe3cda65e472512",
+        "order": 2,
+        "width": 3,
+        "height": 6,
+        "name": "Live Joint Positions",
+        "label": "Joint States (J1-J6)",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 900,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ce5588df3a273c73",
+        "type": "ui_dropdown",
+        "z": "ae0acf5dd203d39a",
+        "name": "Step",
+        "label": "Step Size",
+        "tooltip": "",
+        "place": "",
+        "group": "0fe3cda65e472512",
+        "order": 8,
+        "width": 3,
+        "height": 1,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "5 mm",
+                "value": "0.005",
+                "type": "str"
+            },
+            {
+                "label": "10 mm",
+                "value": "0.010",
+                "type": "str"
+            },
+            {
+                "label": "20 mm",
+                "value": "0.020",
+                "type": "str"
+            },
+            {
+                "label": "50 mm",
+                "value": "0.050",
+                "type": "str"
+            },
+            {
+                "label": "100 mm",
+                "value": "0.100",
+                "type": "str"
+            }
+        ],
+        "payload": "0.020",
+        "topic": "step",
+        "topicType": "str",
+        "x": 140,
+        "y": 1320,
+        "wires": [
+            [
+                "2603dda6e1091f55"
+            ]
+        ]
+    },
+    {
+        "id": "b70399670a533f65",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 13,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "⬆ Z+ Up",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#2196F3",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1360,
+        "wires": [
+            [
+                "83452f88a21cbd55"
+            ]
+        ]
+    },
+    {
+        "id": "29650cccb66698f2",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 14,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "⬇ Z- Down",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#2196F3",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1400,
+        "wires": [
+            [
+                "f1630a1df63eaf6e"
+            ]
+        ]
+    },
+    {
+        "id": "5fa509c705f519dc",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 10,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "▶ Y+ Fwd",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#4CAF50",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1440,
+        "wires": [
+            [
+                "33d30493467d7105"
+            ]
+        ]
+    },
+    {
+        "id": "33d3549a7adb6dc4",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 12,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "◀ Y- Back",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#4CAF50",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1480,
+        "wires": [
+            [
+                "ab8bc1cbfde1981f"
+            ]
+        ]
+    },
+    {
+        "id": "27ea3c0839d3851e",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 6,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "X+ →",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#FF9800",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1520,
+        "wires": [
+            [
+                "dec96870e692ff94"
+            ]
+        ]
+    },
+    {
+        "id": "ebd63d15cbc80da1",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 9,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "← X-",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#FF9800",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1560,
+        "wires": [
+            [
+                "3e1e41e96f7ba35a"
+            ]
+        ]
+    },
+    {
+        "id": "eed7b03307f15a4f",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 15,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "↻ Wrist+",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1600,
+        "wires": [
+            [
+                "2fafab1925c91fa2"
+            ]
+        ]
+    },
+    {
+        "id": "4904246beb18bfd1",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 16,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "↺ Wrist-",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#9C27B0",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1640,
+        "wires": [
+            [
+                "b92edbbcb843399d"
+            ]
+        ]
+    },
+    {
+        "id": "8de47a738b95a8ca",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 7,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "label": "🏠 HOME",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#F44336",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1680,
+        "wires": [
+            [
+                "72bde429facfdf52"
+            ]
+        ]
+    },
+    {
+        "id": "846322eaedf82654",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 17,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "✋ Open",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#4CAF50",
+        "icon": "",
+        "payload": "open",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1720,
+        "wires": [
+            [
+                "81624925edcae4f9"
+            ]
+        ]
+    },
+    {
+        "id": "6ac3b5867418f7ca",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "",
+        "group": "0fe3cda65e472512",
+        "order": 19,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "✊ Close",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#795548",
+        "icon": "",
+        "payload": "close",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 140,
+        "y": 1760,
+        "wires": [
+            [
+                "81624925edcae4f9"
+            ]
+        ]
+    },
+    {
+        "id": "fc41d6922ab5f437",
+        "type": "ui_template",
+        "z": "ae0acf5dd203d39a",
+        "group": "54cdf6a9e4bd7986",
+        "name": "Save/Load Panel",
+        "order": 19,
+        "width": 25,
+        "height": 7,
+        "format": "<style>\n#sl-wrap{background:#1a1a2e;padding:12px;border-radius:8px;font-family:monospace;color:#ccc}\n.sl-hdr{color:#4fc3f7;font-weight:bold;font-size:15px;margin-bottom:8px;border-bottom:1px solid #333;padding-bottom:6px}\n.sl-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}\n.sl-label{color:#aaa;font-size:12px;min-width:100px}\n.sl-btn{border:none;border-radius:4px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:bold;transition:all .15s}\n.sl-btn:hover{opacity:.8;transform:scale(1.04)} .sl-btn:active{transform:scale(.96)}\n.btn-save{background:#ff8f00;color:#000}\n.btn-goto{background:#1565c0;color:#fff}\n.btn-run{background:#00c853;color:#000}\n.btn-stop{background:#d32f2f;color:#fff}\n.sl-select{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1}\n.sl-input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:12px;outline:none;width:180px}\n.sl-log{background:#111;border-radius:4px;padding:8px 10px;font-size:12px;min-height:32px;margin-bottom:10px;border:1px solid #222;line-height:1.5}\n.sl-log.ok{color:#00e676} .sl-log.err{color:#ff5252} .sl-log.info{color:#4fc3f7} .sl-log.done{color:#ffeb3b}\n.sl-divider{border:none;border-top:1px solid #2a2a3e;margin:8px 0}\n\n/* ── Slot Grid ── */\n.sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:8px}\n.sl-chip{\n  background:#1e1e30;border:2px solid #333;border-radius:10px;\n  padding:8px 6px;font-size:11px;display:flex;flex-direction:column;\n  align-items:center;gap:5px;transition:all .2s;cursor:default;\n  position:relative;\n}\n.sl-chip.saved{border-color:#ff8f00;background:#2a1e00}\n.sl-chip.active{border-color:#00e676;background:#001a0d;transform:scale(1.04)}\n.sl-chip-icon{font-size:22px;line-height:1}\n.sl-chip-name{color:#4fc3f7;font-weight:bold;font-size:12px}\n.sl-chip-status{color:#aaa;font-size:10px}\n.sl-chip-btns{display:flex;gap:3px;width:100%}\n.sl-chip-btns button{\n  flex:1;border:none;border-radius:5px;padding:4px 2px;\n  cursor:pointer;font-size:11px;font-weight:bold;transition:all .15s;\n}\n.sl-chip-btns button:hover{opacity:.8;transform:scale(1.06)}\n.sl-chip-btns button:active{transform:scale(.94)}\n.btn-cs{background:#ff8f00;color:#000}\n.btn-cg{background:#1565c0;color:#fff}\n\n/* ── Add/Remove Controls ── */\n.sl-ctrl{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}\n.btn-add-slot{\n  background:linear-gradient(135deg,#1a237e,#283593);\n  color:#fff;border:none;border-radius:8px;\n  padding:8px 16px;cursor:pointer;font-size:13px;font-weight:bold;\n  transition:all .15s;display:flex;align-items:center;gap:6px;\n}\n.btn-add-slot:hover{background:linear-gradient(135deg,#283593,#3949ab);transform:scale(1.04)}\n.btn-add-slot:active{transform:scale(.96)}\n.btn-del-slot{\n  background:linear-gradient(135deg,#4a0000,#7f0000);\n  color:#ff8a80;border:none;border-radius:8px;\n  padding:8px 16px;cursor:pointer;font-size:13px;font-weight:bold;\n  transition:all .15s;display:flex;align-items:center;gap:6px;\n}\n.btn-del-slot:hover{background:linear-gradient(135deg,#7f0000,#b71c1c);transform:scale(1.04)}\n.btn-del-slot:active{transform:scale(.96)}\n.slot-count-badge{\n  background:#2a2a3e;border:1px solid #555;border-radius:12px;\n  padding:4px 12px;color:#80cbc4;font-size:12px;\n}\n</style>\n\n<div id=\"sl-wrap\">\n  <div class=\"sl-hdr\">💾 Save / Load Position</div>\n\n  <!-- STATUS LOG -->\n  <div class=\"sl-log info\" id=\"sl-log\">รอ arm_jog_node...</div>\n\n  <!-- single slot save/goto -->\n  <div class=\"sl-row\">\n    <span class=\"sl-label\">Slot</span>\n    <select class=\"sl-select\" id=\"sl-slot-sel\"></select>\n    <button class=\"sl-btn btn-save\" onclick=\"slSave()\">💾 Save</button>\n    <button class=\"sl-btn btn-goto\" onclick=\"slGoto()\">▶ Go To</button>\n  </div>\n\n  <hr class=\"sl-divider\">\n\n  <!-- sequence player -->\n  <div class=\"sl-row\">\n    <span class=\"sl-label\">Sequence</span>\n    <input class=\"sl-input\" id=\"sl-seq-input\" placeholder=\"เช่น 1,3,5,2\">\n    <input class=\"sl-input\" id=\"sl-delay-input\" placeholder=\"delay วินาที (default 1)\" style=\"width:140px\">\n    <button class=\"sl-btn btn-run\"  onclick=\"slRunSeq()\">▶ Run</button>\n    <button class=\"sl-btn btn-stop\" onclick=\"slStopSeq()\">⏹ Stop</button>\n  </div>\n\n  <hr class=\"sl-divider\">\n\n  <!-- Add / Remove slot controls -->\n  <div class=\"sl-ctrl\">\n    <span style=\"color:#80cbc4;font-size:12px;font-weight:bold\">📦 Slots:</span>\n    <span class=\"slot-count-badge\" id=\"sl-count\">0 slots</span>\n    <button class=\"btn-add-slot\" onclick=\"slAddSlot()\">➕ เพิ่ม Slot</button>\n    <button class=\"btn-del-slot\" onclick=\"slRemoveSlot()\">➖ ลบ Slot</button>\n  </div>\n\n  <!-- slot grid -->\n  <div id=\"sl-grid\" class=\"sl-grid\"></div>\n</div>\n\n<script src=\"https://cdn.socket.io/4.7.5/socket.io.min.js\"></script>\n<script>\n(function(){\n  var API = 'http://localhost:5005';\n  var savedSlots = [];\n  var totalSlots = 20;   // จำนวน slot ปัจจุบัน (เริ่มต้น 20)\n  var activeSlot = null;\n  var logEl = document.getElementById('sl-log');\n\n  var SLOT_ICONS = ['🤖','🦾','🎯','📦','🔧','⚙️','🎮','🕹️','🔩','🛠️',\n                    '🚀','⭐','💡','🔬','🧲','🎲','🔮','🏆','💎','🌟',\n                    '🦿','🤜','👾','🎪','🎠','🎡','🎢','🌈','⚡','🔥'];\n\n  function getIcon(n){\n    return SLOT_ICONS[(n-1) % SLOT_ICONS.length];\n  }\n\n  function log(m, type){\n    logEl.textContent = m;\n    logEl.className = 'sl-log ' + (type||'info');\n  }\n\n  function buildGrid(slots){\n    savedSlots = slots.slice();\n    var grid = document.getElementById('sl-grid');\n    grid.innerHTML = '';\n    document.getElementById('sl-count').textContent = totalSlots + ' slots';\n\n    // rebuild dropdown\n    var sel = document.getElementById('sl-slot-sel');\n    var prev = sel.value;\n    sel.innerHTML = '';\n    for(var i=1;i<=totalSlots;i++){\n      var opt = document.createElement('option');\n      opt.value = i; opt.textContent = 'Slot '+i;\n      sel.appendChild(opt);\n    }\n    if(prev && parseInt(prev) <= totalSlots) sel.value = prev;\n\n    for(var i=1;i<=totalSlots;i++){\n      var s = String(i);\n      var isSaved = slots.indexOf(s) !== -1;\n      var isActive = activeSlot === s;\n\n      var chip = document.createElement('div');\n      chip.className = 'sl-chip' + (isSaved?' saved':'') + (isActive?' active':'');\n      chip.id = 'chip-'+s;\n\n      chip.innerHTML =\n        '<div class=\"sl-chip-icon\">'+getIcon(i)+'</div>'+\n        '<div class=\"sl-chip-name\">Slot '+i+'</div>'+\n        '<div class=\"sl-chip-status\">'+(isSaved?'✅ saved':'— empty')+'</div>'+\n        '<div class=\"sl-chip-btns\">'+\n          '<button class=\"btn-cs\" onclick=\"slSaveSlot(\\''+s+'\\')\">💾</button>'+\n          '<button class=\"btn-cg\" onclick=\"slGotoSlot(\\''+s+'\\')\"'+(isSaved?'':' disabled style=\"opacity:.35\"')+'>▶</button>'+\n        '</div>';\n      grid.appendChild(chip);\n    }\n  }\n\n  function setActive(slot){\n    if(activeSlot){\n      var old = document.getElementById('chip-'+activeSlot);\n      if(old) old.classList.remove('active');\n    }\n    activeSlot = slot;\n    var el = document.getElementById('chip-'+slot);\n    if(el){\n      el.classList.add('active');\n      el.scrollIntoView({behavior:'smooth', block:'nearest'});\n    }\n  }\n\n  function poll(){\n    fetch(API+'/status')\n      .then(function(r){return r.json();})\n      .then(function(d){ buildGrid(d.saved_slots||[]); })\n      .catch(function(){ log('⚠️ arm_jog_node offline','err'); });\n  }\n\n  // ── Add / Remove Slot ──────────────────────────────────────\n  function slAddSlot(){\n    totalSlots++;\n    buildGrid(savedSlots);\n    log('➕ เพิ่มเป็น '+totalSlots+' slots','info');\n    // scroll to new slot\n    var el = document.getElementById('chip-'+totalSlots);\n    if(el) el.scrollIntoView({behavior:'smooth', block:'nearest'});\n  }\n\n  function slRemoveSlot(){\n    if(totalSlots <= 1){ log('⚠️ ต้องมีอย่างน้อย 1 slot','err'); return; }\n    // ไม่ลบถ้า slot นั้นมีข้อมูลอยู่\n    if(savedSlots.indexOf(String(totalSlots)) !== -1){\n      log('⚠️ Slot '+totalSlots+' มีข้อมูล — ไม่สามารถลบได้','err');\n      return;\n    }\n    totalSlots--;\n    buildGrid(savedSlots);\n    log('➖ ลดเหลือ '+totalSlots+' slots','info');\n  }\n\n  // ── SocketIO ───────────────────────────────────────────────\n  try {\n    var socket = io(API, {transports:['websocket','polling']});\n    socket.on('connect', function(){ log('✅ เชื่อมต่อ arm_jog_node แล้ว','ok'); });\n    socket.on('disconnect', function(){ log('⚠️ ขาดการเชื่อมต่อ','err'); });\n    socket.on('seq_progress', function(d){\n      if(d.aborted){\n        log('⛔ Sequence ถูกหยุด (ก่อน Slot '+d.slot+')','err');\n        activeSlot = null;\n      } else {\n        setActive(d.slot);\n        log('✅ Slot '+d.slot+' เสร็จแล้ว  ('+d.idx+'/'+d.total+')','done');\n      }\n    });\n    socket.on('seq_complete', function(d){\n      log('🎉 Sequence เสร็จสิ้น ทั้งหมด '+d.slots.length+' positions','ok');\n      activeSlot = null;\n      poll();\n    });\n  } catch(e){}\n\n  // ── REST actions ───────────────────────────────────────────\n  function slSave(){ slSaveSlot(document.getElementById('sl-slot-sel').value); }\n  function slGoto(){ slGotoSlot(document.getElementById('sl-slot-sel').value); }\n\n  function slSaveSlot(slot){\n    log('💾 กำลัง save slot '+slot+'...','info');\n    fetch(API+'/save_pos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slot:slot})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ Save slot '+slot+' เสร็จแล้ว','ok'); poll(); })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n  function slGotoSlot(slot){\n    log('🤖 กำลังเคลื่อนไปยัง slot '+slot+'...','info');\n    setActive(slot);\n    fetch(API+'/goto_pos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slot:slot})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ ถึง slot '+slot+' เสร็จแล้ว','ok'); })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n  function slRunSeq(){\n    var raw = document.getElementById('sl-seq-input').value.trim();\n    var delay = parseFloat(document.getElementById('sl-delay-input').value)||1.0;\n    if(!raw){ log('⚠️ กรุณาใส่หมายเลข slot','err'); return; }\n    var slots = raw.split(',').map(function(s){return s.trim();}).filter(Boolean);\n    log('▶ เริ่ม Sequence: ['+slots.join(', ')+']  delay='+delay+'s','info');\n    fetch(API+'/run_sequence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slots:slots,delay_sec:delay})})\n      .then(function(r){return r.json();})\n      .then(function(d){ if(d.status&&d.status.indexOf('started')===-1) log('⚠️ '+d.status,'err'); })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n  function slStopSeq(){\n    log('⏹ ส่งคำสั่ง Stop...','info');\n    fetch(API+'/stop_sequence',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('⛔ Sequence ถูกหยุด','err'); activeSlot=null; })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n\n  window.slSave=slSave; window.slGoto=slGoto;\n  window.slSaveSlot=slSaveSlot; window.slGotoSlot=slGotoSlot;\n  window.slRunSeq=slRunSeq; window.slStopSeq=slStopSeq;\n  window.slAddSlot=slAddSlot; window.slRemoveSlot=slRemoveSlot;\n\n  setInterval(poll, 3000);\n  poll();\n})();\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 370,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f3ebc57816313cb0",
+        "type": "ui_template",
+        "z": "ae0acf5dd203d39a",
+        "group": "54cdf6a9e4bd7986",
+        "name": "SLAM & Map Manager Panel",
+        "order": 1,
+        "width": 13,
+        "height": 14,
+        "format": "<style>\n#mm-wrap{background:#1a1a2e;padding:12px;border-radius:8px;font-family:monospace;color:#ccc}\n.mm-hdr{color:#4fc3f7;font-weight:bold;font-size:15px;margin-bottom:10px;border-bottom:1px solid #333;padding-bottom:6px}\n.mm-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}\n.mm-label{color:#aaa;font-size:12px;min-width:90px}\n.mm-btn{border:none;border-radius:4px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:bold;transition:opacity .2s}\n.mm-btn:hover{opacity:.8}\n.mm-btn:active{opacity:.6}\n.btn-green{background:#00c853;color:#000}\n.btn-red{background:#d32f2f;color:#fff}\n.btn-blue{background:#1565c0;color:#fff}\n.btn-amber{background:#ff8f00;color:#000}\n.mm-input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1;min-width:120px}\n.mm-input:focus{border-color:#4fc3f7}\n.mm-select{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1}\n.mm-status{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap}\n.mm-badge{padding:3px 10px;border-radius:12px;font-size:12px;font-weight:bold}\n.badge-slam-on{background:#00c853;color:#000}\n.badge-slam-off{background:#444;color:#aaa}\n.badge-map{background:#1565c0;color:#fff}\n.badge-none{background:#333;color:#888}\n.mm-log{background:#111;border-radius:4px;padding:6px 8px;font-size:11px;color:#0f0;min-height:28px;margin-top:8px;border:1px solid #222;word-break:break-all}\n.mm-divider{border:none;border-top:1px solid #2a2a3e;margin:10px 0}\n.mm-map-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}\n.mm-map-chip{padding:3px 10px;border-radius:10px;font-size:11px;cursor:pointer;border:1px solid #555}\n.mm-map-chip.pkg{background:#1a237e;color:#90caf9}\n.mm-map-chip.user{background:#1b5e20;color:#a5d6a7}\n.mm-map-chip.selected{outline:2px solid #4fc3f7}\n</style>\n\n<div id=\"mm-wrap\">\n  <div class=\"mm-hdr\">🗺️ SLAM &amp; Map Manager</div>\n\n  <!-- Status -->\n  <div class=\"mm-status\">\n    <span id=\"mm-slam-badge\" class=\"mm-badge badge-slam-off\">⏹ SLAM OFF</span>\n    <span id=\"mm-navmap-badge\" class=\"mm-badge badge-none\">📂 No map loaded</span>\n  </div>\n\n  <!-- SLAM controls -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">SLAM Mapping</span>\n    <button class=\"mm-btn btn-green\" onclick=\"mmStartSlam()\">▶ Start SLAM</button>\n    <button class=\"mm-btn btn-red\"   onclick=\"mmStopSlam()\">⏹ Stop SLAM</button>\n  </div>\n\n  <hr class=\"mm-divider\">\n\n  <!-- Save map -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">Save Map</span>\n    <input class=\"mm-input\" id=\"mm-save-name\" placeholder=\"ชื่อ map เช่น warehouse_v1\" maxlength=\"40\">\n    <button class=\"mm-btn btn-amber\" onclick=\"mmSaveMap()\">💾 Save Map</button>\n  </div>\n\n  <hr class=\"mm-divider\">\n\n  <!-- Load map -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">Load to Nav2</span>\n    <select class=\"mm-select\" id=\"mm-map-select\"><option value=\"\">-- เลือก map --</option></select>\n    <button class=\"mm-btn btn-blue\" onclick=\"mmLoadMap()\">📂 Load Map</button>\n  </div>\n  <div id=\"mm-map-chips\" class=\"mm-map-list\"></div>\n\n  <!-- Log -->\n  <div class=\"mm-log\" id=\"mm-log\">รอ map_manager_node...</div>\n</div>\n\n<script>\n(function(){\n  var API = 'http://localhost:5007';\n  var lastMaps = [];\n  var selectedMap = '';\n\n  function log(msg){ document.getElementById('mm-log').textContent = msg; }\n\n  function updateUI(data){\n    // SLAM badge\n    var slamBadge = document.getElementById('mm-slam-badge');\n    if(data.slam_running){\n      slamBadge.className = 'mm-badge badge-slam-on';\n      slamBadge.textContent = '🔴 SLAM ON';\n    } else {\n      slamBadge.className = 'mm-badge badge-slam-off';\n      slamBadge.textContent = '⏹ SLAM OFF';\n    }\n    // Nav map badge\n    var mapBadge = document.getElementById('mm-navmap-badge');\n    if(data.nav_map){\n      mapBadge.className = 'mm-badge badge-map';\n      mapBadge.textContent = '📂 ' + data.nav_map;\n    } else {\n      mapBadge.className = 'mm-badge badge-none';\n      mapBadge.textContent = '📂 No map loaded';\n    }\n    // Map list\n    var maps = data.maps || [];\n    var sel = document.getElementById('mm-map-select');\n    var chips = document.getElementById('mm-map-chips');\n    // rebuild only if changed\n    var names = maps.map(function(m){return m.name+':'+m.source;}).join(',');\n    var lastName = lastMaps.map(function(m){return m.name+':'+m.source;}).join(',');\n    if(names !== lastName){\n      lastMaps = maps;\n      sel.innerHTML = '<option value=\"\">-- เลือก map --</option>';\n      chips.innerHTML = '';\n      maps.forEach(function(m){\n        var opt = document.createElement('option');\n        opt.value = m.name; opt.textContent = m.name + ' [' + m.source + ']';\n        sel.appendChild(opt);\n        var chip = document.createElement('span');\n        chip.className = 'mm-map-chip ' + m.source;\n        chip.textContent = m.name;\n        chip.title = m.path;\n        chip.onclick = function(){ selectedMap = m.name; sel.value = m.name; highlightChips(); };\n        chips.appendChild(chip);\n      });\n    }\n    if(selectedMap) sel.value = selectedMap;\n  }\n\n  function highlightChips(){\n    document.querySelectorAll('.mm-map-chip').forEach(function(c){\n      c.classList.toggle('selected', c.textContent === selectedMap);\n    });\n  }\n\n  function poll(){\n    fetch(API + '/status')\n      .then(function(r){return r.json();})\n      .then(updateUI)\n      .catch(function(){ document.getElementById('mm-slam-badge').textContent='⚠️ offline'; });\n  }\n\n  function mmStartSlam(){\n    log('กำลัง start SLAM...');\n    fetch(API + '/start_slam',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Start SLAM: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmStopSlam(){\n    log('กำลัง stop SLAM...');\n    fetch(API + '/stop_slam',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Stop SLAM: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmSaveMap(){\n    var name = document.getElementById('mm-save-name').value.trim();\n    if(!name){ log('กรุณาใส่ชื่อ map ก่อน'); return; }\n    log('กำลัง save map \"' + name + '\"...');\n    fetch(API + '/save_map',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Save map: ' + d.status); if(d.status==='ok') document.getElementById('mm-save-name').value=''; poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmLoadMap(){\n    var name = document.getElementById('mm-map-select').value;\n    if(!name){ log('กรุณาเลือก map ก่อน'); return; }\n    log('กำลัง load map \"' + name + '\" ไปยัง Nav2...');\n    fetch(API + '/load_map',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Load map: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  // expose to global for onclick\n  window.mmStartSlam = mmStartSlam;\n  window.mmStopSlam  = mmStopSlam;\n  window.mmSaveMap   = mmSaveMap;\n  window.mmLoadMap   = mmLoadMap;\n\n  setInterval(poll, 4000);\n  poll();\n})();\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 380,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5a8b9b66017d322c",
+        "type": "ui_template",
+        "z": "ae0acf5dd203d39a",
+        "group": "54cdf6a9e4bd7986",
+        "name": "Map Canvas",
+        "order": 2,
+        "width": 12,
+        "height": 14,
+        "format": "<style>\n#mc-wrap{background:#111;padding:8px;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:8px}\n#mc-canvas{border:1px solid #333;background:#222;max-width:100%}\n#mc-status{color:#4fc3f7;font-size:12px;font-family:monospace}\n#mc-info{color:#aaa;font-size:11px;font-family:monospace;display:flex;gap:16px;flex-wrap:wrap}\n.mc-legend{display:flex;align-items:center;gap:4px}\n.mc-dot{width:10px;height:10px;border-radius:2px;display:inline-block}\n</style>\n<div id=\"mc-wrap\">\n  <div id=\"mc-status\">รอ map...</div>\n  <canvas id=\"mc-canvas\" width=\"500\" height=\"500\"></canvas>\n  <div id=\"mc-info\">\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#eee\"></span> Free</span>\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#555\"></span> Unknown</span>\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#111;border:1px solid #555\"></span> Obstacle</span>\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#00e676;border-radius:50%\"></span> Robot</span>\n    <span id=\"mc-pose-txt\"></span>\n  </div>\n</div>\n<script>\n(function(){\n  var canvas  = document.getElementById('mc-canvas');\n  var ctx     = canvas.getContext('2d');\n  var status  = document.getElementById('mc-status');\n  var poseTxt = document.getElementById('mc-pose-txt');\n  var mapInfo = null;\n  var imgData = null;\n  var robot   = null;\n  var ws      = null;\n\n  function connect(){\n    ws = new WebSocket('ws://localhost:9090');\n    ws.onopen = function(){\n      status.textContent = 'เชื่อมต่อ rosbridge แล้ว — รอ /map...';\n      ws.send(JSON.stringify({op:'subscribe',topic:'/map',type:'nav_msgs/OccupancyGrid',throttle_rate:2000}));\n      ws.send(JSON.stringify({op:'subscribe',topic:'/amcl_pose',type:'geometry_msgs/PoseWithCovarianceStamped',throttle_rate:500}));\n    };\n    ws.onclose = function(){ status.textContent='⚠️ rosbridge ขาดการเชื่อมต่อ — reconnect ใน 3s'; setTimeout(connect,3000); };\n    ws.onerror = function(){ status.textContent='⚠️ WebSocket error'; };\n    ws.onmessage = function(e){\n      try{\n        var m = JSON.parse(e.data);\n        if(m.op!=='publish') return;\n        if(m.topic==='/map')       drawMap(m.msg);\n        if(m.topic==='/amcl_pose') updateRobot(m.msg);\n      }catch(ex){}\n    };\n  }\n\n  function drawMap(map){\n    var w=map.info.width, h=map.info.height;\n    if(!w||!h) return;\n    mapInfo={w:w,h:h,res:map.info.resolution,ox:map.info.origin.position.x,oy:map.info.origin.position.y};\n    var sc=Math.min(600/w,600/h,1);\n    canvas.width=Math.round(w*sc); canvas.height=Math.round(h*sc);\n    var img=ctx.createImageData(canvas.width,canvas.height);\n    var d=img.data, cw=canvas.width, ch=canvas.height;\n    for(var py=0;py<ch;py++){\n      for(var px=0;px<cw;px++){\n        var mx=Math.floor(px/sc), my=Math.floor((ch-1-py)/sc);\n        var idx=my*w+mx, val=(idx>=0&&idx<map.data.length)?map.data[idx]:-1;\n        var r,g,b;\n        if(val===-1){r=80;g=80;b=80;}\n        else if(val===0){r=230;g=230;b=230;}\n        else{r=30;g=30;b=30;}\n        var pi=(py*cw+px)*4;\n        d[pi]=r;d[pi+1]=g;d[pi+2]=b;d[pi+3]=255;\n      }\n    }\n    ctx.putImageData(img,0,0);\n    imgData=img;\n    status.textContent='✅ Map: '+w+'×'+h+' px | res: '+mapInfo.res.toFixed(3)+' m/px';\n    if(robot) drawRobot();\n  }\n\n  function updateRobot(msg){\n    var p=msg.pose.pose, q=p.orientation;\n    var sy=2*(q.w*q.z+q.x*q.y), cy=1-2*(q.y*q.y+q.z*q.z);\n    robot={x:p.position.x,y:p.position.y,yaw:Math.atan2(sy,cy)};\n    poseTxt.textContent='Robot: x='+robot.x.toFixed(2)+' y='+robot.y.toFixed(2)+' yaw='+(robot.yaw*180/Math.PI).toFixed(1)+'°';\n    if(imgData) drawRobot();\n  }\n\n  function drawRobot(){\n    if(!mapInfo||!robot) return;\n    ctx.putImageData(imgData,0,0);\n    var sc=canvas.width/mapInfo.w;\n    var px=(robot.x-mapInfo.ox)/mapInfo.res*sc;\n    var py=canvas.height-(robot.y-mapInfo.oy)/mapInfo.res*sc;\n    var r=Math.max(6,10*sc);\n    ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);\n    ctx.fillStyle='#00e676'; ctx.strokeStyle='#fff'; ctx.lineWidth=2;\n    ctx.fill(); ctx.stroke();\n    ctx.beginPath(); ctx.moveTo(px,py);\n    ctx.lineTo(px+Math.cos(-robot.yaw)*r*1.8, py+Math.sin(-robot.yaw)*r*1.8);\n    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();\n  }\n\n  connect();\n})();\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 380,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "291f97245efb8638",
+        "type": "inject",
+        "z": "ae0acf5dd203d39a",
+        "name": "Subscribe on Start",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 1.5,
+        "topic": "",
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "3afb065ddc73e17f"
+            ]
+        ]
+    },
+    {
+        "id": "3afb065ddc73e17f",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "Subscribe /joint_states",
+        "func": "msg.payload = JSON.stringify({\n    \"op\": \"subscribe\",\n    \"topic\": \"/joint_states\",\n    \"type\": \"sensor_msgs/JointState\"\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [
+                "5c24668efbba83ba"
+            ]
+        ]
+    },
+    {
+        "id": "5c24668efbba83ba",
+        "type": "websocket out",
+        "z": "ae0acf5dd203d39a",
+        "name": "Send to Rosbridge",
+        "server": "",
+        "client": "2329504dafa34a2e",
+        "x": 730,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "715451cda96fa1d7",
+        "type": "inject",
+        "z": "ae0acf5dd203d39a",
+        "name": "Init Sliders (Sync)",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 2,
+        "topic": "init_sync",
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "7015042c5bdc7c5a"
+            ]
+        ]
+    },
+    {
+        "id": "7015042c5bdc7c5a",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "Enable Auto Sync",
+        "func": "flow.set('sync_sliders_now', true);\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "522a2e1bfa95d50d",
+        "type": "websocket in",
+        "z": "ae0acf5dd203d39a",
+        "name": "Receive from Rosbridge",
+        "server": "",
+        "client": "2329504dafa34a2e",
+        "x": 140,
+        "y": 1040,
+        "wires": [
+            [
+                "fd38135bd415c971"
+            ]
+        ]
+    },
+    {
+        "id": "fd38135bd415c971",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "Parse /joint_states",
+        "func": "try {\n    var data = JSON.parse(msg.payload);\n    if (!data.msg || !data.msg.name || !data.msg.position) return null;\n\n    var names = data.msg.name;\n    var positions = data.msg.position;\n\n    var ur5Joints = [\n        'ur5_shoulder_pan_joint',\n        'ur5_shoulder_lift_joint',\n        'ur5_elbow_joint',\n        'ur5_wrist_1_joint',\n        'ur5_wrist_2_joint',\n        'ur5_wrist_3_joint'\n    ];\n\n    var result = {};\n    for (var i = 0; i < names.length; i++) {\n        if (ur5Joints.includes(names[i])) {\n            result[names[i]] = parseFloat(positions[i]);\n        }\n    }\n\n    var ur5Positions = ur5Joints.map(function(jn) { return result[jn] || 0.0; });\n    flow.set('feedback_positions', ur5Positions);\n\n    var display = '';\n    var sliders = [null, null, null, null, null, null];\n    var degLabels = [null, null, null, null, null, null];\n    var shouldSync = flow.get('sync_sliders_now');\n\n    ur5Joints.forEach(function(jn, idx) {\n        var shortName = ['J1','J2','J3','J4','J5','J6'][idx];\n        var val = result[jn] || 0.0;\n        var deg = parseFloat((val * 180 / Math.PI).toFixed(1));\n        display += shortName + ': ' + val.toFixed(4) + ' rad\\n';\n\n        // always update degree labels\n        degLabels[idx] = {payload: deg};\n\n        if (shouldSync) {\n            sliders[idx] = {payload: deg};\n            flow.set('j'+(idx+1), val);\n        }\n    });\n\n    if (shouldSync) {\n        flow.set('joint_values', ur5Joints.map(function(jn){ return result[jn]||0; }));\n        flow.set('sync_sliders_now', false);\n    }\n\n    msg.payload = display.trim();\n    return [msg,\n            sliders[0], sliders[1], sliders[2], sliders[3], sliders[4], sliders[5],\n            degLabels[0], degLabels[1], degLabels[2], degLabels[3], degLabels[4], degLabels[5]];\n\n} catch(e) {\n    return null;\n}",
+        "outputs": 13,
+        "noerr": 0,
+        "x": 390,
+        "y": 1020,
+        "wires": [
+            [
+                "704966202e213b2d",
+                "a4583a2b3066ca44"
+            ],
+            [
+                "1111111111111101"
+            ],
+            [
+                "1111111111111102"
+            ],
+            [
+                "1111111111111103"
+            ],
+            [
+                "1111111111111104"
+            ],
+            [
+                "1111111111111105"
+            ],
+            [
+                "1111111111111106"
+            ],
+            [
+                "jlabel_0001"
+            ],
+            [
+                "jlabel_0002"
+            ],
+            [
+                "jlabel_0003"
+            ],
+            [
+                "jlabel_0004"
+            ],
+            [
+                "jlabel_0005"
+            ],
+            [
+                "jlabel_0006"
+            ]
+        ]
+    },
+    {
+        "id": "a4583a2b3066ca44",
+        "type": "debug",
+        "z": "ae0acf5dd203d39a",
+        "name": "Joint State Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "2603dda6e1091f55",
+        "type": "change",
+        "z": "ae0acf5dd203d39a",
+        "name": "store step",
+        "rules": [
+            {
+                "t": "set",
+                "p": "jog_step",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "x": 340,
+        "y": 1320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "83452f88a21cbd55",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'z',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1360,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "f1630a1df63eaf6e",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'z',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1400,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "33d30493467d7105",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'y',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1440,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "ab8bc1cbfde1981f",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'y',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1480,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "dec96870e692ff94",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'x',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1520,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "3e1e41e96f7ba35a",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'x',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1560,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "2fafab1925c91fa2",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'wrist',dir:1,step:0.0873};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1600,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "b92edbbcb843399d",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={axis:'wrist',dir:-1,step:0.0873};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1640,
+        "wires": [
+            [
+                "51eb1f1ef6b936e9"
+            ]
+        ]
+    },
+    {
+        "id": "72bde429facfdf52",
+        "type": "http request",
+        "z": "ae0acf5dd203d39a",
+        "name": "POST /home",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/home",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 1680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "81624925edcae4f9",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "func": "msg.payload={action:msg.payload};return msg;",
+        "outputs": 1,
+        "x": 310,
+        "y": 1740,
+        "wires": [
+            [
+                "8f496a0d7d34e146"
+            ]
+        ]
+    },
+    {
+        "id": "8f496a0d7d34e146",
+        "type": "http request",
+        "z": "ae0acf5dd203d39a",
+        "name": "POST /gripper",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/gripper",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 490,
+        "y": 1740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "51eb1f1ef6b936e9",
+        "type": "http request",
+        "z": "ae0acf5dd203d39a",
+        "name": "POST /jog",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/jog",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 510,
+        "y": 1480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1111111111111101",
+        "type": "ui_slider",
+        "z": "ae0acf5dd203d39a",
+        "name": "J1",
+        "label": "J1  Shoulder Pan",
+        "tooltip": "±360°",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 2,
+        "width": 16,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "j1",
+        "min": -360,
+        "max": 360,
+        "step": 0.5,
+        "x": 150,
+        "y": 1800,
+        "wires": [
+            [
+                "2222222222222201",
+                "jlabel_0001"
+            ]
+        ]
+    },
+    {
+        "id": "1111111111111102",
+        "type": "ui_slider",
+        "z": "ae0acf5dd203d39a",
+        "name": "J2",
+        "label": "J2  Shoulder Lift",
+        "tooltip": "±360°",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 4,
+        "width": 16,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "j2",
+        "min": -360,
+        "max": 360,
+        "step": 0.5,
+        "x": 150,
+        "y": 1840,
+        "wires": [
+            [
+                "2222222222222202",
+                "jlabel_0002"
+            ]
+        ]
+    },
+    {
+        "id": "1111111111111103",
+        "type": "ui_slider",
+        "z": "ae0acf5dd203d39a",
+        "name": "J3",
+        "label": "J3  Elbow",
+        "tooltip": "±180°",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 6,
+        "width": 16,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "j3",
+        "min": -180,
+        "max": 180,
+        "step": 0.5,
+        "x": 150,
+        "y": 1880,
+        "wires": [
+            [
+                "2222222222222203",
+                "jlabel_0003"
+            ]
+        ]
+    },
+    {
+        "id": "1111111111111104",
+        "type": "ui_slider",
+        "z": "ae0acf5dd203d39a",
+        "name": "J4",
+        "label": "J4  Wrist 1",
+        "tooltip": "±360°",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 8,
+        "width": 16,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "j4",
+        "min": -360,
+        "max": 360,
+        "step": 0.5,
+        "x": 150,
+        "y": 1920,
+        "wires": [
+            [
+                "2222222222222204",
+                "jlabel_0004"
+            ]
+        ]
+    },
+    {
+        "id": "1111111111111105",
+        "type": "ui_slider",
+        "z": "ae0acf5dd203d39a",
+        "name": "J5",
+        "label": "J5  Wrist 2",
+        "tooltip": "±360°",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 10,
+        "width": 16,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "j5",
+        "min": -360,
+        "max": 360,
+        "step": 0.5,
+        "x": 150,
+        "y": 1960,
+        "wires": [
+            [
+                "2222222222222205",
+                "jlabel_0005"
+            ]
+        ]
+    },
+    {
+        "id": "1111111111111106",
+        "type": "ui_slider",
+        "z": "ae0acf5dd203d39a",
+        "name": "J6",
+        "label": "J6  Wrist 3",
+        "tooltip": "±360°",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 12,
+        "width": 16,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "j6",
+        "min": -360,
+        "max": 360,
+        "step": 0.5,
+        "x": 150,
+        "y": 2000,
+        "wires": [
+            [
+                "2222222222222206",
+                "jlabel_0006"
+            ]
+        ]
+    },
+    {
+        "id": "dur0slider0000001",
+        "type": "ui_slider",
+        "z": "ae0acf5dd203d39a",
+        "name": "Duration",
+        "label": "⏱ Duration (sec)",
+        "tooltip": "เวลาในการเคลื่อนไหว 0.5–10 วินาที",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 14,
+        "width": 12,
+        "height": 1,
+        "passthru": true,
+        "outs": "all",
+        "topic": "duration",
+        "min": 0.5,
+        "max": 10,
+        "step": 0.5,
+        "x": 150,
+        "y": 2050,
+        "wires": [
+            [
+                "dur0func00000001"
+            ]
+        ]
+    },
+    {
+        "id": "dur0text00000001",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 15,
+        "width": 4,
+        "height": 1,
+        "name": "Duration Display",
+        "label": "sec",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 430,
+        "y": 2050,
+        "wires": []
+    },
+    {
+        "id": "dur0func00000001",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "Set Duration",
+        "func": "var dur = parseFloat(msg.payload) || 2.0;\nflow.set('joint_duration', dur);\nreturn msg;",
+        "outputs": 1,
+        "x": 390,
+        "y": 2095,
+        "wires": [
+            [
+                "dur0text00000001"
+            ]
+        ]
+    },
+    {
+        "id": "dur0inject000001",
+        "type": "inject",
+        "z": "ae0acf5dd203d39a",
+        "name": "Init Duration=2.0",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2",
+        "payloadType": "num",
+        "x": 180,
+        "y": 2095,
+        "wires": [
+            [
+                "dur0func00000001"
+            ]
+        ]
+    },
+    {
+        "id": "2222222222222201",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "J1 cmd",
+        "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 0, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 1800,
+        "wires": [
+            [
+                "3333333333333301"
+            ]
+        ]
+    },
+    {
+        "id": "2222222222222202",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "J2 cmd",
+        "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 1, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 1840,
+        "wires": [
+            [
+                "3333333333333301"
+            ]
+        ]
+    },
+    {
+        "id": "2222222222222203",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "J3 cmd",
+        "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 2, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 1880,
+        "wires": [
+            [
+                "3333333333333301"
+            ]
+        ]
+    },
+    {
+        "id": "2222222222222204",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "J4 cmd",
+        "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 3, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 1920,
+        "wires": [
+            [
+                "3333333333333301"
+            ]
+        ]
+    },
+    {
+        "id": "2222222222222205",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "J5 cmd",
+        "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 4, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 1960,
+        "wires": [
+            [
+                "3333333333333301"
+            ]
+        ]
+    },
+    {
+        "id": "2222222222222206",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "J6 cmd",
+        "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 5, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 2000,
+        "wires": [
+            [
+                "3333333333333301"
+            ]
+        ]
+    },
+    {
+        "id": "3333333333333301",
+        "type": "http request",
+        "z": "ae0acf5dd203d39a",
+        "name": "POST /move_joint",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/move_joint",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 560,
+        "y": 1900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "es01button000001",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "ESTOP",
+        "group": "es00group0000001",
+        "order": 1,
+        "width": 7,
+        "height": 2,
+        "passthru": false,
+        "label": "⚠ EMERGENCY STOP",
+        "tooltip": "หยุดแขนกลทันที และล็อคคำสั่งทั้งหมด",
+        "color": "#ffffff",
+        "bgcolor": "#c62828",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 150,
+        "y": 2120,
+        "wires": [
+            [
+                "es02func0000001"
+            ]
+        ]
+    },
+    {
+        "id": "es01button000002",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "ENABLE",
+        "group": "es00group0000001",
+        "order": 2,
+        "width": 5,
+        "height": 2,
+        "passthru": false,
+        "label": "✔ ENABLE ARM",
+        "tooltip": "ปลดล็อคและกลับสู่โหมด MANUAL",
+        "color": "#ffffff",
+        "bgcolor": "#2e7d32",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 150,
+        "y": 2160,
+        "wires": [
+            [
+                "es02func0000002"
+            ]
+        ]
+    },
+    {
+        "id": "es01text0000001",
+        "type": "ui_template",
+        "z": "ae0acf5dd203d39a",
+        "group": "es00group0000001",
+        "name": "Arm Status Display",
+        "order": 3,
+        "width": 4,
+        "height": 2,
+        "format": "<div style=\"text-align:center; padding:8px;\">\n  <div style=\"font-size:12px; color:#888;\">ARM STATUS</div>\n  <div style=\"font-size:22px; font-weight:bold; color:{{msg.payload==='LOCKED' ? '#c62828' : '#2e7d32'}}\">\n    {{msg.payload === 'LOCKED' ? '🔴 LOCKED' : '🟢 READY'}}\n  </div>\n</div>",
+        "storeOutMessages": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 720,
+        "y": 2140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "es02func0000001",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "estop payload",
+        "func": "msg.payload = {}; return msg;",
+        "outputs": 1,
+        "x": 340,
+        "y": 2120,
+        "wires": [
+            [
+                "es03http0000001"
+            ]
+        ]
+    },
+    {
+        "id": "es02func0000002",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "enable payload",
+        "func": "msg.payload = {lock: false}; return msg;",
+        "outputs": 1,
+        "x": 340,
+        "y": 2160,
+        "wires": [
+            [
+                "es03http0000002"
+            ]
+        ]
+    },
+    {
+        "id": "es02func0000003",
+        "type": "function",
+        "z": "ae0acf5dd203d39a",
+        "name": "parse mode",
+        "func": "var mode = msg.payload.mode;\nif (mode === 'LOCKED') {\n    msg.payload = 'LOCKED';\n} else if (mode === 'MANUAL') {\n    msg.payload = 'READY';\n} else {\n    msg.payload = '...';\n}\nreturn msg;",
+        "outputs": 1,
+        "x": 560,
+        "y": 2140,
+        "wires": [
+            [
+                "es01text0000001"
+            ]
+        ]
+    },
+    {
+        "id": "es03http0000001",
+        "type": "http request",
+        "z": "ae0acf5dd203d39a",
+        "name": "POST /estop",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/estop",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 500,
+        "y": 2120,
+        "wires": [
+            [
+                "es02func0000003"
+            ]
+        ]
+    },
+    {
+        "id": "es03http0000002",
+        "type": "http request",
+        "z": "ae0acf5dd203d39a",
+        "name": "POST /lock",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:5005/lock",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 500,
+        "y": 2160,
+        "wires": [
+            [
+                "es02func0000003"
+            ]
+        ]
+    },
+    {
+        "id": "es03http0000003",
+        "type": "http request",
+        "z": "ae0acf5dd203d39a",
+        "name": "GET /status",
+        "method": "GET",
+        "ret": "obj",
+        "url": "http://localhost:5005/status",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 490,
+        "y": 2200,
+        "wires": [
+            [
+                "es02func0000003"
+            ]
+        ]
+    },
+    {
+        "id": "es04inject000001",
+        "type": "inject",
+        "z": "ae0acf5dd203d39a",
+        "name": "Poll status 2s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 160,
+        "y": 2200,
+        "wires": [
+            [
+                "es03http0000003"
+            ]
+        ]
+    },
+    {
+        "id": "sync_btn_0001",
+        "type": "ui_button",
+        "z": "ae0acf5dd203d39a",
+        "name": "Sync Sliders",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 1,
+        "width": 16,
+        "height": 1,
+        "passthru": false,
+        "label": "🔄 Sync Sliders from Robot",
+        "tooltip": "อ่านองศาจริงจากหุ่นยนต์แล้วอัปเดต sliders",
+        "color": "white",
+        "bgcolor": "#2196F3",
+        "icon": "",
+        "payload": "sync",
+        "payloadType": "str",
+        "topic": "sync",
+        "topicType": "str",
+        "x": 150,
+        "y": 1760,
+        "wires": [
+            [
+                "7015042c5bdc7c5a"
+            ]
+        ]
+    },
+    {
+        "id": "jlabel_0001",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 3,
+        "width": 16,
+        "height": 1,
+        "name": "J1 Degree Label",
+        "label": "J1",
+        "format": "{{msg.payload | number:1}} °",
+        "layout": "row-center",
+        "x": 900,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "jlabel_0002",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 5,
+        "width": 16,
+        "height": 1,
+        "name": "J2 Degree Label",
+        "label": "J2",
+        "format": "{{msg.payload | number:1}} °",
+        "layout": "row-center",
+        "x": 900,
+        "y": 1840,
+        "wires": []
+    },
+    {
+        "id": "jlabel_0003",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 7,
+        "width": 16,
+        "height": 1,
+        "name": "J3 Degree Label",
+        "label": "J3",
+        "format": "{{msg.payload | number:1}} °",
+        "layout": "row-center",
+        "x": 900,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "jlabel_0004",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 9,
+        "width": 16,
+        "height": 1,
+        "name": "J4 Degree Label",
+        "label": "J4",
+        "format": "{{msg.payload | number:1}} °",
+        "layout": "row-center",
+        "x": 900,
+        "y": 1920,
+        "wires": []
+    },
+    {
+        "id": "jlabel_0005",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 11,
+        "width": 16,
+        "height": 1,
+        "name": "J5 Degree Label",
+        "label": "J5",
+        "format": "{{msg.payload | number:1}} °",
+        "layout": "row-center",
+        "x": 900,
+        "y": 1960,
+        "wires": []
+    },
+    {
+        "id": "jlabel_0006",
+        "type": "ui_text",
+        "z": "ae0acf5dd203d39a",
+        "group": "1a2b3c4d5e6f7a8b",
+        "order": 13,
+        "width": 16,
+        "height": 1,
+        "name": "J6 Degree Label",
+        "label": "J6",
+        "format": "{{msg.payload | number:1}} °",
+        "layout": "row-center",
+        "x": 900,
+        "y": 2000,
+        "wires": []
+    },
+    {
+        "id": "task_cfg_tmpl_01",
+        "type": "ui_template",
+        "z": "ae0acf5dd203d39a",
+        "group": "task_cfg_group_01",
+        "name": "Task Config UI",
+        "order": 1,
+        "width": 16,
+        "height": 20,
+        "format": "<style>\n#tc-wrap{background:#1a1a2e;padding:12px;border-radius:8px;font-family:monospace;color:#ccc}\n.tc-hdr{color:#ce93d8;font-weight:bold;font-size:15px;margin-bottom:8px;border-bottom:1px solid #333;padding-bottom:6px}\n.tc-section{margin-bottom:10px}\n.tc-sec-title{color:#80cbc4;font-size:12px;font-weight:bold;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}\n.tc-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}\n.tc-label{color:#aaa;font-size:12px;min-width:110px}\n.tc-input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:12px;outline:none;flex:1;min-width:120px}\n.tc-btn{border:none;border-radius:4px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:bold;transition:opacity .2s;white-space:nowrap}\n.tc-btn:hover{opacity:.8} .tc-btn:active{opacity:.6}\n.btn-save-seq{background:#f57f17;color:#000}\n.btn-save-loc{background:#1565c0;color:#fff}\n.btn-save-wp{background:#00695c;color:#fff}\n.btn-del{background:#333;color:#f44336;font-size:11px;padding:4px 8px}\n.btn-run{background:#2e7d32;color:#fff;font-size:14px;padding:10px 0;width:100%}\n.btn-stop{background:#b71c1c;color:#fff;font-size:13px;padding:8px 0;width:100%}\n.tc-log{background:#111;border-radius:4px;padding:8px 10px;font-size:12px;min-height:32px;margin-bottom:8px;border:1px solid #222;line-height:1.5}\n.tc-log.idle{color:#aaa} .tc-log.running{color:#4fc3f7} .tc-log.done{color:#00e676} .tc-log.err{color:#ff5252}\n.tc-badge{display:inline-block;background:#2a2a3e;border:1px solid #555;border-radius:12px;padding:2px 8px;font-size:11px;color:#fff;margin:2px}\n.tc-badge.set{border-color:#00e676;color:#00e676}\n.tc-badge.empty{border-color:#555;color:#777}\n.tc-wp-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}\n.tc-divider{border:none;border-top:1px solid #2a2a3e;margin:8px 0}\n</style>\n\n<div id=\"tc-wrap\">\n  <div class=\"tc-hdr\">🤖 Task Configuration & Autonomous Run</div>\n\n  <!-- STATUS -->\n  <div class=\"tc-log idle\" id=\"tc-log\">กำลังโหลด...</div>\n\n  <!-- ── PICK SEQUENCE ───────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📦 Pick Sequence (slots แขนกลหยิบของ)</div>\n    <div class=\"tc-row\">\n      <span class=\"tc-label\">Slots</span>\n      <input class=\"tc-input\" id=\"tc-pick-slots\" placeholder=\"เช่น 1,2,3,4,5\">\n      <button class=\"tc-btn btn-save-seq\" onclick=\"tcSavePickSeq()\">💾 Save Pick Sequence</button>\n    </div>\n    <div id=\"tc-pick-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── PICK LOCATION ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📍 Pick Location (ตำแหน่งหุ่นยนต์ขณะหยิบ)</div>\n    <div class=\"tc-row\">\n      <button class=\"tc-btn btn-save-loc\" onclick=\"tcSavePickLoc()\" style=\"flex:1\">\n        📍 Save Pick Location (ตำแหน่งปัจจุบัน)\n      </button>\n    </div>\n    <div id=\"tc-pick-loc-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── NAV WAYPOINTS ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">🗺️ Navigation Waypoints (จุดผ่านระหว่างทาง)</div>\n    <div class=\"tc-row\">\n      <span class=\"tc-label\">ชื่อ Waypoint</span>\n      <input class=\"tc-input\" id=\"tc-wp-name\" placeholder=\"เช่น A, B, C\" style=\"max-width:120px\">\n      <button class=\"tc-btn btn-save-wp\" onclick=\"tcSaveNavWP()\">📍 Save Waypoint</button>\n    </div>\n    <div class=\"tc-wp-list\" id=\"tc-wp-list\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── DROP LOCATION ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📍 Drop Location (ตำแหน่งหุ่นยนต์ขณะวางของ)</div>\n    <div class=\"tc-row\">\n      <button class=\"tc-btn btn-save-loc\" onclick=\"tcSaveDropLoc()\" style=\"flex:1\">\n        📍 Save Drop Location (ตำแหน่งปัจจุบัน)\n      </button>\n    </div>\n    <div id=\"tc-drop-loc-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── DROP SEQUENCE ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📤 Drop Sequence (slots แขนกลวางของ)</div>\n    <div class=\"tc-row\">\n      <span class=\"tc-label\">Slots</span>\n      <input class=\"tc-input\" id=\"tc-drop-slots\" placeholder=\"เช่น 6,7,8,9,10\">\n      <button class=\"tc-btn btn-save-seq\" onclick=\"tcSaveDropSeq()\">💾 Save Drop Sequence</button>\n    </div>\n    <div id=\"tc-drop-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── RUN / STOP ──────────────────────────── -->\n  <div class=\"tc-section\">\n    <button class=\"tc-btn btn-run\" id=\"tc-run-btn\" onclick=\"tcRunTask()\">🚀 Run Autonomous Task</button>\n    <div style=\"height:6px\"></div>\n    <button class=\"tc-btn btn-stop\" onclick=\"tcStopTask()\">⏹ Stop Task</button>\n  </div>\n</div>\n\n<script>\n(function(){\n  var API = 'http://localhost:5008';\n  var logEl = document.getElementById('tc-log');\n\n  function log(m, type){\n    logEl.textContent = m;\n    logEl.className = 'tc-log ' + (type||'idle');\n  }\n\n  function badge(text, isSet){\n    var el = document.createElement('span');\n    el.className = 'tc-badge ' + (isSet ? 'set' : 'empty');\n    el.textContent = text;\n    return el;\n  }\n\n  function renderConfig(cfg){\n    // pick sequence\n    var pb = document.getElementById('tc-pick-badge');\n    pb.innerHTML = '';\n    if(cfg.pick_sequence && cfg.pick_sequence.length){\n      pb.appendChild(badge('Slots: [' + cfg.pick_sequence.join(', ') + ']', true));\n      document.getElementById('tc-pick-slots').value = cfg.pick_sequence.join(',');\n    } else {\n      pb.appendChild(badge('ยังไม่ได้บันทึก', false));\n    }\n\n    // pick location\n    var plb = document.getElementById('tc-pick-loc-badge');\n    plb.innerHTML = '';\n    plb.appendChild(badge(\n      cfg.pick_waypoint ? '✅ ' + cfg.pick_waypoint : '— ยังไม่ได้บันทึก',\n      !!cfg.pick_waypoint\n    ));\n\n    // nav waypoints\n    var wpList = document.getElementById('tc-wp-list');\n    wpList.innerHTML = '';\n    var path = cfg.nav_path || [];\n    if(path.length === 0){\n      var el = document.createElement('span');\n      el.className = 'tc-badge empty';\n      el.textContent = '— ไม่มี waypoint ผ่านทาง';\n      wpList.appendChild(el);\n    } else {\n      path.forEach(function(wp){\n        var el = document.createElement('span');\n        el.className = 'tc-badge set';\n        el.innerHTML = wp + ' <span onclick=\"tcDelWP(\\''+wp+'\\')\" style=\"cursor:pointer;color:#f44336;margin-left:4px\">✕</span>';\n        wpList.appendChild(el);\n      });\n    }\n\n    // drop location\n    var dlb = document.getElementById('tc-drop-loc-badge');\n    dlb.innerHTML = '';\n    dlb.appendChild(badge(\n      cfg.drop_waypoint ? '✅ ' + cfg.drop_waypoint : '— ยังไม่ได้บันทึก',\n      !!cfg.drop_waypoint\n    ));\n\n    // drop sequence\n    var db = document.getElementById('tc-drop-badge');\n    db.innerHTML = '';\n    if(cfg.drop_sequence && cfg.drop_sequence.length){\n      db.appendChild(badge('Slots: [' + cfg.drop_sequence.join(', ') + ']', true));\n      document.getElementById('tc-drop-slots').value = cfg.drop_sequence.join(',');\n    } else {\n      db.appendChild(badge('ยังไม่ได้บันทึก', false));\n    }\n  }\n\n  function pollConfig(){\n    fetch(API+'/task_config')\n      .then(function(r){return r.json();})\n      .then(renderConfig)\n      .catch(function(){ log('⚠️ task_config_server offline','err'); });\n  }\n\n  function pollStatus(){\n    fetch(API+'/task_status')\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.running){\n          log('⚙️ ' + d.status, 'running');\n          document.getElementById('tc-run-btn').disabled = true;\n        } else {\n          document.getElementById('tc-run-btn').disabled = false;\n          if(d.status === 'idle') log('พร้อมทำงาน', 'idle');\n          else if(d.status.indexOf('completed') !== -1) log('🎉 ' + d.status, 'done');\n          else if(d.status.indexOf('error') !== -1 || d.status === 'stopped')\n            log('⛔ ' + d.status, 'err');\n          else log(d.status, 'idle');\n        }\n      })\n      .catch(function(){});\n  }\n\n  function parseSlots(val){\n    return val.trim().split(',').map(function(s){return s.trim();}).filter(Boolean);\n  }\n\n  function tcSavePickSeq(){\n    var slots = parseSlots(document.getElementById('tc-pick-slots').value);\n    if(!slots.length){ log('⚠️ กรอก slot ก่อน','err'); return; }\n    fetch(API+'/save_pick_sequence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slots:slots})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ บันทึก Pick Sequence: ['+d.pick_sequence.join(',')+']','done'); pollConfig(); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSaveDropSeq(){\n    var slots = parseSlots(document.getElementById('tc-drop-slots').value);\n    if(!slots.length){ log('⚠️ กรอก slot ก่อน','err'); return; }\n    fetch(API+'/save_drop_sequence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slots:slots})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ บันทึก Drop Sequence: ['+d.drop_sequence.join(',')+']','done'); pollConfig(); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSavePickLoc(){\n    log('📍 กำลังบันทึก Pick Location...','running');\n    fetch(API+'/save_pick_location',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status==='ok') log('✅ บันทึก Pick Location ('+d.waypoint+') เสร็จ','done');\n        else log('⚠️ '+d.status,'err');\n        pollConfig();\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSaveDropLoc(){\n    log('📍 กำลังบันทึก Drop Location...','running');\n    fetch(API+'/save_drop_location',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status==='ok') log('✅ บันทึก Drop Location ('+d.waypoint+') เสร็จ','done');\n        else log('⚠️ '+d.status,'err');\n        pollConfig();\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSaveNavWP(){\n    var name = document.getElementById('tc-wp-name').value.trim().toUpperCase();\n    if(!name){ log('⚠️ กรอกชื่อ Waypoint ก่อน','err'); return; }\n    log('📍 กำลังบันทึก Waypoint '+name+'...','running');\n    fetch(API+'/save_nav_waypoint',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status==='ok') log('✅ บันทึก Waypoint '+d.waypoint+' เสร็จ','done');\n        else log('⚠️ '+d.status,'err');\n        document.getElementById('tc-wp-name').value='';\n        pollConfig();\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcDelWP(name){\n    fetch(API+'/remove_nav_waypoint',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(){ log('🗑️ ลบ Waypoint '+name+' แล้ว','idle'); pollConfig(); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcRunTask(){\n    log('🚀 กำลังเริ่ม Autonomous Task...','running');\n    fetch(API+'/run_task',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status!=='task started') log('⚠️ '+d.status,'err');\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcStopTask(){\n    fetch(API+'/stop_task',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(){ log('⛔ Task ถูกหยุด','err'); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  window.tcSavePickSeq=tcSavePickSeq; window.tcSaveDropSeq=tcSaveDropSeq;\n  window.tcSavePickLoc=tcSavePickLoc; window.tcSaveDropLoc=tcSaveDropLoc;\n  window.tcSaveNavWP=tcSaveNavWP;     window.tcDelWP=tcDelWP;\n  window.tcRunTask=tcRunTask;         window.tcStopTask=tcStopTask;\n\n  setInterval(pollConfig, 5000);\n  setInterval(pollStatus, 1500);\n  pollConfig();\n  pollStatus();\n})();\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 150,
+        "y": 2200,
+        "wires": [
+            []
+        ]
     }
-  },
-  {
-    "id": "es00group0000001",
-    "type": "ui_group",
-    "name": "Emergency Control",
-    "tab": "f3aa5153a951260c",
-    "order": 0,
-    "disp": true,
-    "width": 16,
-    "collapse": false
-  },
-  {
-    "id": "0fe3cda65e472512",
-    "type": "ui_group",
-    "name": "AMR_GUI",
-    "tab": "f3aa5153a951260c",
-    "order": 1,
-    "disp": true,
-    "width": 16,
-    "collapse": false
-  },
-  {
-    "id": "54cdf6a9e4bd7986",
-    "type": "ui_group",
-    "name": "Group 2",
-    "tab": "f3aa5153a951260c",
-    "order": 2,
-    "disp": true,
-    "width": 16,
-    "collapse": false
-  },
-  {
-    "id": "abc49bffe0c1ed09",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 1,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "9d7ebe1ae0e1edca",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 3,
-    "width": 3,
-    "height": 1
-  },
-  {
-    "id": "01090a477ac21fe1",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 5,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "d7eef88e6d4067f5",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 6,
-    "width": 3,
-    "height": 1
-  },
-  {
-    "id": "1d23a87adadc2b89",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 7,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "74ae6ca868a7675b",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 8,
-    "width": 3,
-    "height": 1
-  },
-  {
-    "id": "723a8b427275ef4c",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 9,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "1a745876cbc69f49",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 10,
-    "width": 3,
-    "height": 1
-  },
-  {
-    "id": "2cccc6ad4be43877",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 11,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "e50bfd89c25023e9",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 12,
-    "width": 3,
-    "height": 1
-  },
-  {
-    "id": "fb115a6d75021193",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 13,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "5b16cd4a85b2ce68",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 14,
-    "width": 3,
-    "height": 1
-  },
-  {
-    "id": "4d2e0c866a3d6412",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 17,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "a825fefc7ee7b760",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 18,
-    "width": 16,
-    "height": 1
-  },
-  {
-    "id": "2c0f4fbe5ad0371f",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 21,
-    "width": 12,
-    "height": 1
-  },
-  {
-    "id": "825efb67dde71239",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 24,
-    "width": 12,
-    "height": 1
-  },
-  {
-    "id": "83cc55baa291fd8c",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 27,
-    "width": 12,
-    "height": 1
-  },
-  {
-    "id": "7748d029644725c1",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 28,
-    "width": 16,
-    "height": 1
-  },
-  {
-    "id": "35b08f45e578e8a3",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 31,
-    "width": 12,
-    "height": 1
-  },
-  {
-    "id": "9144013e80a03c30",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 32,
-    "width": 16,
-    "height": 1
-  },
-  {
-    "id": "570919088211c682",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 35,
-    "width": 12,
-    "height": 1
-  },
-  {
-    "id": "3eda2cac82dd838f",
-    "type": "ui_spacer",
-    "z": "ae0acf5dd203d39a",
-    "name": "spacer",
-    "group": "0fe3cda65e472512",
-    "order": 1,
-    "width": 1,
-    "height": 1
-  },
-  {
-    "id": "f3aa5153a951260c",
-    "type": "ui_tab",
-    "name": "Home",
-    "icon": "dashboard",
-    "disabled": false,
-    "hidden": false
-  },
-  {
-    "id": "704966202e213b2d",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "0fe3cda65e472512",
-    "order": 2,
-    "width": 3,
-    "height": 6,
-    "name": "Live Joint Positions",
-    "label": "Joint States (J1-J6)",
-    "format": "{{msg.payload}}",
-    "layout": "col-center",
-    "x": 900,
-    "y": 200,
-    "wires": []
-  },
-  {
-    "id": "ce5588df3a273c73",
-    "type": "ui_dropdown",
-    "z": "ae0acf5dd203d39a",
-    "name": "Step",
-    "label": "Step Size",
-    "tooltip": "",
-    "place": "",
-    "group": "0fe3cda65e472512",
-    "order": 16,
-    "width": 3,
-    "height": 1,
-    "passthru": true,
-    "multiple": false,
-    "options": [
-      {
-        "label": "5 mm",
-        "value": "0.005",
-        "type": "str"
-      },
-      {
-        "label": "10 mm",
-        "value": "0.010",
-        "type": "str"
-      },
-      {
-        "label": "20 mm",
-        "value": "0.020",
-        "type": "str"
-      },
-      {
-        "label": "50 mm",
-        "value": "0.050",
-        "type": "str"
-      },
-      {
-        "label": "100 mm",
-        "value": "0.100",
-        "type": "str"
-      }
-    ],
-    "payload": "0.020",
-    "topic": "step",
-    "topicType": "str",
-    "x": 140,
-    "y": 1320,
-    "wires": [
-      [
-        "2603dda6e1091f55"
-      ]
-    ]
-  },
-  {
-    "id": "b70399670a533f65",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 25,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "⬆ Z+ Up",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#2196F3",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1360,
-    "wires": [
-      [
-        "83452f88a21cbd55"
-      ]
-    ]
-  },
-  {
-    "id": "29650cccb66698f2",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 26,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "⬇ Z- Down",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#2196F3",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1400,
-    "wires": [
-      [
-        "f1630a1df63eaf6e"
-      ]
-    ]
-  },
-  {
-    "id": "5fa509c705f519dc",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 22,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "▶ Y+ Fwd",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#4CAF50",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1440,
-    "wires": [
-      [
-        "33d30493467d7105"
-      ]
-    ]
-  },
-  {
-    "id": "33d3549a7adb6dc4",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 23,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "◀ Y- Back",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#4CAF50",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1480,
-    "wires": [
-      [
-        "ab8bc1cbfde1981f"
-      ]
-    ]
-  },
-  {
-    "id": "27ea3c0839d3851e",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 19,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "X+ →",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#FF9800",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1520,
-    "wires": [
-      [
-        "dec96870e692ff94"
-      ]
-    ]
-  },
-  {
-    "id": "ebd63d15cbc80da1",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 20,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "← X-",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#FF9800",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1560,
-    "wires": [
-      [
-        "3e1e41e96f7ba35a"
-      ]
-    ]
-  },
-  {
-    "id": "eed7b03307f15a4f",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 29,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "↻ Wrist+",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#9C27B0",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1600,
-    "wires": [
-      [
-        "2fafab1925c91fa2"
-      ]
-    ]
-  },
-  {
-    "id": "4904246beb18bfd1",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 30,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "↺ Wrist-",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#9C27B0",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1640,
-    "wires": [
-      [
-        "b92edbbcb843399d"
-      ]
-    ]
-  },
-  {
-    "id": "8de47a738b95a8ca",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 15,
-    "width": 3,
-    "height": 1,
-    "passthru": false,
-    "label": "🏠 HOME",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#F44336",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1680,
-    "wires": [
-      [
-        "72bde429facfdf52"
-      ]
-    ]
-  },
-  {
-    "id": "846322eaedf82654",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 33,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "✋ Open",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#4CAF50",
-    "icon": "",
-    "payload": "open",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1720,
-    "wires": [
-      [
-        "81624925edcae4f9"
-      ]
-    ]
-  },
-  {
-    "id": "6ac3b5867418f7ca",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "",
-    "group": "0fe3cda65e472512",
-    "order": 34,
-    "width": 2,
-    "height": 1,
-    "passthru": false,
-    "label": "✊ Close",
-    "tooltip": "",
-    "color": "white",
-    "bgcolor": "#795548",
-    "icon": "",
-    "payload": "close",
-    "payloadType": "str",
-    "topic": "",
-    "topicType": "str",
-    "x": 140,
-    "y": 1760,
-    "wires": [
-      [
-        "81624925edcae4f9"
-      ]
-    ]
-  },
-  {
-    "id": "fc41d6922ab5f437",
-    "type": "ui_template",
-    "z": "ae0acf5dd203d39a",
-    "group": "54cdf6a9e4bd7986",
-    "name": "Save/Load Panel",
-    "order": 4,
-    "width": 9,
-    "height": 7,
-    "format": "<style>\n#sl-wrap{background:#1a1a2e;padding:12px;border-radius:8px;font-family:monospace;color:#ccc}\n.sl-hdr{color:#4fc3f7;font-weight:bold;font-size:15px;margin-bottom:8px;border-bottom:1px solid #333;padding-bottom:6px}\n.sl-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}\n.sl-label{color:#aaa;font-size:12px;min-width:100px}\n.sl-btn{border:none;border-radius:4px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:bold;transition:opacity .2s}\n.sl-btn:hover{opacity:.8} .sl-btn:active{opacity:.6}\n.btn-save{background:#ff8f00;color:#000}\n.btn-goto{background:#1565c0;color:#fff}\n.btn-run{background:#00c853;color:#000}\n.btn-stop{background:#d32f2f;color:#fff}\n.sl-select{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1}\n.sl-input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:12px;outline:none;width:180px}\n.sl-log{background:#111;border-radius:4px;padding:8px 10px;font-size:12px;color:#0f0;min-height:32px;margin-bottom:10px;border:1px solid #222;line-height:1.5}\n.sl-log.ok{color:#00e676} .sl-log.err{color:#ff5252} .sl-log.info{color:#4fc3f7} .sl-log.done{color:#ffeb3b}\n.sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin-top:8px}\n.sl-chip{background:#2a2a3e;border:1px solid #444;border-radius:6px;padding:6px 8px;font-size:11px;display:flex;flex-direction:column;gap:4px}\n.sl-chip.saved{border-color:#ff8f00}\n.sl-chip-name{color:#4fc3f7;font-weight:bold}\n.sl-chip-eef{color:#aaa;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n.sl-chip-btns{display:flex;gap:4px}\n.sl-chip-btns button{flex:1;border:none;border-radius:3px;padding:3px;cursor:pointer;font-size:10px;font-weight:bold}\n.btn-cs{background:#ff8f00;color:#000} .btn-cg{background:#1565c0;color:#fff}\n.sl-divider{border:none;border-top:1px solid #2a2a3e;margin:8px 0}\n</style>\n\n<div id=\"sl-wrap\">\n  <div class=\"sl-hdr\">💾 Save / Load Position</div>\n\n  <!-- ── STATUS LOG (top) ─────────────────────────── -->\n  <div class=\"sl-log info\" id=\"sl-log\">รอ arm_jog_node...</div>\n\n  <!-- single slot save/goto -->\n  <div class=\"sl-row\">\n    <span class=\"sl-label\">Slot</span>\n    <select class=\"sl-select\" id=\"sl-slot-sel\"></select>\n    <button class=\"sl-btn btn-save\" onclick=\"slSave()\">💾 Save</button>\n    <button class=\"sl-btn btn-goto\" onclick=\"slGoto()\">▶ Go To</button>\n  </div>\n\n  <hr class=\"sl-divider\">\n\n  <!-- sequence player -->\n  <div class=\"sl-row\">\n    <span class=\"sl-label\">Sequence</span>\n    <input class=\"sl-input\" id=\"sl-seq-input\" placeholder=\"เช่น 1,3,5,2\" title=\"ใส่หมายเลข slot คั่นด้วย ,\">\n    <input class=\"sl-input\" id=\"sl-delay-input\" placeholder=\"delay วินาที (default 1)\" style=\"width:140px\">\n    <button class=\"sl-btn btn-run\"  onclick=\"slRunSeq()\">▶ Run</button>\n    <button class=\"sl-btn btn-stop\" onclick=\"slStopSeq()\">⏹ Stop</button>\n  </div>\n\n  <hr class=\"sl-divider\">\n\n  <!-- slot grid -->\n  <div id=\"sl-grid\" class=\"sl-grid\"></div>\n</div>\n\n<script src=\"https://cdn.socket.io/4.7.5/socket.io.min.js\"></script>\n<script>\n(function(){\n  var API = 'http://localhost:5005';\n  var savedSlots = [];\n  var logEl = document.getElementById('sl-log');\n\n  function log(m, type){\n    logEl.textContent = m;\n    logEl.className = 'sl-log ' + (type||'info');\n  }\n\n  function buildGrid(slots){\n    var grid = document.getElementById('sl-grid');\n    if(JSON.stringify(slots.slice().sort()) === JSON.stringify(savedSlots.slice().sort())) return;\n    savedSlots = slots.slice();\n    grid.innerHTML = '';\n    for(var i=1;i<=20;i++){\n      var s = String(i);\n      var isSaved = slots.indexOf(s) !== -1;\n      var chip = document.createElement('div');\n      chip.className = 'sl-chip' + (isSaved?' saved':'');\n      chip.innerHTML =\n        '<span class=\"sl-chip-name\">Slot '+i+'</span>'+\n        '<span class=\"sl-chip-eef\">'+(isSaved?'● บันทึกแล้ว':'— ว่าง')+'</span>'+\n        '<div class=\"sl-chip-btns\">'+\n        '<button class=\"btn-cs\" onclick=\"slSaveSlot(\\''+s+'\\')\">Save</button>'+\n        '<button class=\"btn-cg\" onclick=\"slGotoSlot(\\''+s+'\\')\"'+(isSaved?'':' disabled style=\"opacity:.4\"')+'>Go</button>'+\n        '</div>';\n      grid.appendChild(chip);\n    }\n  }\n\n  function poll(){\n    fetch(API+'/status')\n      .then(function(r){return r.json();})\n      .then(function(d){ buildGrid(d.saved_slots||[]); })\n      .catch(function(){ log('⚠️ arm_jog_node offline','err'); });\n  }\n\n  // ── SocketIO — รับ progress real-time ──────────────\n  try {\n    var socket = io(API, {transports:['websocket','polling']});\n    socket.on('connect', function(){\n      log('✅ เชื่อมต่อ arm_jog_node แล้ว','ok');\n    });\n    socket.on('disconnect', function(){\n      log('⚠️ ขาดการเชื่อมต่อ arm_jog_node','err');\n    });\n    socket.on('seq_progress', function(d){\n      if(d.aborted){\n        log('⛔ Sequence ถูกหยุด (ก่อน Slot '+d.slot+')','err');\n      } else {\n        log('✅ Slot '+d.slot+' เสร็จแล้ว  ('+d.idx+'/'+d.total+')','done');\n      }\n    });\n    socket.on('seq_complete', function(d){\n      log('🎉 Sequence เสร็จสิ้น ทั้งหมด '+d.slots.length+' positions','ok');\n      poll();\n    });\n  } catch(e) { /* socket.io not loaded */ }\n\n  // ── REST actions ───────────────────────────────────\n  function slSave(){ slSaveSlot(document.getElementById('sl-slot-sel').value); }\n  function slGoto(){ slGotoSlot(document.getElementById('sl-slot-sel').value); }\n\n  function slSaveSlot(slot){\n    log('💾 กำลัง save slot '+slot+'...','info');\n    fetch(API+'/save_pos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slot:slot})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ Save slot '+slot+' เสร็จแล้ว','ok'); poll(); })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n  function slGotoSlot(slot){\n    log('🤖 กำลังเคลื่อนไปยัง slot '+slot+'...','info');\n    fetch(API+'/goto_pos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slot:slot})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ ถึง slot '+slot+' เสร็จแล้ว','ok'); })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n  function slRunSeq(){\n    var raw = document.getElementById('sl-seq-input').value.trim();\n    var delay = parseFloat(document.getElementById('sl-delay-input').value)||1.0;\n    if(!raw){ log('⚠️ กรุณาใส่หมายเลข slot','err'); return; }\n    var slots = raw.split(',').map(function(s){return s.trim();}).filter(Boolean);\n    log('▶ เริ่ม Sequence: ['+slots.join(', ')+']  delay='+delay+'s','info');\n    fetch(API+'/run_sequence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slots:slots,delay_sec:delay})})\n      .then(function(r){return r.json();})\n      .then(function(d){ if(d.status.indexOf('started')===-1) log('⚠️ '+d.status,'err'); })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n  function slStopSeq(){\n    log('⏹ ส่งคำสั่ง Stop...','info');\n    fetch(API+'/stop_sequence',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('⛔ Sequence ถูกหยุด','err'); })\n      .catch(function(e){ log('❌ Error: '+e,'err'); });\n  }\n\n  window.slSave=slSave; window.slGoto=slGoto;\n  window.slSaveSlot=slSaveSlot; window.slGotoSlot=slGotoSlot;\n  window.slRunSeq=slRunSeq; window.slStopSeq=slStopSeq;\n\n  var sel = document.getElementById('sl-slot-sel');\n  for(var i=1;i<=20;i++){\n    var opt = document.createElement('option');\n    opt.value=i; opt.textContent='Slot '+i; sel.appendChild(opt);\n  }\n\n  setInterval(poll, 3000);\n  poll();\n})();\n</script>",
-    "storeOutMessages": false,
-    "fwdInMessages": true,
-    "resendOnRefresh": true,
-    "templateScope": "local",
-    "x": 370,
-    "y": 400,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "f3ebc57816313cb0",
-    "type": "ui_template",
-    "z": "ae0acf5dd203d39a",
-    "group": "54cdf6a9e4bd7986",
-    "name": "SLAM & Map Manager Panel",
-    "order": 1,
-    "width": 8,
-    "height": 14,
-    "format": "<style>\n#mm-wrap{background:#1a1a2e;padding:12px;border-radius:8px;font-family:monospace;color:#ccc}\n.mm-hdr{color:#4fc3f7;font-weight:bold;font-size:15px;margin-bottom:10px;border-bottom:1px solid #333;padding-bottom:6px}\n.mm-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}\n.mm-label{color:#aaa;font-size:12px;min-width:90px}\n.mm-btn{border:none;border-radius:4px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:bold;transition:opacity .2s}\n.mm-btn:hover{opacity:.8}\n.mm-btn:active{opacity:.6}\n.btn-green{background:#00c853;color:#000}\n.btn-red{background:#d32f2f;color:#fff}\n.btn-blue{background:#1565c0;color:#fff}\n.btn-amber{background:#ff8f00;color:#000}\n.mm-input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1;min-width:120px}\n.mm-input:focus{border-color:#4fc3f7}\n.mm-select{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:13px;outline:none;flex:1}\n.mm-status{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap}\n.mm-badge{padding:3px 10px;border-radius:12px;font-size:12px;font-weight:bold}\n.badge-slam-on{background:#00c853;color:#000}\n.badge-slam-off{background:#444;color:#aaa}\n.badge-map{background:#1565c0;color:#fff}\n.badge-none{background:#333;color:#888}\n.mm-log{background:#111;border-radius:4px;padding:6px 8px;font-size:11px;color:#0f0;min-height:28px;margin-top:8px;border:1px solid #222;word-break:break-all}\n.mm-divider{border:none;border-top:1px solid #2a2a3e;margin:10px 0}\n.mm-map-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}\n.mm-map-chip{padding:3px 10px;border-radius:10px;font-size:11px;cursor:pointer;border:1px solid #555}\n.mm-map-chip.pkg{background:#1a237e;color:#90caf9}\n.mm-map-chip.user{background:#1b5e20;color:#a5d6a7}\n.mm-map-chip.selected{outline:2px solid #4fc3f7}\n</style>\n\n<div id=\"mm-wrap\">\n  <div class=\"mm-hdr\">🗺️ SLAM &amp; Map Manager</div>\n\n  <!-- Status -->\n  <div class=\"mm-status\">\n    <span id=\"mm-slam-badge\" class=\"mm-badge badge-slam-off\">⏹ SLAM OFF</span>\n    <span id=\"mm-navmap-badge\" class=\"mm-badge badge-none\">📂 No map loaded</span>\n  </div>\n\n  <!-- SLAM controls -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">SLAM Mapping</span>\n    <button class=\"mm-btn btn-green\" onclick=\"mmStartSlam()\">▶ Start SLAM</button>\n    <button class=\"mm-btn btn-red\"   onclick=\"mmStopSlam()\">⏹ Stop SLAM</button>\n  </div>\n\n  <hr class=\"mm-divider\">\n\n  <!-- Save map -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">Save Map</span>\n    <input class=\"mm-input\" id=\"mm-save-name\" placeholder=\"ชื่อ map เช่น warehouse_v1\" maxlength=\"40\">\n    <button class=\"mm-btn btn-amber\" onclick=\"mmSaveMap()\">💾 Save Map</button>\n  </div>\n\n  <hr class=\"mm-divider\">\n\n  <!-- Load map -->\n  <div class=\"mm-row\">\n    <span class=\"mm-label\">Load to Nav2</span>\n    <select class=\"mm-select\" id=\"mm-map-select\"><option value=\"\">-- เลือก map --</option></select>\n    <button class=\"mm-btn btn-blue\" onclick=\"mmLoadMap()\">📂 Load Map</button>\n  </div>\n  <div id=\"mm-map-chips\" class=\"mm-map-list\"></div>\n\n  <!-- Log -->\n  <div class=\"mm-log\" id=\"mm-log\">รอ map_manager_node...</div>\n</div>\n\n<script>\n(function(){\n  var API = 'http://localhost:5007';\n  var lastMaps = [];\n  var selectedMap = '';\n\n  function log(msg){ document.getElementById('mm-log').textContent = msg; }\n\n  function updateUI(data){\n    // SLAM badge\n    var slamBadge = document.getElementById('mm-slam-badge');\n    if(data.slam_running){\n      slamBadge.className = 'mm-badge badge-slam-on';\n      slamBadge.textContent = '🔴 SLAM ON';\n    } else {\n      slamBadge.className = 'mm-badge badge-slam-off';\n      slamBadge.textContent = '⏹ SLAM OFF';\n    }\n    // Nav map badge\n    var mapBadge = document.getElementById('mm-navmap-badge');\n    if(data.nav_map){\n      mapBadge.className = 'mm-badge badge-map';\n      mapBadge.textContent = '📂 ' + data.nav_map;\n    } else {\n      mapBadge.className = 'mm-badge badge-none';\n      mapBadge.textContent = '📂 No map loaded';\n    }\n    // Map list\n    var maps = data.maps || [];\n    var sel = document.getElementById('mm-map-select');\n    var chips = document.getElementById('mm-map-chips');\n    // rebuild only if changed\n    var names = maps.map(function(m){return m.name+':'+m.source;}).join(',');\n    var lastName = lastMaps.map(function(m){return m.name+':'+m.source;}).join(',');\n    if(names !== lastName){\n      lastMaps = maps;\n      sel.innerHTML = '<option value=\"\">-- เลือก map --</option>';\n      chips.innerHTML = '';\n      maps.forEach(function(m){\n        var opt = document.createElement('option');\n        opt.value = m.name; opt.textContent = m.name + ' [' + m.source + ']';\n        sel.appendChild(opt);\n        var chip = document.createElement('span');\n        chip.className = 'mm-map-chip ' + m.source;\n        chip.textContent = m.name;\n        chip.title = m.path;\n        chip.onclick = function(){ selectedMap = m.name; sel.value = m.name; highlightChips(); };\n        chips.appendChild(chip);\n      });\n    }\n    if(selectedMap) sel.value = selectedMap;\n  }\n\n  function highlightChips(){\n    document.querySelectorAll('.mm-map-chip').forEach(function(c){\n      c.classList.toggle('selected', c.textContent === selectedMap);\n    });\n  }\n\n  function poll(){\n    fetch(API + '/status')\n      .then(function(r){return r.json();})\n      .then(updateUI)\n      .catch(function(){ document.getElementById('mm-slam-badge').textContent='⚠️ offline'; });\n  }\n\n  function mmStartSlam(){\n    log('กำลัง start SLAM...');\n    fetch(API + '/start_slam',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Start SLAM: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmStopSlam(){\n    log('กำลัง stop SLAM...');\n    fetch(API + '/stop_slam',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Stop SLAM: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmSaveMap(){\n    var name = document.getElementById('mm-save-name').value.trim();\n    if(!name){ log('กรุณาใส่ชื่อ map ก่อน'); return; }\n    log('กำลัง save map \"' + name + '\"...');\n    fetch(API + '/save_map',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Save map: ' + d.status); if(d.status==='ok') document.getElementById('mm-save-name').value=''; poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  function mmLoadMap(){\n    var name = document.getElementById('mm-map-select').value;\n    if(!name){ log('กรุณาเลือก map ก่อน'); return; }\n    log('กำลัง load map \"' + name + '\" ไปยัง Nav2...');\n    fetch(API + '/load_map',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('Load map: ' + d.status); poll(); })\n      .catch(function(e){ log('Error: ' + e); });\n  }\n\n  // expose to global for onclick\n  window.mmStartSlam = mmStartSlam;\n  window.mmStopSlam  = mmStopSlam;\n  window.mmSaveMap   = mmSaveMap;\n  window.mmLoadMap   = mmLoadMap;\n\n  setInterval(poll, 4000);\n  poll();\n})();\n</script>",
-    "storeOutMessages": true,
-    "fwdInMessages": true,
-    "resendOnRefresh": true,
-    "templateScope": "local",
-    "x": 380,
-    "y": 460,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "5a8b9b66017d322c",
-    "type": "ui_template",
-    "z": "ae0acf5dd203d39a",
-    "group": "54cdf6a9e4bd7986",
-    "name": "Map Canvas",
-    "order": 2,
-    "width": 8,
-    "height": 14,
-    "format": "<style>\n#mc-wrap{background:#111;padding:8px;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:8px}\n#mc-canvas{border:1px solid #333;background:#222;max-width:100%}\n#mc-status{color:#4fc3f7;font-size:12px;font-family:monospace}\n#mc-info{color:#aaa;font-size:11px;font-family:monospace;display:flex;gap:16px;flex-wrap:wrap}\n.mc-legend{display:flex;align-items:center;gap:4px}\n.mc-dot{width:10px;height:10px;border-radius:2px;display:inline-block}\n</style>\n<div id=\"mc-wrap\">\n  <div id=\"mc-status\">รอ map...</div>\n  <canvas id=\"mc-canvas\" width=\"500\" height=\"500\"></canvas>\n  <div id=\"mc-info\">\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#eee\"></span> Free</span>\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#555\"></span> Unknown</span>\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#111;border:1px solid #555\"></span> Obstacle</span>\n    <span class=\"mc-legend\"><span class=\"mc-dot\" style=\"background:#00e676;border-radius:50%\"></span> Robot</span>\n    <span id=\"mc-pose-txt\"></span>\n  </div>\n</div>\n<script>\n(function(){\n  var canvas  = document.getElementById('mc-canvas');\n  var ctx     = canvas.getContext('2d');\n  var status  = document.getElementById('mc-status');\n  var poseTxt = document.getElementById('mc-pose-txt');\n  var mapInfo = null;\n  var imgData = null;\n  var robot   = null;\n  var ws      = null;\n\n  function connect(){\n    ws = new WebSocket('ws://localhost:9090');\n    ws.onopen = function(){\n      status.textContent = 'เชื่อมต่อ rosbridge แล้ว — รอ /map...';\n      ws.send(JSON.stringify({op:'subscribe',topic:'/map',type:'nav_msgs/OccupancyGrid',throttle_rate:2000}));\n      ws.send(JSON.stringify({op:'subscribe',topic:'/amcl_pose',type:'geometry_msgs/PoseWithCovarianceStamped',throttle_rate:500}));\n    };\n    ws.onclose = function(){ status.textContent='⚠️ rosbridge ขาดการเชื่อมต่อ — reconnect ใน 3s'; setTimeout(connect,3000); };\n    ws.onerror = function(){ status.textContent='⚠️ WebSocket error'; };\n    ws.onmessage = function(e){\n      try{\n        var m = JSON.parse(e.data);\n        if(m.op!=='publish') return;\n        if(m.topic==='/map')       drawMap(m.msg);\n        if(m.topic==='/amcl_pose') updateRobot(m.msg);\n      }catch(ex){}\n    };\n  }\n\n  function drawMap(map){\n    var w=map.info.width, h=map.info.height;\n    if(!w||!h) return;\n    mapInfo={w:w,h:h,res:map.info.resolution,ox:map.info.origin.position.x,oy:map.info.origin.position.y};\n    var sc=Math.min(600/w,600/h,1);\n    canvas.width=Math.round(w*sc); canvas.height=Math.round(h*sc);\n    var img=ctx.createImageData(canvas.width,canvas.height);\n    var d=img.data, cw=canvas.width, ch=canvas.height;\n    for(var py=0;py<ch;py++){\n      for(var px=0;px<cw;px++){\n        var mx=Math.floor(px/sc), my=Math.floor((ch-1-py)/sc);\n        var idx=my*w+mx, val=(idx>=0&&idx<map.data.length)?map.data[idx]:-1;\n        var r,g,b;\n        if(val===-1){r=80;g=80;b=80;}\n        else if(val===0){r=230;g=230;b=230;}\n        else{r=30;g=30;b=30;}\n        var pi=(py*cw+px)*4;\n        d[pi]=r;d[pi+1]=g;d[pi+2]=b;d[pi+3]=255;\n      }\n    }\n    ctx.putImageData(img,0,0);\n    imgData=img;\n    status.textContent='✅ Map: '+w+'×'+h+' px | res: '+mapInfo.res.toFixed(3)+' m/px';\n    if(robot) drawRobot();\n  }\n\n  function updateRobot(msg){\n    var p=msg.pose.pose, q=p.orientation;\n    var sy=2*(q.w*q.z+q.x*q.y), cy=1-2*(q.y*q.y+q.z*q.z);\n    robot={x:p.position.x,y:p.position.y,yaw:Math.atan2(sy,cy)};\n    poseTxt.textContent='Robot: x='+robot.x.toFixed(2)+' y='+robot.y.toFixed(2)+' yaw='+(robot.yaw*180/Math.PI).toFixed(1)+'°';\n    if(imgData) drawRobot();\n  }\n\n  function drawRobot(){\n    if(!mapInfo||!robot) return;\n    ctx.putImageData(imgData,0,0);\n    var sc=canvas.width/mapInfo.w;\n    var px=(robot.x-mapInfo.ox)/mapInfo.res*sc;\n    var py=canvas.height-(robot.y-mapInfo.oy)/mapInfo.res*sc;\n    var r=Math.max(6,10*sc);\n    ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);\n    ctx.fillStyle='#00e676'; ctx.strokeStyle='#fff'; ctx.lineWidth=2;\n    ctx.fill(); ctx.stroke();\n    ctx.beginPath(); ctx.moveTo(px,py);\n    ctx.lineTo(px+Math.cos(-robot.yaw)*r*1.8, py+Math.sin(-robot.yaw)*r*1.8);\n    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();\n  }\n\n  connect();\n})();\n</script>",
-    "storeOutMessages": false,
-    "fwdInMessages": true,
-    "resendOnRefresh": true,
-    "templateScope": "local",
-    "x": 380,
-    "y": 520,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "291f97245efb8638",
-    "type": "inject",
-    "z": "ae0acf5dd203d39a",
-    "name": "Subscribe on Start",
-    "props": [],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "",
-    "x": 140,
-    "y": 180,
-    "wires": [
-      [
-        "3afb065ddc73e17f"
-      ]
-    ]
-  },
-  {
-    "id": "3afb065ddc73e17f",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "Subscribe /joint_states",
-    "func": "msg.payload = JSON.stringify({\n    \"op\": \"subscribe\",\n    \"topic\": \"/joint_states\",\n    \"type\": \"sensor_msgs/JointState\"\n});\nreturn msg;",
-    "outputs": 1,
-    "noerr": 0,
-    "x": 390,
-    "y": 180,
-    "wires": [
-      [
-        "5c24668efbba83ba"
-      ]
-    ]
-  },
-  {
-    "id": "5c24668efbba83ba",
-    "type": "websocket out",
-    "z": "ae0acf5dd203d39a",
-    "name": "Send to Rosbridge",
-    "server": "",
-    "client": "2329504dafa34a2e",
-    "x": 730,
-    "y": 160,
-    "wires": []
-  },
-  {
-    "id": "715451cda96fa1d7",
-    "type": "inject",
-    "z": "ae0acf5dd203d39a",
-    "name": "Init Sliders (Sync)",
-    "props": [],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 2,
-    "topic": "init_sync",
-    "x": 140,
-    "y": 220,
-    "wires": [
-      [
-        "7015042c5bdc7c5a"
-      ]
-    ]
-  },
-  {
-    "id": "7015042c5bdc7c5a",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "Enable Auto Sync",
-    "func": "flow.set('sync_sliders_now', true);\nreturn null;",
-    "outputs": 1,
-    "noerr": 0,
-    "x": 390,
-    "y": 220,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "522a2e1bfa95d50d",
-    "type": "websocket in",
-    "z": "ae0acf5dd203d39a",
-    "name": "Receive from Rosbridge",
-    "server": "",
-    "client": "2329504dafa34a2e",
-    "x": 140,
-    "y": 1040,
-    "wires": [
-      [
-        "fd38135bd415c971"
-      ]
-    ]
-  },
-  {
-    "id": "fd38135bd415c971",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "Parse /joint_states",
-    "func": "try {\n    var data = JSON.parse(msg.payload);\n    if (!data.msg || !data.msg.name || !data.msg.position) return null;\n\n    var names = data.msg.name;\n    var positions = data.msg.position;\n\n    var ur5Joints = [\n        'ur5_shoulder_pan_joint',\n        'ur5_shoulder_lift_joint',\n        'ur5_elbow_joint',\n        'ur5_wrist_1_joint',\n        'ur5_wrist_2_joint',\n        'ur5_wrist_3_joint'\n    ];\n\n    var result = {};\n    for (var i = 0; i < names.length; i++) {\n        if (ur5Joints.includes(names[i])) {\n            result[names[i]] = parseFloat(positions[i]);\n        }\n    }\n\n    var ur5Positions = ur5Joints.map(function(jn) { return result[jn] || 0.0; });\n    flow.set('feedback_positions', ur5Positions);\n\n    var display = '';\n    var sliders = [null, null, null, null, null, null];\n    var degLabels = [null, null, null, null, null, null];\n    var shouldSync = flow.get('sync_sliders_now');\n\n    ur5Joints.forEach(function(jn, idx) {\n        var shortName = ['J1','J2','J3','J4','J5','J6'][idx];\n        var val = result[jn] || 0.0;\n        var deg = parseFloat((val * 180 / Math.PI).toFixed(1));\n        display += shortName + ': ' + val.toFixed(4) + ' rad\\n';\n\n        // always update degree labels\n        degLabels[idx] = {payload: deg};\n\n        if (shouldSync) {\n            sliders[idx] = {payload: deg};\n            flow.set('j'+(idx+1), val);\n        }\n    });\n\n    if (shouldSync) {\n        flow.set('joint_values', ur5Joints.map(function(jn){ return result[jn]||0; }));\n        flow.set('sync_sliders_now', false);\n    }\n\n    msg.payload = display.trim();\n    return [msg,\n            sliders[0], sliders[1], sliders[2], sliders[3], sliders[4], sliders[5],\n            degLabels[0], degLabels[1], degLabels[2], degLabels[3], degLabels[4], degLabels[5]];\n\n} catch(e) {\n    return null;\n}",
-    "outputs": 13,
-    "noerr": 0,
-    "x": 390,
-    "y": 1020,
-    "wires": [
-      [
-        "704966202e213b2d",
-        "a4583a2b3066ca44"
-      ],
-      [
-        "1111111111111101"
-      ],
-      [
-        "1111111111111102"
-      ],
-      [
-        "1111111111111103"
-      ],
-      [
-        "1111111111111104"
-      ],
-      [
-        "1111111111111105"
-      ],
-      [
-        "1111111111111106"
-      ],
-      [
-        "jlabel_0001"
-      ],
-      [
-        "jlabel_0002"
-      ],
-      [
-        "jlabel_0003"
-      ],
-      [
-        "jlabel_0004"
-      ],
-      [
-        "jlabel_0005"
-      ],
-      [
-        "jlabel_0006"
-      ]
-    ]
-  },
-  {
-    "id": "a4583a2b3066ca44",
-    "type": "debug",
-    "z": "ae0acf5dd203d39a",
-    "name": "Joint State Debug",
-    "active": false,
-    "tosidebar": true,
-    "console": false,
-    "tostatus": false,
-    "complete": "payload",
-    "statusVal": "",
-    "statusType": "auto",
-    "x": 770,
-    "y": 1040,
-    "wires": []
-  },
-  {
-    "id": "2603dda6e1091f55",
-    "type": "change",
-    "z": "ae0acf5dd203d39a",
-    "name": "store step",
-    "rules": [
-      {
-        "t": "set",
-        "p": "jog_step",
-        "pt": "flow",
-        "to": "payload",
-        "tot": "msg"
-      }
-    ],
-    "x": 340,
-    "y": 1320,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "83452f88a21cbd55",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'z',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1360,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "f1630a1df63eaf6e",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'z',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1400,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "33d30493467d7105",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'y',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1440,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "ab8bc1cbfde1981f",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'y',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1480,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "dec96870e692ff94",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'x',dir:1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1520,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "3e1e41e96f7ba35a",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'x',dir:-1,step:parseFloat(flow.get('jog_step')||'0.020')};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1560,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "2fafab1925c91fa2",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'wrist',dir:1,step:0.0873};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1600,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "b92edbbcb843399d",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={axis:'wrist',dir:-1,step:0.0873};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1640,
-    "wires": [
-      [
-        "51eb1f1ef6b936e9"
-      ]
-    ]
-  },
-  {
-    "id": "72bde429facfdf52",
-    "type": "http request",
-    "z": "ae0acf5dd203d39a",
-    "name": "POST /home",
-    "method": "POST",
-    "ret": "obj",
-    "url": "http://localhost:5005/home",
-    "tls": "",
-    "persist": false,
-    "proxy": "",
-    "authType": "",
-    "x": 350,
-    "y": 1680,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "81624925edcae4f9",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "func": "msg.payload={action:msg.payload};return msg;",
-    "outputs": 1,
-    "x": 310,
-    "y": 1740,
-    "wires": [
-      [
-        "8f496a0d7d34e146"
-      ]
-    ]
-  },
-  {
-    "id": "8f496a0d7d34e146",
-    "type": "http request",
-    "z": "ae0acf5dd203d39a",
-    "name": "POST /gripper",
-    "method": "POST",
-    "ret": "obj",
-    "url": "http://localhost:5005/gripper",
-    "tls": "",
-    "persist": false,
-    "proxy": "",
-    "authType": "",
-    "x": 490,
-    "y": 1740,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "51eb1f1ef6b936e9",
-    "type": "http request",
-    "z": "ae0acf5dd203d39a",
-    "name": "POST /jog",
-    "method": "POST",
-    "ret": "obj",
-    "url": "http://localhost:5005/jog",
-    "tls": "",
-    "persist": false,
-    "proxy": "",
-    "authType": "",
-    "x": 510,
-    "y": 1480,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "1a2b3c4d5e6f7a8b",
-    "type": "ui_group",
-    "name": "Joint Sliders",
-    "tab": "f3aa5153a951260c",
-    "order": 3,
-    "disp": true,
-    "width": 16,
-    "collapse": false
-  },
-  {
-    "id": "1111111111111101",
-    "type": "ui_slider",
-    "z": "ae0acf5dd203d39a",
-    "name": "J1",
-    "label": "J1  Shoulder Pan",
-    "tooltip": "±360°",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 3,
-    "width": 16,
-    "height": 1,
-    "passthru": false,
-    "outs": "all",
-    "topic": "j1",
-    "min": -360,
-    "max": 360,
-    "step": 0.5,
-    "x": 150,
-    "y": 1800,
-    "wires": [
-      [
-        "2222222222222201",
-        "jlabel_0001"
-      ]
-    ]
-  },
-  {
-    "id": "1111111111111102",
-    "type": "ui_slider",
-    "z": "ae0acf5dd203d39a",
-    "name": "J2",
-    "label": "J2  Shoulder Lift",
-    "tooltip": "±360°",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 5,
-    "width": 16,
-    "height": 1,
-    "passthru": false,
-    "outs": "all",
-    "topic": "j2",
-    "min": -360,
-    "max": 360,
-    "step": 0.5,
-    "x": 150,
-    "y": 1840,
-    "wires": [
-      [
-        "2222222222222202",
-        "jlabel_0002"
-      ]
-    ]
-  },
-  {
-    "id": "1111111111111103",
-    "type": "ui_slider",
-    "z": "ae0acf5dd203d39a",
-    "name": "J3",
-    "label": "J3  Elbow",
-    "tooltip": "±180°",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 7,
-    "width": 16,
-    "height": 1,
-    "passthru": false,
-    "outs": "all",
-    "topic": "j3",
-    "min": -180,
-    "max": 180,
-    "step": 0.5,
-    "x": 150,
-    "y": 1880,
-    "wires": [
-      [
-        "2222222222222203",
-        "jlabel_0003"
-      ]
-    ]
-  },
-  {
-    "id": "1111111111111104",
-    "type": "ui_slider",
-    "z": "ae0acf5dd203d39a",
-    "name": "J4",
-    "label": "J4  Wrist 1",
-    "tooltip": "±360°",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 9,
-    "width": 16,
-    "height": 1,
-    "passthru": false,
-    "outs": "all",
-    "topic": "j4",
-    "min": -360,
-    "max": 360,
-    "step": 0.5,
-    "x": 150,
-    "y": 1920,
-    "wires": [
-      [
-        "2222222222222204",
-        "jlabel_0004"
-      ]
-    ]
-  },
-  {
-    "id": "1111111111111105",
-    "type": "ui_slider",
-    "z": "ae0acf5dd203d39a",
-    "name": "J5",
-    "label": "J5  Wrist 2",
-    "tooltip": "±360°",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 11,
-    "width": 16,
-    "height": 1,
-    "passthru": false,
-    "outs": "all",
-    "topic": "j5",
-    "min": -360,
-    "max": 360,
-    "step": 0.5,
-    "x": 150,
-    "y": 1960,
-    "wires": [
-      [
-        "2222222222222205",
-        "jlabel_0005"
-      ]
-    ]
-  },
-  {
-    "id": "1111111111111106",
-    "type": "ui_slider",
-    "z": "ae0acf5dd203d39a",
-    "name": "J6",
-    "label": "J6  Wrist 3",
-    "tooltip": "±360°",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 13,
-    "width": 16,
-    "height": 1,
-    "passthru": false,
-    "outs": "all",
-    "topic": "j6",
-    "min": -360,
-    "max": 360,
-    "step": 0.5,
-    "x": 150,
-    "y": 2000,
-    "wires": [
-      [
-        "2222222222222206",
-        "jlabel_0006"
-      ]
-    ]
-  },
-  {
-    "id": "dur0slider0000001",
-    "type": "ui_slider",
-    "z": "ae0acf5dd203d39a",
-    "name": "Duration",
-    "label": "⏱ Duration (sec)",
-    "tooltip": "เวลาในการเคลื่อนไหว 0.5–10 วินาที",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 15,
-    "width": 12,
-    "height": 1,
-    "passthru": true,
-    "outs": "all",
-    "topic": "duration",
-    "min": 0.5,
-    "max": 10,
-    "step": 0.5,
-    "x": 150,
-    "y": 2050,
-    "wires": [
-      [
-        "dur0func00000001"
-      ]
-    ]
-  },
-  {
-    "id": "dur0text00000001",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 16,
-    "width": 4,
-    "height": 1,
-    "name": "Duration Display",
-    "label": "sec",
-    "format": "{{msg.payload}}",
-    "layout": "row-left",
-    "x": 430,
-    "y": 2050,
-    "wires": []
-  },
-  {
-    "id": "dur0func00000001",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "Set Duration",
-    "func": "var dur = parseFloat(msg.payload) || 2.0;\nflow.set('joint_duration', dur);\nreturn msg;",
-    "outputs": 1,
-    "x": 390,
-    "y": 2095,
-    "wires": [
-      [
-        "dur0text00000001"
-      ]
-    ]
-  },
-  {
-    "id": "dur0inject000001",
-    "type": "inject",
-    "z": "ae0acf5dd203d39a",
-    "name": "Init Duration=2.0",
-    "props": [
-      {
-        "p": "payload"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 0.1,
-    "topic": "",
-    "payload": "2",
-    "payloadType": "num",
-    "x": 180,
-    "y": 2095,
-    "wires": [
-      [
-        "dur0func00000001"
-      ]
-    ]
-  },
-  {
-    "id": "2222222222222201",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "J1 cmd",
-    "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 0, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
-    "outputs": 1,
-    "x": 370,
-    "y": 1800,
-    "wires": [
-      [
-        "3333333333333301"
-      ]
-    ]
-  },
-  {
-    "id": "2222222222222202",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "J2 cmd",
-    "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 1, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
-    "outputs": 1,
-    "x": 370,
-    "y": 1840,
-    "wires": [
-      [
-        "3333333333333301"
-      ]
-    ]
-  },
-  {
-    "id": "2222222222222203",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "J3 cmd",
-    "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 2, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
-    "outputs": 1,
-    "x": 370,
-    "y": 1880,
-    "wires": [
-      [
-        "3333333333333301"
-      ]
-    ]
-  },
-  {
-    "id": "2222222222222204",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "J4 cmd",
-    "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 3, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
-    "outputs": 1,
-    "x": 370,
-    "y": 1920,
-    "wires": [
-      [
-        "3333333333333301"
-      ]
-    ]
-  },
-  {
-    "id": "2222222222222205",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "J5 cmd",
-    "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 4, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
-    "outputs": 1,
-    "x": 370,
-    "y": 1960,
-    "wires": [
-      [
-        "3333333333333301"
-      ]
-    ]
-  },
-  {
-    "id": "2222222222222206",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "J6 cmd",
-    "func": "var dur = flow.get('joint_duration') || 2.0;\nmsg.payload = {joint: 5, angle_deg: parseFloat(msg.payload), duration_sec: dur};\nreturn msg;",
-    "outputs": 1,
-    "x": 370,
-    "y": 2000,
-    "wires": [
-      [
-        "3333333333333301"
-      ]
-    ]
-  },
-  {
-    "id": "3333333333333301",
-    "type": "http request",
-    "z": "ae0acf5dd203d39a",
-    "name": "POST /move_joint",
-    "method": "POST",
-    "ret": "obj",
-    "url": "http://localhost:5005/move_joint",
-    "tls": "",
-    "persist": false,
-    "proxy": "",
-    "authType": "",
-    "x": 560,
-    "y": 1900,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "es01button000001",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "ESTOP",
-    "group": "es00group0000001",
-    "order": 1,
-    "width": 7,
-    "height": 2,
-    "passthru": false,
-    "label": "⚠ EMERGENCY STOP",
-    "tooltip": "หยุดแขนกลทันที และล็อคคำสั่งทั้งหมด",
-    "color": "#ffffff",
-    "bgcolor": "#c62828",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "x": 150,
-    "y": 2120,
-    "wires": [
-      [
-        "es02func0000001"
-      ]
-    ]
-  },
-  {
-    "id": "es01button000002",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "ENABLE",
-    "group": "es00group0000001",
-    "order": 2,
-    "width": 5,
-    "height": 2,
-    "passthru": false,
-    "label": "✔ ENABLE ARM",
-    "tooltip": "ปลดล็อคและกลับสู่โหมด MANUAL",
-    "color": "#ffffff",
-    "bgcolor": "#2e7d32",
-    "icon": "",
-    "payload": "",
-    "payloadType": "str",
-    "topic": "",
-    "x": 150,
-    "y": 2160,
-    "wires": [
-      [
-        "es02func0000002"
-      ]
-    ]
-  },
-  {
-    "id": "es01text0000001",
-    "type": "ui_template",
-    "z": "ae0acf5dd203d39a",
-    "name": "Arm Status Display",
-    "group": "es00group0000001",
-    "order": 3,
-    "width": 4,
-    "height": 2,
-    "format": "<div style=\"text-align:center; padding:8px;\">\n  <div style=\"font-size:12px; color:#888;\">ARM STATUS</div>\n  <div style=\"font-size:22px; font-weight:bold; color:{{msg.payload==='LOCKED' ? '#c62828' : '#2e7d32'}}\">\n    {{msg.payload === 'LOCKED' ? '🔴 LOCKED' : '🟢 READY'}}\n  </div>\n</div>",
-    "storeOutMessages": false,
-    "fwd": false,
-    "resendOnRefresh": true,
-    "templateScope": "local",
-    "x": 720,
-    "y": 2140,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "es02func0000001",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "estop payload",
-    "func": "msg.payload = {}; return msg;",
-    "outputs": 1,
-    "x": 340,
-    "y": 2120,
-    "wires": [
-      [
-        "es03http0000001"
-      ]
-    ]
-  },
-  {
-    "id": "es02func0000002",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "enable payload",
-    "func": "msg.payload = {lock: false}; return msg;",
-    "outputs": 1,
-    "x": 340,
-    "y": 2160,
-    "wires": [
-      [
-        "es03http0000002"
-      ]
-    ]
-  },
-  {
-    "id": "es02func0000003",
-    "type": "function",
-    "z": "ae0acf5dd203d39a",
-    "name": "parse mode",
-    "func": "var mode = msg.payload.mode;\nif (mode === 'LOCKED') {\n    msg.payload = 'LOCKED';\n} else if (mode === 'MANUAL') {\n    msg.payload = 'READY';\n} else {\n    msg.payload = '...';\n}\nreturn msg;",
-    "outputs": 1,
-    "x": 560,
-    "y": 2140,
-    "wires": [
-      [
-        "es01text0000001"
-      ]
-    ]
-  },
-  {
-    "id": "es03http0000001",
-    "type": "http request",
-    "z": "ae0acf5dd203d39a",
-    "name": "POST /estop",
-    "method": "POST",
-    "ret": "obj",
-    "url": "http://localhost:5005/estop",
-    "tls": "",
-    "persist": false,
-    "proxy": "",
-    "authType": "",
-    "x": 500,
-    "y": 2120,
-    "wires": [
-      [
-        "es02func0000003"
-      ]
-    ]
-  },
-  {
-    "id": "es03http0000002",
-    "type": "http request",
-    "z": "ae0acf5dd203d39a",
-    "name": "POST /lock",
-    "method": "POST",
-    "ret": "obj",
-    "url": "http://localhost:5005/lock",
-    "tls": "",
-    "persist": false,
-    "proxy": "",
-    "authType": "",
-    "x": 500,
-    "y": 2160,
-    "wires": [
-      [
-        "es02func0000003"
-      ]
-    ]
-  },
-  {
-    "id": "es03http0000003",
-    "type": "http request",
-    "z": "ae0acf5dd203d39a",
-    "name": "GET /status",
-    "method": "GET",
-    "ret": "obj",
-    "url": "http://localhost:5005/status",
-    "tls": "",
-    "persist": false,
-    "proxy": "",
-    "authType": "",
-    "x": 490,
-    "y": 2200,
-    "wires": [
-      [
-        "es02func0000003"
-      ]
-    ]
-  },
-  {
-    "id": "es04inject000001",
-    "type": "inject",
-    "z": "ae0acf5dd203d39a",
-    "name": "Poll status 2s",
-    "props": [
-      {
-        "p": "payload"
-      }
-    ],
-    "repeat": "2",
-    "crontab": "",
-    "once": true,
-    "onceDelay": "3",
-    "topic": "",
-    "payload": "",
-    "payloadType": "str",
-    "x": 160,
-    "y": 2200,
-    "wires": [
-      [
-        "es03http0000003"
-      ]
-    ]
-  },
-  {
-    "id": "sync_btn_0001",
-    "type": "ui_button",
-    "z": "ae0acf5dd203d39a",
-    "name": "Sync Sliders",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 1,
-    "width": 16,
-    "height": 1,
-    "passthru": false,
-    "label": "🔄 Sync Sliders from Robot",
-    "tooltip": "อ่านองศาจริงจากหุ่นยนต์แล้วอัปเดต sliders",
-    "color": "white",
-    "bgcolor": "#2196F3",
-    "icon": "",
-    "payload": "sync",
-    "payloadType": "str",
-    "topic": "sync",
-    "topicType": "str",
-    "x": 150,
-    "y": 1760,
-    "wires": [
-      [
-        "7015042c5bdc7c5a"
-      ]
-    ]
-  },
-  {
-    "id": "jlabel_0001",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 4,
-    "width": 16,
-    "height": 1,
-    "name": "J1 Degree Label",
-    "label": "J1",
-    "format": "{{msg.payload | number:1}} °",
-    "layout": "row-center",
-    "x": 900,
-    "y": 1800,
-    "wires": []
-  },
-  {
-    "id": "jlabel_0002",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 6,
-    "width": 16,
-    "height": 1,
-    "name": "J2 Degree Label",
-    "label": "J2",
-    "format": "{{msg.payload | number:1}} °",
-    "layout": "row-center",
-    "x": 900,
-    "y": 1840,
-    "wires": []
-  },
-  {
-    "id": "jlabel_0003",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 8,
-    "width": 16,
-    "height": 1,
-    "name": "J3 Degree Label",
-    "label": "J3",
-    "format": "{{msg.payload | number:1}} °",
-    "layout": "row-center",
-    "x": 900,
-    "y": 1880,
-    "wires": []
-  },
-  {
-    "id": "jlabel_0004",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 10,
-    "width": 16,
-    "height": 1,
-    "name": "J4 Degree Label",
-    "label": "J4",
-    "format": "{{msg.payload | number:1}} °",
-    "layout": "row-center",
-    "x": 900,
-    "y": 1920,
-    "wires": []
-  },
-  {
-    "id": "jlabel_0005",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 12,
-    "width": 16,
-    "height": 1,
-    "name": "J5 Degree Label",
-    "label": "J5",
-    "format": "{{msg.payload | number:1}} °",
-    "layout": "row-center",
-    "x": 900,
-    "y": 1960,
-    "wires": []
-  },
-  {
-    "id": "jlabel_0006",
-    "type": "ui_text",
-    "z": "ae0acf5dd203d39a",
-    "group": "1a2b3c4d5e6f7a8b",
-    "order": 14,
-    "width": 16,
-    "height": 1,
-    "name": "J6 Degree Label",
-    "label": "J6",
-    "format": "{{msg.payload | number:1}} °",
-    "layout": "row-center",
-    "x": 900,
-    "y": 2000,
-    "wires": []
-  },
-  {
-    "id": "task_cfg_group_01",
-    "type": "ui_group",
-    "name": "Task Configuration",
-    "tab": "f3aa5153a951260c",
-    "order": 5,
-    "disp": true,
-    "width": 16,
-    "collapse": false
-  },
-  {
-    "id": "task_cfg_tmpl_01",
-    "type": "ui_template",
-    "z": "ae0acf5dd203d39a",
-    "group": "task_cfg_group_01",
-    "name": "Task Config UI",
-    "order": 1,
-    "width": 16,
-    "height": 20,
-    "format": "<style>\n#tc-wrap{background:#1a1a2e;padding:12px;border-radius:8px;font-family:monospace;color:#ccc}\n.tc-hdr{color:#ce93d8;font-weight:bold;font-size:15px;margin-bottom:8px;border-bottom:1px solid #333;padding-bottom:6px}\n.tc-section{margin-bottom:10px}\n.tc-sec-title{color:#80cbc4;font-size:12px;font-weight:bold;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}\n.tc-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}\n.tc-label{color:#aaa;font-size:12px;min-width:110px}\n.tc-input{background:#2a2a3e;color:#fff;border:1px solid #555;border-radius:4px;padding:5px 8px;font-size:12px;outline:none;flex:1;min-width:120px}\n.tc-btn{border:none;border-radius:4px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:bold;transition:opacity .2s;white-space:nowrap}\n.tc-btn:hover{opacity:.8} .tc-btn:active{opacity:.6}\n.btn-save-seq{background:#f57f17;color:#000}\n.btn-save-loc{background:#1565c0;color:#fff}\n.btn-save-wp{background:#00695c;color:#fff}\n.btn-del{background:#333;color:#f44336;font-size:11px;padding:4px 8px}\n.btn-run{background:#2e7d32;color:#fff;font-size:14px;padding:10px 0;width:100%}\n.btn-stop{background:#b71c1c;color:#fff;font-size:13px;padding:8px 0;width:100%}\n.tc-log{background:#111;border-radius:4px;padding:8px 10px;font-size:12px;min-height:32px;margin-bottom:8px;border:1px solid #222;line-height:1.5}\n.tc-log.idle{color:#aaa} .tc-log.running{color:#4fc3f7} .tc-log.done{color:#00e676} .tc-log.err{color:#ff5252}\n.tc-badge{display:inline-block;background:#2a2a3e;border:1px solid #555;border-radius:12px;padding:2px 8px;font-size:11px;color:#fff;margin:2px}\n.tc-badge.set{border-color:#00e676;color:#00e676}\n.tc-badge.empty{border-color:#555;color:#777}\n.tc-wp-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}\n.tc-divider{border:none;border-top:1px solid #2a2a3e;margin:8px 0}\n</style>\n\n<div id=\"tc-wrap\">\n  <div class=\"tc-hdr\">🤖 Task Configuration & Autonomous Run</div>\n\n  <!-- STATUS -->\n  <div class=\"tc-log idle\" id=\"tc-log\">กำลังโหลด...</div>\n\n  <!-- ── PICK SEQUENCE ───────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📦 Pick Sequence (slots แขนกลหยิบของ)</div>\n    <div class=\"tc-row\">\n      <span class=\"tc-label\">Slots</span>\n      <input class=\"tc-input\" id=\"tc-pick-slots\" placeholder=\"เช่น 1,2,3,4,5\">\n      <button class=\"tc-btn btn-save-seq\" onclick=\"tcSavePickSeq()\">💾 Save Pick Sequence</button>\n    </div>\n    <div id=\"tc-pick-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── PICK LOCATION ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📍 Pick Location (ตำแหน่งหุ่นยนต์ขณะหยิบ)</div>\n    <div class=\"tc-row\">\n      <button class=\"tc-btn btn-save-loc\" onclick=\"tcSavePickLoc()\" style=\"flex:1\">\n        📍 Save Pick Location (ตำแหน่งปัจจุบัน)\n      </button>\n    </div>\n    <div id=\"tc-pick-loc-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── NAV WAYPOINTS ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">🗺️ Navigation Waypoints (จุดผ่านระหว่างทาง)</div>\n    <div class=\"tc-row\">\n      <span class=\"tc-label\">ชื่อ Waypoint</span>\n      <input class=\"tc-input\" id=\"tc-wp-name\" placeholder=\"เช่น A, B, C\" style=\"max-width:120px\">\n      <button class=\"tc-btn btn-save-wp\" onclick=\"tcSaveNavWP()\">📍 Save Waypoint</button>\n    </div>\n    <div class=\"tc-wp-list\" id=\"tc-wp-list\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── DROP LOCATION ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📍 Drop Location (ตำแหน่งหุ่นยนต์ขณะวางของ)</div>\n    <div class=\"tc-row\">\n      <button class=\"tc-btn btn-save-loc\" onclick=\"tcSaveDropLoc()\" style=\"flex:1\">\n        📍 Save Drop Location (ตำแหน่งปัจจุบัน)\n      </button>\n    </div>\n    <div id=\"tc-drop-loc-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── DROP SEQUENCE ──────────────────────── -->\n  <div class=\"tc-section\">\n    <div class=\"tc-sec-title\">📤 Drop Sequence (slots แขนกลวางของ)</div>\n    <div class=\"tc-row\">\n      <span class=\"tc-label\">Slots</span>\n      <input class=\"tc-input\" id=\"tc-drop-slots\" placeholder=\"เช่น 6,7,8,9,10\">\n      <button class=\"tc-btn btn-save-seq\" onclick=\"tcSaveDropSeq()\">💾 Save Drop Sequence</button>\n    </div>\n    <div id=\"tc-drop-badge\"></div>\n  </div>\n\n  <hr class=\"tc-divider\">\n\n  <!-- ── RUN / STOP ──────────────────────────── -->\n  <div class=\"tc-section\">\n    <button class=\"tc-btn btn-run\" id=\"tc-run-btn\" onclick=\"tcRunTask()\">🚀 Run Autonomous Task</button>\n    <div style=\"height:6px\"></div>\n    <button class=\"tc-btn btn-stop\" onclick=\"tcStopTask()\">⏹ Stop Task</button>\n  </div>\n</div>\n\n<script>\n(function(){\n  var API = 'http://localhost:5008';\n  var logEl = document.getElementById('tc-log');\n\n  function log(m, type){\n    logEl.textContent = m;\n    logEl.className = 'tc-log ' + (type||'idle');\n  }\n\n  function badge(text, isSet){\n    var el = document.createElement('span');\n    el.className = 'tc-badge ' + (isSet ? 'set' : 'empty');\n    el.textContent = text;\n    return el;\n  }\n\n  function renderConfig(cfg){\n    // pick sequence\n    var pb = document.getElementById('tc-pick-badge');\n    pb.innerHTML = '';\n    if(cfg.pick_sequence && cfg.pick_sequence.length){\n      pb.appendChild(badge('Slots: [' + cfg.pick_sequence.join(', ') + ']', true));\n      document.getElementById('tc-pick-slots').value = cfg.pick_sequence.join(',');\n    } else {\n      pb.appendChild(badge('ยังไม่ได้บันทึก', false));\n    }\n\n    // pick location\n    var plb = document.getElementById('tc-pick-loc-badge');\n    plb.innerHTML = '';\n    plb.appendChild(badge(\n      cfg.pick_waypoint ? '✅ ' + cfg.pick_waypoint : '— ยังไม่ได้บันทึก',\n      !!cfg.pick_waypoint\n    ));\n\n    // nav waypoints\n    var wpList = document.getElementById('tc-wp-list');\n    wpList.innerHTML = '';\n    var path = cfg.nav_path || [];\n    if(path.length === 0){\n      var el = document.createElement('span');\n      el.className = 'tc-badge empty';\n      el.textContent = '— ไม่มี waypoint ผ่านทาง';\n      wpList.appendChild(el);\n    } else {\n      path.forEach(function(wp){\n        var el = document.createElement('span');\n        el.className = 'tc-badge set';\n        el.innerHTML = wp + ' <span onclick=\"tcDelWP(\\''+wp+'\\')\" style=\"cursor:pointer;color:#f44336;margin-left:4px\">✕</span>';\n        wpList.appendChild(el);\n      });\n    }\n\n    // drop location\n    var dlb = document.getElementById('tc-drop-loc-badge');\n    dlb.innerHTML = '';\n    dlb.appendChild(badge(\n      cfg.drop_waypoint ? '✅ ' + cfg.drop_waypoint : '— ยังไม่ได้บันทึก',\n      !!cfg.drop_waypoint\n    ));\n\n    // drop sequence\n    var db = document.getElementById('tc-drop-badge');\n    db.innerHTML = '';\n    if(cfg.drop_sequence && cfg.drop_sequence.length){\n      db.appendChild(badge('Slots: [' + cfg.drop_sequence.join(', ') + ']', true));\n      document.getElementById('tc-drop-slots').value = cfg.drop_sequence.join(',');\n    } else {\n      db.appendChild(badge('ยังไม่ได้บันทึก', false));\n    }\n  }\n\n  function pollConfig(){\n    fetch(API+'/task_config')\n      .then(function(r){return r.json();})\n      .then(renderConfig)\n      .catch(function(){ log('⚠️ task_config_server offline','err'); });\n  }\n\n  function pollStatus(){\n    fetch(API+'/task_status')\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.running){\n          log('⚙️ ' + d.status, 'running');\n          document.getElementById('tc-run-btn').disabled = true;\n        } else {\n          document.getElementById('tc-run-btn').disabled = false;\n          if(d.status === 'idle') log('พร้อมทำงาน', 'idle');\n          else if(d.status.indexOf('completed') !== -1) log('🎉 ' + d.status, 'done');\n          else if(d.status.indexOf('error') !== -1 || d.status === 'stopped')\n            log('⛔ ' + d.status, 'err');\n          else log(d.status, 'idle');\n        }\n      })\n      .catch(function(){});\n  }\n\n  function parseSlots(val){\n    return val.trim().split(',').map(function(s){return s.trim();}).filter(Boolean);\n  }\n\n  function tcSavePickSeq(){\n    var slots = parseSlots(document.getElementById('tc-pick-slots').value);\n    if(!slots.length){ log('⚠️ กรอก slot ก่อน','err'); return; }\n    fetch(API+'/save_pick_sequence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slots:slots})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ บันทึก Pick Sequence: ['+d.pick_sequence.join(',')+']','done'); pollConfig(); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSaveDropSeq(){\n    var slots = parseSlots(document.getElementById('tc-drop-slots').value);\n    if(!slots.length){ log('⚠️ กรอก slot ก่อน','err'); return; }\n    fetch(API+'/save_drop_sequence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slots:slots})})\n      .then(function(r){return r.json();})\n      .then(function(d){ log('✅ บันทึก Drop Sequence: ['+d.drop_sequence.join(',')+']','done'); pollConfig(); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSavePickLoc(){\n    log('📍 กำลังบันทึก Pick Location...','running');\n    fetch(API+'/save_pick_location',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status==='ok') log('✅ บันทึก Pick Location ('+d.waypoint+') เสร็จ','done');\n        else log('⚠️ '+d.status,'err');\n        pollConfig();\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSaveDropLoc(){\n    log('📍 กำลังบันทึก Drop Location...','running');\n    fetch(API+'/save_drop_location',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status==='ok') log('✅ บันทึก Drop Location ('+d.waypoint+') เสร็จ','done');\n        else log('⚠️ '+d.status,'err');\n        pollConfig();\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcSaveNavWP(){\n    var name = document.getElementById('tc-wp-name').value.trim().toUpperCase();\n    if(!name){ log('⚠️ กรอกชื่อ Waypoint ก่อน','err'); return; }\n    log('📍 กำลังบันทึก Waypoint '+name+'...','running');\n    fetch(API+'/save_nav_waypoint',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status==='ok') log('✅ บันทึก Waypoint '+d.waypoint+' เสร็จ','done');\n        else log('⚠️ '+d.status,'err');\n        document.getElementById('tc-wp-name').value='';\n        pollConfig();\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcDelWP(name){\n    fetch(API+'/remove_nav_waypoint',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})\n      .then(function(r){return r.json();})\n      .then(function(){ log('🗑️ ลบ Waypoint '+name+' แล้ว','idle'); pollConfig(); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcRunTask(){\n    log('🚀 กำลังเริ่ม Autonomous Task...','running');\n    fetch(API+'/run_task',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(d){\n        if(d.status!=='task started') log('⚠️ '+d.status,'err');\n      })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  function tcStopTask(){\n    fetch(API+'/stop_task',{method:'POST'})\n      .then(function(r){return r.json();})\n      .then(function(){ log('⛔ Task ถูกหยุด','err'); })\n      .catch(function(e){ log('❌ '+e,'err'); });\n  }\n\n  window.tcSavePickSeq=tcSavePickSeq; window.tcSaveDropSeq=tcSaveDropSeq;\n  window.tcSavePickLoc=tcSavePickLoc; window.tcSaveDropLoc=tcSaveDropLoc;\n  window.tcSaveNavWP=tcSaveNavWP;     window.tcDelWP=tcDelWP;\n  window.tcRunTask=tcRunTask;         window.tcStopTask=tcStopTask;\n\n  setInterval(pollConfig, 5000);\n  setInterval(pollStatus, 1500);\n  pollConfig();\n  pollStatus();\n})();\n</script>",
-    "storeOutMessages": false,
-    "fwdInMessages": false,
-    "resendOnRefresh": false,
-    "templateScope": "local",
-    "x": 150,
-    "y": 2200,
-    "wires": [
-      []
-    ]
-  }
 ]

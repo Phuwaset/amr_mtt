@@ -208,6 +208,9 @@ def _pipeline_runner(cfg: dict):
         if not _arm_run_sequence(cfg['pick_sequence']):
             return
 
+        _set_status('pick sequence เสร็จ — รอ 3 วิก่อนเดินทาง...')
+        time.sleep(3.0)
+
         with _lock:
             if _stop_flag:
                 _set_status('stopped')
@@ -239,6 +242,7 @@ def _pipeline_runner(cfg: dict):
         if not _arm_run_sequence(cfg['drop_sequence']):
             return
 
+        time.sleep(3.0)
         _set_status('completed — ภารกิจเสร็จสิ้น ✅')
 
     except Exception as e:
@@ -273,8 +277,6 @@ def task_status():
 @app.route('/save_pick_sequence', methods=['POST'])
 def save_pick_sequence():
     slots = request.get_json(force=True).get('slots', [])
-    if not slots:
-        return jsonify({'status': 'slots ไม่ควรว่าง'}), 400
     cfg = _load_config()
     cfg['pick_sequence'] = [str(s) for s in slots]
     _save_config(cfg)
@@ -284,8 +286,6 @@ def save_pick_sequence():
 @app.route('/save_drop_sequence', methods=['POST'])
 def save_drop_sequence():
     slots = request.get_json(force=True).get('slots', [])
-    if not slots:
-        return jsonify({'status': 'slots ไม่ควรว่าง'}), 400
     cfg = _load_config()
     cfg['drop_sequence'] = [str(s) for s in slots]
     _save_config(cfg)

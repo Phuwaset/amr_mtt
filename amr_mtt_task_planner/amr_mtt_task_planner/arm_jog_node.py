@@ -101,8 +101,9 @@ class ArmJogNode(Node):
         self._q              = list(HOME_Q)
         self._gripper_open   = True
         self._gripper_pos    = 0.0          # actual knuckle joint angle [rad]
-        self._arm_goal_handle = None
-        self._arm_done_event  = threading.Event()
+        self._arm_goal_handle  = None
+        self._arm_done_event   = threading.Event()
+        self._gripper_done_event = threading.Event()
         self._mode           = 'MANUAL'     # 'MANUAL' | 'LOCKED'
         self._seq_running    = False
 
@@ -164,6 +165,22 @@ class ArmJogNode(Node):
         with self._lock:
             return list(self._q)
 
+    def _wait_for_position(self, target_q: list,
+                           timeout: float = 30.0,
+                           tol: float = 0.05) -> bool:
+        """รอจนกว่า joint positions จะอยู่ใน tolerance ของ target_q จริงๆ
+        (ไม่พึ่งแค่ action result ซึ่งอาจ abort เร็วตอนถือของ)"""
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            if not self._seq_running and self._mode != 'LOCKED':
+                return False   # ถูกหยุดจากภายนอก
+            current = self.current_q()
+            if all(abs(c - t) < tol for c, t in zip(current, target_q)):
+                return True
+            time.sleep(0.05)
+        self.get_logger().warn('[Jog] _wait_for_position timeout — ดำเนินการต่อ')
+        return False
+
     def current_eef(self, q=None) -> dict:
         if q is None:
             q = self.current_q()
@@ -212,11 +229,25 @@ class ArmJogNode(Node):
             self._arm_goal_handle = None
         self._arm_done_event.set()   # แจ้ง _runner ว่า trajectory เสร็จแล้ว
 
-    def _send_gripper(self, open_g: bool):
+    def _send_gripper(self, open_g: bool, wait: bool = False):
         goal = GripperCommand.Goal()
         goal.command.position   = 0.01 if open_g else 0.65
         goal.command.max_effort = 100.0
-        self._grip.send_goal_async(goal)
+        self._gripper_done_event.clear()
+        future = self._grip.send_goal_async(goal)
+        future.add_done_callback(self._gripper_goal_response_cb)
+        if wait:
+            self._gripper_done_event.wait(timeout=10.0)
+
+    def _gripper_goal_response_cb(self, future):
+        gh = future.result()
+        if gh.accepted:
+            gh.get_result_async().add_done_callback(self._gripper_result_cb)
+        else:
+            self._gripper_done_event.set()
+
+    def _gripper_result_cb(self, future):
+        self._gripper_done_event.set()
 
     # ── API handlers ─────────────────────────────────────────────
 
@@ -331,13 +362,12 @@ class ArmJogNode(Node):
                         })
                         return
                     pos = self._positions[slot]
-                    self._arm_done_event.clear()
                     self._send_arm(pos['q'], GOTO_DURATION)
-                    # รอ action result จริง (ไม่ใช่ wall-clock sleep)
-                    self._arm_done_event.wait(timeout=GOTO_DURATION * 10)
-                    # ส่ง gripper command ตาม state ที่บันทึกไว้
+                    # ตรวจ joint positions จริงว่าถึง target แล้ว
+                    self._wait_for_position(pos['q'], timeout=GOTO_DURATION * 15)
+                    # ส่ง gripper command และรอจนเสร็จ
                     if 'gripper_open' in pos:
-                        self._send_gripper(pos['gripper_open'])
+                        self._send_gripper(pos['gripper_open'], wait=True)
                     time.sleep(delay_sec)   # หน่วงเล็กน้อยหลังถึงจุด
                     self.get_logger().info(f'[Jog] Slot {slot} done ({i+1}/{total})')
                     socketio.emit('seq_progress', {
