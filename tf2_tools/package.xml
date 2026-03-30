@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>amr_mtt_tf2_tools</name>
+  <version>1.0.0</version>
+  <description>TF2 / URDF inspection tools for AMR-MTT — visualise link/joint trees</description>
+
+  <maintainer email="s6703016411302@email.kmutnb.ac.th">Phuwaset Sibta</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>xacro</depend>
+  <depend>tf2_ros</depend>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

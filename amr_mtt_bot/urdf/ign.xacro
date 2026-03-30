@@ -160,7 +160,7 @@
 
     <!-- ........................... CAMERA config ................................... -->
     <!-- Simulated as Intel RealSense D435                                           -->
-    <!-- Depth H-FOV : 87°  V-FOV : 58°  (640×360 gives ~56° ≈ 58°)               -->
+    <!-- Depth H-FOV : 87°  V-FOV : 58°  (640×480 gives ~58°)                     -->
     <!-- Depth Range : 0.1 m – 10.0 m                                               -->
     <!-- Depth Noise : <2% at 2m  → stddev ≈ 0.007 m at 1m (Gaussian)             -->
     <!-- RGB Update  : 30 Hz  (adequate for AMR navigation/mapping)                 -->
@@ -175,9 +175,9 @@
                     <!-- H-FOV 87° matches D435 depth module -->
                     <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
                     <image>
-                        <!-- 640×360 → V-FOV ≈ 56° (close to D435 58°) -->
+                        <!-- 640×480 → V-FOV ≈ 58° matches D435 depth V-FOV -->
                         <width>640</width>
-                        <height>360</height>
+                        <height>480</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
@@ -206,8 +206,9 @@
                 <camera>
                     <horizontal_fov>${radians(camera_horizontal_fov)}</horizontal_fov>
                     <image>
+                        <!-- 640×480 → V-FOV ≈ 58° matches D435 depth V-FOV -->
                         <width>640</width>
-                        <height>360</height>
+                        <height>480</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
@@ -284,43 +285,52 @@
     </gazebo>
 
     <!-- ........................... Stereo camera ................................... -->
+    <!-- Simulated as Intel RealSense D435 stereo IR pair                           -->
+    <!-- H-FOV : 87°  (1.5184 rad)  — matches D435 depth module                   -->
+    <!-- Resolution : 1280×720  — D435 max stereo resolution                       -->
+    <!-- Baseline : 0.05 m  — D435 IR baseline = 50 mm                             -->
+    <!-- Near clip : 0.1 m  — matches D435 min depth range                         -->
     <xacro:if value="$(arg stereo_camera_enabled)">
         <gazebo reference="stereo_camera">
             <sensor type="camera" name="right">
-                <update_rate>10.0</update_rate>
+                <update_rate>30.0</update_rate>
                 <always_on>true</always_on>
                 <ignition_frame_id>stereo_camera_optical</ignition_frame_id>
-                <pose>0 -0.12 0 0 0 0</pose>
+                <!-- right IR at -baseline/2 = -0.025 m from center -->
+                <pose>0 -0.025 0 0 0 0</pose>
                 <topic>stereo_camera/right/image_raw</topic>
                 <camera_info_topic>stereo_camera/right/camera_info</camera_info_topic>
-                <horizontal_fov>1.3962634</horizontal_fov>
+                <!-- D435 depth H-FOV = 87° = 1.5184 rad -->
+                <horizontal_fov>1.5184</horizontal_fov>
                 <image>
-                    <width>1024</width>
-                    <height>1024</height>
+                    <!-- D435 stereo resolution 1280×720 -->
+                    <width>1280</width>
+                    <height>720</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
-                    <near>0.3</near>
-                    <far>20</far>
+                    <near>0.1</near>
+                    <far>10.0</far>
                 </clip>
             </sensor>
 
             <sensor type="camera" name="left">
                 <topic>stereo_camera/left/image_raw</topic>
-                <update_rate>10.0</update_rate>
+                <update_rate>30.0</update_rate>
                 <always_on>true</always_on>
                 <ignition_frame_id>stereo_camera_optical</ignition_frame_id>
                 <camera_info_topic>stereo_camera/left/camera_info</camera_info_topic>
-                <pose>0 0 0 0 0 0</pose>
-                <horizontal_fov>1.3962634</horizontal_fov>
+                <!-- left IR at +baseline/2 = +0.025 m from center -->
+                <pose>0 0.025 0 0 0 0</pose>
+                <horizontal_fov>1.5184</horizontal_fov>
                 <image>
-                    <width>1024</width>
-                    <height>1024</height>
+                    <width>1280</width>
+                    <height>720</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
-                    <near>0.3</near>
-                    <far>20</far>
+                    <near>0.1</near>
+                    <far>10.0</far>
                 </clip>
             </sensor>
         </gazebo>

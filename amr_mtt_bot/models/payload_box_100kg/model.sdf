@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="payload_box_100kg">
+    <link name="link">
+
+      <!-- 100 kg  0.5×0.5×0.4 m -->
+      <inertial>
+        <mass>100.0</mass>
+        <inertia>
+          <ixx>3.4167</ixx>
+          <ixy>0</ixy><ixz>0</ixz>
+          <iyy>3.4167</iyy>
+          <iyz>0</iyz>
+          <izz>4.1667</izz>
+        </inertia>
+      </inertial>
+
+      <!-- สีส้ม — บรรทุก 100 kg -->
+      <visual name="box_body">
+        <geometry><box><size>0.5 0.5 0.4</size></box></geometry>
+        <material>
+          <ambient>0.85 0.45 0.05 1</ambient>
+          <diffuse>0.95 0.55 0.10 1</diffuse>
+          <specular>0.10 0.06 0.01 1</specular>
+        </material>
+      </visual>
+
+      <visual name="label">
+        <pose>0 0 0.2005 0 0 0</pose>
+        <geometry><box><size>0.30 0.18 0.001</size></box></geometry>
+        <material>
+          <ambient>0.95 0.95 0.95 1</ambient>
+          <diffuse>0.98 0.98 0.98 1</diffuse>
+        </material>
+      </visual>
+
+      <collision name="collision">
+        <geometry><box><size>0.5 0.5 0.4</size></box></geometry>
+        <surface>
+          <friction><ode><mu>0.8</mu><mu2>0.8</mu2></ode></friction>
+        </surface>
+      </collision>
+
+    </link>
+  </model>
+</sdf>
